@@ -1,6 +1,6 @@
 Name:           lorax
 Version:        0.3.2
-Release:        1%{?dist}.2.R
+Release:        1%{?dist}.3.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -54,6 +54,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Wed Mar 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 0.3.2-1.3.R
+- added NM vpn plugins into image
+
 * Wed Mar 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 0.3.2-1.2.R
 - fix release
 
