@@ -1,6 +1,6 @@
 Name:           lorax
 Version:        0.3.2
-Release:        1%{?dist}.1
+Release:        1%{?dist}.R2
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -54,6 +54,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Wed Mar 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 0.3.2-1.R2
+- fix import in rfrinstalltree.py
+
 * Wed Mar 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 0.3.2-1.1
 - create kickstarts
 - create proper repo file

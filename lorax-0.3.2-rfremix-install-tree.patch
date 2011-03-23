@@ -39,7 +39,7 @@ diff -uNdr lorax-0.3.2.orig/src/pylorax/rfrinstalltree.py lorax-0.3.2/src/pylora
 --- lorax-0.3.2.orig/src/pylorax/rfrinstalltree.py	1970-01-01 03:00:00.000000000 +0300
 +++ lorax-0.3.2/src/pylorax/rfrinstalltree.py	2011-03-23 00:38:11.228693678 +0300
 @@ -0,0 +1,258 @@
-+import base
++from base import BaseLoraxClass
 +
 +class RFRInstallTree(BaseLoraxClass):
 +    def __init__(self):
