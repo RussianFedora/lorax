@@ -1,6 +1,6 @@
-diff -uNdr lorax-0.3.2.orig/src/pylorax/installtree.py lorax-0.3.2/src/pylorax/installtree.py
---- lorax-0.3.2.orig/src/pylorax/installtree.py	2011-03-21 16:50:33.000000000 +0300
-+++ lorax-0.3.2/src/pylorax/installtree.py	2011-03-23 00:42:34.724960775 +0300
+diff -urN lorax-0.3.2.orig/src/pylorax/installtree.py lorax-0.3.2/src/pylorax/installtree.py
+--- lorax-0.3.2.orig/src/pylorax/installtree.py	2011-03-23 15:30:10.955884796 +0300
++++ lorax-0.3.2/src/pylorax/installtree.py	2011-03-23 17:05:29.223997301 +0300
 @@ -36,6 +36,7 @@
  import constants
  from sysutils import *
@@ -9,7 +9,7 @@ diff -uNdr lorax-0.3.2.orig/src/pylorax/installtree.py lorax-0.3.2/src/pylorax/i
  
  class LoraxInstallTree(BaseLoraxClass):
  
-@@ -373,7 +374,24 @@
+@@ -373,7 +374,26 @@
      def move_repos(self):
          src = joinpaths(self.root, "etc/yum.repos.d")
          dst = joinpaths(self.root, "etc/anaconda.repos.d")
@@ -17,13 +17,15 @@ diff -uNdr lorax-0.3.2.orig/src/pylorax/installtree.py lorax-0.3.2/src/pylorax/i
 +        # hacked russianfedora ;)
 +        if os.path.exists(src):
 +            shutil.rmtree(src, True)
++
++        os.makedirs(dst, 0755)
 +        
 +        rfr_dst = joinpaths(dst, 'russianfedoraremix-release-anaconda.repo')
-+        gnome_cfg_dst = joinpaths(self.root, "etc/gnome.cfg")
-+        kde_cfg_dst = joinpaths(self.root, "etc/kde.cfg")
-+        xfce_cfg_dst = joinpaths(self.root, "etc/xfce.cfg")
-+        lxde_cfg_dst = joinpaths(self.root, "etc/lxde.cfg")
-+        tigro_cfg_dst = joinpaths(self.root, "etc/tigro.cfg")
++        gnome_cfg_dst = joinpaths(self.root, "gnome.cfg")
++        kde_cfg_dst = joinpaths(self.root, "kde.cfg")
++        xfce_cfg_dst = joinpaths(self.root, "xfce.cfg")
++        lxde_cfg_dst = joinpaths(self.root, "lxde.cfg")
++        tigro_cfg_dst = joinpaths(self.root, "tigro.cfg")
 +
 +        rfr = RFRInstallTree()
 +        rfr.create_rfr_repofile(rfr_dst)
@@ -35,9 +37,9 @@ diff -uNdr lorax-0.3.2.orig/src/pylorax/installtree.py lorax-0.3.2/src/pylorax/i
  
      def create_depmod_conf(self):
          text = "search updates built-in\n"
-diff -uNdr lorax-0.3.2.orig/src/pylorax/rfrinstalltree.py lorax-0.3.2/src/pylorax/rfrinstalltree.py
+diff -urN lorax-0.3.2.orig/src/pylorax/rfrinstalltree.py lorax-0.3.2/src/pylorax/rfrinstalltree.py
 --- lorax-0.3.2.orig/src/pylorax/rfrinstalltree.py	1970-01-01 03:00:00.000000000 +0300
-+++ lorax-0.3.2/src/pylorax/rfrinstalltree.py	2011-03-23 00:38:11.228693678 +0300
++++ lorax-0.3.2/src/pylorax/rfrinstalltree.py	2011-03-23 17:01:37.470207733 +0300
 @@ -0,0 +1,258 @@
 +from base import BaseLoraxClass
 +
