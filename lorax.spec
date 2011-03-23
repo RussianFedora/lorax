@@ -56,6 +56,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %changelog
 * Wed Mar 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 0.3.2-1.3.R
 - added NM vpn plugins into image
+- fix function name
 
 * Wed Mar 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 0.3.2-1.2.R
 - fix release

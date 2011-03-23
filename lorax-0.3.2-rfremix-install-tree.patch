@@ -26,7 +26,7 @@ diff -uNdr lorax-0.3.2.orig/src/pylorax/installtree.py lorax-0.3.2/src/pylorax/i
 +        tigro_cfg_dst = joinpaths(self.root, "etc/tigro.cfg")
 +
 +        rfr = RFRInstallTree()
-+        rfr.crete_rfr_repofile(rfr_dst)
++        rfr.create_rfr_repofile(rfr_dst)
 +        rfr.create_gnome_cfg(gnome_cfg_dst)
 +        rfr.create_kde_cfg(kde_cfg_dst)
 +        rfr.create_xfce_cfg(xfce_cfg_dst)
