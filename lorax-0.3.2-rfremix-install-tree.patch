@@ -62,85 +62,85 @@ diff -urN lorax-0.3.2.orig/src/pylorax/rfrinstalltree.py lorax-0.3.2/src/pylorax
 +    def create_rfr_repofile(self, filename):
 +        repofile_content = """
 +[russianfedora]
-+name=RFRemix \$releasever - \$basearch
++name=RFRemix $releasever - $basearch
 +failovermethod=priority
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-russianfedora-\$releasever&arch=\$basearch
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-russianfedora-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=0
 +
 +[russianfedora-updates]
-+name=RFRemix \$releasever - \$basearch - Updates
++name=RFRemix $releasever - $basearch - Updates
 +failovermethod=priority
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-russianfedora-updates-\$releasever&arch=\$basearch
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-russianfedora-updates-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=0
 +
 +[rpmfusion-free-russianfedora]
-+name=RPM Fusion for Fedora \$releasever - Free
++name=RPM Fusion for Fedora $releasever - Free
 +failovermethod=priority
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-rpmfusion-free-\$releasever&arch=\$basearch
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-rpmfusion-free-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=0
 +
 +[rpmfusion-free-russianfedora-updates]
-+name=RPM Fusion for Fedora \$releasever - Free - Updates
++name=RPM Fusion for Fedora $releasever - Free - Updates
 +failovermethod=priority
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-rpmfusion-free-updates-\$releasever&arch=\$basearch
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-rpmfusion-free-updates-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=0
 +
 +[rpmfusion-nonfree-russianfedora]
-+name=RPM Fusion for Fedora \$releasever - Non-Free
++name=RPM Fusion for Fedora $releasever - Non-Free
 +failovermethod=priority
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-rpmfusion-nonfree-\$releasever&arch=\$basearch
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-rpmfusion-nonfree-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=0
 +
 +[rpmfusion-nonfree-russianfedora-updates]
-+name=RPM Fusion for Fedora \$releasever - Non-Free - Updates
++name=RPM Fusion for Fedora $releasever - Non-Free - Updates
 +failovermethod=priority
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-rpmfusion-nonfree-updates-\$releasever&arch=\$basearch
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=build-rpmfusion-nonfree-updates-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=0
 +
 +[russianfedora-fixes]
-+name=Russian Fedora for Fedora \$releasever - Fixes
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=fixes-fedora-\$releasever&arch=\$basearch
++name=Russian Fedora for Fedora $releasever - Fixes
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=fixes-fedora-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=1
 +gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-russianfedora-fixes-fedora
 +
 +[russianfedora-fixes-updates]
-+name=Russian Fedora for Fedora \$releasever - Fixes - Updates
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=fixes-fedora-updates-released-\$releasever&arch=\$basearch
++name=Russian Fedora for Fedora $releasever - Fixes - Updates
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=fixes-fedora-updates-released-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=1
 +gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-russianfedora-fixes-fedora
 +
 +[russianfedora-free]
-+name=Russian Fedora for Fedora \$releasever - Free
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=free-fedora-\$releasever&arch=\$basearch
++name=Russian Fedora for Fedora $releasever - Free
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=free-fedora-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=1
 +gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-russianfedora-free-fedora
 +
 +[russianfedora-free-updates]
-+name=Russian Fedora for Fedora \$releasever - Free - Updates
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=free-fedora-updates-released-\$releasever&arch=\$basearch
++name=Russian Fedora for Fedora $releasever - Free - Updates
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=1
 +gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-russianfedora-free-fedora
 +[russianfedora-nonfree]
 +
-+name=Russian Fedora for Fedora \$releasever - Non-Free
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=nonfree-fedora-\$releasever&arch=\$basearch
++name=Russian Fedora for Fedora $releasever - Non-Free
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=1
 +gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-russianfedora-nonfree-fedora
 +
 +[russianfedora-nonfree-updates]
-+name=Russian Fedora for Fedora \$releasever - Non-Free - Updates
-+mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=nonfree-fedora-updates-released-\$releasever&arch=\$basearch
++name=Russian Fedora for Fedora $releasever - Non-Free - Updates
++mirrorlist=http://mirrors.rfremix.ru/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch
 +enabled=1
 +gpgcheck=1
 +gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-russianfedora-nonfree-fedora

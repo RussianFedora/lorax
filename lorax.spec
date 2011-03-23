@@ -1,6 +1,6 @@
 Name:           lorax
 Version:        0.3.2
-Release:        1%{?dist}.4.R
+Release:        1%{?dist}.5.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -56,6 +56,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Wed Mar 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 0.3.2-1.5.R
+- fix variables in repo file
+
 * Wed Mar 23 2011 Arkady L. Shane <ashejn@yandex-team.ru> 0.3.2-1.4.R
 - fix ks path
 - create anaconda.repos.d directory
