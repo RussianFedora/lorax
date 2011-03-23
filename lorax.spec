@@ -8,6 +8,7 @@ License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		lorax-0.3.2-rfremix-install-tree.patch
+Patch1:		lorax-0.3.2-NM-vpn.patch
 BuildArch:      noarch
 
 BuildRequires:  python-setuptools
@@ -34,6 +35,7 @@ Lorax is a tool for creating the anaconda install images.
 %prep
 %setup -q
 %patch0 -p1 -b .rfremix-install-tree
+%patch1 -p1 -b .NM-vpn
 
 %build
 
