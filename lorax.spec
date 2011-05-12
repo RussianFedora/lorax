@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        0.4.5
+Version:        0.4.6
 Release:        1%{?dist}.1.R
 Summary:        Tool for creating the anaconda install images
 
@@ -9,8 +9,8 @@ Group:          Applications/System
 License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.bz2
-Patch0:		lorax-0.3.2-rfremix-install-tree.patch
-Patch1:		lorax-0.3.2-NM-vpn.patch
+Patch0:         lorax-0.3.2-rfremix-install-tree.patch
+Patch1:         lorax-0.3.2-NM-vpn.patch
 
 BuildRequires:  python2-devel
 Requires:       python-mako
@@ -64,9 +64,13 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
-* Wed May  4 2011 Arkady L. Shane <ashejn@yandex-team.ru> 0.4.5-1.R
+* Thu May 12 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.1.R
 - added NM-vpn packages to anaconda image
 - added kickstart files to anaconda image
+
+* Tue May 10 2011 Martin Gracik <mgracik@redhat.com> 0.4.6-1
+- Do not remove libmodman (#701622)
+- Add firmware for Intel Wireless WiFi Link 6030 Adapters (#703291)
 
 * Tue May 03 2011 Martin Gracik <mgracik@redhat.com> 0.4.5-1
 - Disable debuginfo package
