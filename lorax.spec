@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        0.4.6
-Release:        1%{?dist}.1.R
+Release:        1%{?dist}.2.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -64,6 +64,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Thu May 19 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.2.R
+- fix group in lxde kickstart
+
 * Thu May 12 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.1.R
 - added NM-vpn packages to anaconda image
 - added kickstart files to anaconda image

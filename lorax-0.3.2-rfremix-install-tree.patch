@@ -250,7 +250,7 @@ diff -urN lorax-0.3.2.orig/src/pylorax/rfrinstalltree.py lorax-0.3.2/src/pylorax
 +@input-methods
 +@java
 +@office
-+printing
++@printing
 +@russian-support
 +@sound-and-video
 +@text-internet
