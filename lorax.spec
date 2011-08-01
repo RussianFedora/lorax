@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        0.4.6
-Release:        1%{?dist}.2.R
+Release:        1%{?dist}.3.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -11,6 +11,7 @@ URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.bz2
 Patch0:         lorax-0.3.2-rfremix-install-tree.patch
 Patch1:         lorax-0.3.2-NM-vpn.patch
+Patch2:		lorax-0.4.6-do-not-remove-some-NM-files.patch
 
 BuildRequires:  python2-devel
 Requires:       python-mako
@@ -44,6 +45,7 @@ Lorax is a tool for creating the anaconda install images.
 %setup -q
 %patch0 -p1 -b .rfremix-install-tree
 %patch1 -p1 -b .NM-vpn
+%patch2 -p1 -b .lorax-0.4.6-do-not-remove-some-NM-files.patch
 
 %build
 
@@ -64,6 +66,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Mon Aug  1 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.3.R
+- do not remove some NetworkManager files
+
 * Thu May 19 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.2.R
 - fix group in lxde kickstart
 
