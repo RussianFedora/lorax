@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        0.4.6
-Release:        1%{?dist}.3.R
+Release:        1%{?dist}.4.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -66,6 +66,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Mon Aug  1 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.4.R
+- do not remove some ModemManager files too
+
 * Mon Aug  1 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.3.R
 - do not remove some NetworkManager files
 
