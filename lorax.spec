@@ -1,16 +1,17 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        0.4.6
-Release:        2%{?dist}.R
+Version:        16.4.3
+Release:        1%{?dist}.1.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.bz2
-Patch0:         lorax-0.3.2-rfremix-install-tree.patch
-Patch1:         lorax-0.4.6-install-vpn-and-sysvinit-tools.patch
+
+Patch0:		lorax-0.3.2-rfremix-install-tree.patch
+Patch1:		lorax-0.3.2-NM-vpn.patch
 
 BuildRequires:  python2-devel
 Requires:       python-mako
@@ -27,7 +28,8 @@ Requires:       util-linux-ng
 Requires:       dosfstools
 Requires:       genisoimage
 Requires:       parted
-Requires:       pyliblzma
+Requires:       gzip
+Requires:       xz
 
 %ifarch %{ix86} x86_64
 Requires:       syslinux
@@ -43,7 +45,7 @@ Lorax is a tool for creating the anaconda install images.
 %prep
 %setup -q
 %patch0 -p1 -b .rfremix-install-tree
-%patch1 -p1 -b .install-vpn-and-sysvinit-tools
+%patch1 -p1 -b .NM-vpn
 
 %build
 
@@ -64,37 +66,71 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
-* Tue Aug  2 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-2.R
-- also install sysvinit-tools
-- drop lorax-0.4.6-do-not-remove-some-NM-files.patch
+* Fri Sep 16 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.3-1.1.R
+- added vpn packages into ramdisk
+- added new install tree
 
-* Mon Aug  1 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.4.R
-- do not remove some ModemManager files too
+* Fri Sep 16 2011 Martin Gracik <mgracik@redhat.com> 16.4.3-1
+- Do not create the sysconfig/network file (#733425)
+- New syslinux theme (#734170)
 
-* Mon Aug  1 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.3.R
-- do not remove some NetworkManager files
+* Thu Aug 25 2011 Martin Gracik <mgracik@redhat.com> 16.4.2-1
+- Do not remove ModemManager files (#727946)
+- Raise an exception if isohybrid cannot be run on x86
+- Use --noprefix when calling dracut
+- Do not remove the fedora-release packages
+- Remove fedora-storage-init so it can't start raid/lvm. (#729640) (dlehman)
 
-* Thu May 19 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.2.R
-- fix group in lxde kickstart
+* Mon Aug 15 2011 Martin Gracik <mgracik@redhat.com> 16.4.1-1
+- Do not remove nss certificates (#730438)
+- Remove dogtail from the image, as it's blocking tree composition. (clumens)
+- Add libreport required packages (#729537)
 
-* Thu May 12 2011 Arkady L. Shane <ashejn@russianfedora.ru> 0.4.6-1.1.R
-- added NM-vpn packages to anaconda image
-- added kickstart files to anaconda image
+* Tue Jul 26 2011 Martin Gracik <mgracik@redhat.com> 16.4-1
+- Add nss libraries to the image.
 
-* Tue May 10 2011 Martin Gracik <mgracik@redhat.com> 0.4.6-1
+* Tue Jul 26 2011 Martin Gracik <mgracik@redhat.com> 16.3-1
+- Remove the sysvinit-tools removals from the template
+- Do not remove vmmouse binaries (#723831)
+
+* Tue Jul 26 2011 Martin Gracik <mgracik@redhat.com> 16.2-1
+- Change IsBeta to IsFinal
+
+* Thu Jul 21 2011 Martin Gracik <mgracik@redhat.com> 16.1-1
+- Default to isBeta (#723901)
+
+* Tue Jul 19 2011 Martin Gracik <mgracik@redhat.com> 16.0-1
+- Prepend dracut to the temporary initramfs directory (#722999)
+- Don't change the installroot (#722481)
+- Do not remove ntfsprogs (#722711)
+- Create dracut initramfs for each kernel (#722466)
+- Change cjkuni-uming fonts for wgy-microhei (#709962)
+- Remove check for required commands
+- Remove outputtree.py
+- Remove unused code
+
+* Fri Jun 24 2011 Martin Gracik <mgracik@redhat.com> 0.7-1
+- Use bcj filter for compressing squashfs ramdisk
+- Add 'squashfs' compression type
+- refactor: split make_initramfs_runtime out of compress()
+- refactor: rename "compression speed" -> "compression args"
+- Install all firmware packages (#705392)
+- Use initrd.addrsize, not initrd_addrsize (#703862)
 - Do not remove libmodman (#701622)
 - Add firmware for Intel Wireless WiFi Link 6030 Adapters (#703291)
-
-* Tue May 03 2011 Martin Gracik <mgracik@redhat.com> 0.4.5-1
-- Disable debuginfo package
 - Do not remove libproxy (#701622)
+- Use process-specific name for dm devices.
 
-* Mon May 02 2011 Martin Gracik <mgracik@redhat.com> 0.4.4-1
+* Tue May 03 2011 Martin Gracik <mgracik@redhat.com> 0.6-3
+- Disable debuginfo package
+
+* Mon May 02 2011 Martin Gracik <mgracik@redhat.com> 0.6-1
 - Disable rsyslogd rate limiting on imuxsock.
+- Use crc32 check when compressing with xz
+- Allow compression type be specified in lorax.conf
+- Use xz and gzip commands instead of libraries
 - Add the udf module to the image.
-
-* Tue Apr 19 2011 Martin Gracik <mgracik@redhat.com> 0.4.3-1
-- bits is an integer and replace needs arguments to be strings (#697542)
+- Preserve anaconda's /usr/bin so anaconda-cleanup is in the image.
 - Use arch macros in the lorax.spec
 - use reqs not regs for files to backup (dgilmore)
 - Reflect changes made in ntfs-3g and ntfsprogs packages (#696706)
@@ -102,14 +138,15 @@ make DESTDIR=$RPM_BUILD_ROOT install
 - workdir is a local variable, not a class attribute
 - Add sparcv9 to arch map
 - Change the location of *.b files on sparc
-
-* Wed Apr 13 2011 Martin Gracik <mgracik@redhat.com> 0.4.2-1
-- Do not remove shutdown from sbin
 - Change BuildRequires to python2-devel
+
+* Wed Apr 13 2011 Martin Gracik <mgracik@redhat.com> 0.5-1
 - Remove pungi patch
 - Remove pseudo code
-
-* Wed Apr 13 2011 Martin Gracik <mgracik@redhat.com> 0.4.1-1
+- Add a /bin/login shim for use only in the installation environment.
+- Set the hostname from a config file, not programmatically.
+- Add systemd and agetty to the installation environment.
+- Specify "cpio -H newc" instead of "cpio -c".
 - Provide shutdown on s390x (#694518)
 - Fix arch specific requires in spec file
 - Add s390 modules and do some cleanup of the template
@@ -123,10 +160,14 @@ make DESTDIR=$RPM_BUILD_ROOT install
 - Wait for subprocess to finish
 - Have to call os.makedirs
 - images dir already exists, we just need to set it
+- Do not remove libassuan.
 - The biarch is a function not an attribute
 - Create images directory in outputtree
+- Use gzip on ppc initrd
 - Create efibootdir if doing efi images
 - Get rid of create_gconf().
+- gconf/metacity: have only one workspace.
+- Add yum-langpacks yum plugin to anaconda environment (notting)
 - Replace variables in yaboot.conf
 - Add sparc specific packages
 - Skip keymap creation on s390
@@ -150,19 +191,16 @@ make DESTDIR=$RPM_BUILD_ROOT install
 - Added sparc pseudo code (dgilmore)
 - Added s390 and x86 pseudo code
 - Added ppc pseudo code
+
+* Mon Mar 14 2011 Martin Gracik <mgracik@redhat.com> 0.4-1
+- Add the images-xen section to treeinfo on x86_64
 - Print a message when no arguments given (#684463)
 - Mako template returns unicode strings (#681003)
 - The check option in options causes ValueError
-- Disable all ctrl-alt-arrow metacity shortcuts.
+- Disable all ctrl-alt-arrow metacity shortcuts
+- Remove the locale-archive explicitly
 - Use xz when compressing the initrd
-
-* Mon Mar 21 2011 Martin Gracik <mgracik@redhat.com> 0.3.2-1
-- gconf/metacity: have only one workspace. (#683548)
-- Do not remove libassuan. (#684742)
-- Add yum-langpacks yum plugin to anaconda environment (notting) (#687866)
-
-* Tue Mar 15 2011 Martin Gracik <mgracik@redhat.com> 0.3.1-1
-- Add the images-xen section to treeinfo on x86_64
+- Keep the source files for locales and get rid of the binary form
 - Add /sbin to $PATH (for the tty2 terminal)
 - Create /var/run/dbus directory in installtree
 - Add mkdir support to template

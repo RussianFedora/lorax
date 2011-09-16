@@ -1,0 +1,15 @@
+diff -urN lorax-0.3.2.orig/share/ramdisk.ltmpl lorax-0.3.2/share/ramdisk.ltmpl
+--- lorax-0.3.2.orig/share/ramdisk.ltmpl	2011-03-22 14:31:46.024454823 +0300
++++ lorax-0.3.2/share/ramdisk.ltmpl	2011-03-23 15:15:39.541481570 +0300
+@@ -12,6 +12,11 @@
+ 
+ ## other required packages
+ install "NetworkManager-gnome"
++install "NetworkManager-openconnect"
++install "NetworkManager-openswan"
++install "NetworkManager-openvpn"
++install "NetworkManager-pptp"
++install "NetworkManager-vpnc"
+ install "at-spi"
+ install "at-spi-python"
+ install "at-spi2-atk"

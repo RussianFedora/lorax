@@ -1,4 +1,4 @@
 #!/bin/sh
 
-curl -sO http://pkgs.fedoraproject.org/repo/pkgs/lorax/lorax-0.4.6.tar.bz2/152d3efb7ed097c43fe0a5176a1e8cae/lorax-0.4.6.tar.bz2
+curl -sO http://pkgs.fedoraproject.org/repo/pkgs/lorax/lorax-16.4.3.tar.bz2/58bdc2da185b24ffe66c07c3a4041676/lorax-16.4.3.tar.bz2
 
