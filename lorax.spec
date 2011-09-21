@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        16.4.3
+Version:        16.4.4
 Release:        1%{?dist}.1.R
 Summary:        Tool for creating the anaconda install images
 
@@ -12,6 +12,7 @@ Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}
 
 Patch0:		lorax-0.3.2-rfremix-install-tree.patch
 Patch1:		lorax-0.3.2-NM-vpn.patch
+Patch2:		lorax-16.4.4-rfremix-menu.patch
 
 BuildRequires:  python2-devel
 Requires:       python-mako
@@ -46,6 +47,7 @@ Lorax is a tool for creating the anaconda install images.
 %setup -q
 %patch0 -p1 -b .rfremix-install-tree
 %patch1 -p1 -b .NM-vpn
+%patch2 -p1 -b .rfremix-menu
 
 %build
 
@@ -66,6 +68,10 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Wed Sep 21 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.4-1.1.R
+- syslinux-vesa-splash changed filename (#739345)
+- new RFRemix menu
+
 * Fri Sep 16 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.3-1.1.R
 - added vpn packages into ramdisk
 - added new install tree
