@@ -1,0 +1,49 @@
+diff -urN lorax-16.4.4.orig/share/config_files/isolinux.cfg lorax-16.4.4/share/config_files/isolinux.cfg
+--- lorax-16.4.4.orig/share/config_files/isolinux.cfg	2011-09-21 15:18:33.722342905 +0400
++++ lorax-16.4.4/share/config_files/isolinux.cfg	2011-09-21 15:31:31.661458419 +0400
+@@ -63,6 +63,45 @@
+   append initrd=initrd.img quiet
+ menu separator # insert an empty line
+ # utilities submenu
++menu begin ^Quick install
++  menu title Quick install
++label gnome
++  menu indent count 5
++  menu label Install GNOME Desktop (in Russian)
++  text help
++        Quick installation of GNOME Desktop
++  endtext
++  kernel vmlinuz
++  append initrd=initrd.img quiet ks=file:/gnome.cfg
++label kde
++  menu indent count 5
++  menu label Install KDE (in Russian)
++  text help
++        Quick installation of Plasma
++  endtext
++  kernel vmlinuz
++  append initrd=initrd.img quiet ks=file:/kde.cfg
++label xfce
++  menu indent count 5
++  menu label Install XFCE Desktop (in Russian)
++  text help
++        Quick installation of XFCE Desktop
++  endtext
++  kernel vmlinuz
++  append initrd=initrd.img quiet ks=file:/xfce.cfg
++label gnome
++  menu indent count 5
++  menu label Install LXDE Desktop (in Russian)
++  text help
++        Quick installation of LXDE Desktop
++  endtext
++  kernel vmlinuz
++  append initrd=initrd.img quiet ks=file:/lxde.cfg
++menu separator # insert an empty line
++menu separator # insert an empty line
++label returntomain
++  menu label Return to ^main menu.
++  menu exit
+ menu begin ^Troubleshooting
+   menu title Troubleshooting
+ label vesa
