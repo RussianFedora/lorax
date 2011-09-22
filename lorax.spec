@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        16.4.4
-Release:        1%{?dist}.1.R
+Release:        1%{?dist}.2.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -68,6 +68,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Thu Sep 22 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.4-1.2.R
+- added 'exit menu'
+
 * Wed Sep 21 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.4-1.1.R
 - syslinux-vesa-splash changed filename (#739345)
 - new RFRemix menu

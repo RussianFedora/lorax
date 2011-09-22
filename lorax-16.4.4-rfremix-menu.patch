@@ -1,7 +1,7 @@
 diff -urN lorax-16.4.4.orig/share/config_files/isolinux.cfg lorax-16.4.4/share/config_files/isolinux.cfg
 --- lorax-16.4.4.orig/share/config_files/isolinux.cfg	2011-09-21 15:18:33.722342905 +0400
-+++ lorax-16.4.4/share/config_files/isolinux.cfg	2011-09-21 15:31:31.661458419 +0400
-@@ -63,6 +63,45 @@
++++ lorax-16.4.4/share/config_files/isolinux.cfg	2011-09-22 12:54:19.650652946 +0400
+@@ -63,6 +63,46 @@
    append initrd=initrd.img quiet
  menu separator # insert an empty line
  # utilities submenu
@@ -44,6 +44,7 @@ diff -urN lorax-16.4.4.orig/share/config_files/isolinux.cfg lorax-16.4.4/share/c
 +label returntomain
 +  menu label Return to ^main menu.
 +  menu exit
++menu end
  menu begin ^Troubleshooting
    menu title Troubleshooting
  label vesa
