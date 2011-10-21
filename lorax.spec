@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        16.4.4
-Release:        1%{?dist}.2.R
+Version:        16.4.7
+Release:        1%{?dist}.1.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -68,6 +68,10 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Fri Oct 21 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.7-1.1.R
+- update to 16.4.7
+- use desktop-minimal for KDE, XFCE and LXDE
+
 * Thu Sep 22 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.4-1.2.R
 - added 'exit menu'
 
