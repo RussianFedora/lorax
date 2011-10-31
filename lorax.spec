@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        16.4.7
-Release:        1%{?dist}.1.R
+Release:        2%{?dist}.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -68,6 +68,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Mon Oct 31 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.7-2.R
+- rebuilt
+
 * Fri Oct 21 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.7-1.1.R
 - update to 16.4.7
 - use desktop-minimal for KDE, XFCE and LXDE
