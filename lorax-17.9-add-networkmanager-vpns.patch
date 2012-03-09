@@ -1,0 +1,15 @@
+diff -urN lorax-17.9.orig/share/runtime-install.tmpl lorax-17.9/share/runtime-install.tmpl
+--- lorax-17.9.orig/share/runtime-install.tmpl	2012-03-09 15:33:32.568367648 +0400
++++ lorax-17.9/share/runtime-install.tmpl	2012-03-09 22:07:57.081791548 +0400
+@@ -47,6 +47,11 @@
+ installpkg xorg-x11-server-utils xorg-x11-xauth
+ installpkg dbus-x11 metacity gsettings-desktop-schemas
+ installpkg NetworkManager-gnome
++installpkg NetworkManager-openconnect
++installpkg NetworkManager-openswan
++installpkg NetworkManager-openvpn
++installpkg NetworkManager-pptp
++installpkg NetworkManager-vpnc
+ installpkg at-spi at-spi2-atk pyatspi
+ installpkg gnome-python2-gconf
+ installpkg gobject-introspection
