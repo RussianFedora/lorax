@@ -1,14 +1,14 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        16.4.7
-Release:        2%{?dist}.R
+Version:        16.4.8
+Release:        2%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
-Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.bz2
+Source0:        %{name}-%{version}.tar.bz2
 
 Patch0:		lorax-16.4.7-rfremix-install-tree.patch
 Patch1:		lorax-0.3.2-NM-vpn.patch
@@ -25,12 +25,16 @@ Requires:       findutils
 Requires:       GConf2
 Requires:       isomd5sum
 Requires:       glibc
-Requires:       util-linux-ng
+Requires:       util-linux
 Requires:       dosfstools
+Requires:       hfsplus-tools
 Requires:       genisoimage
 Requires:       parted
 Requires:       gzip
 Requires:       xz
+Requires:       squashfs-tools >= 4.2
+Requires:       e2fsprogs
+Requires:       yum
 
 %ifarch %{ix86} x86_64
 Requires:       syslinux
@@ -61,6 +65,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %{python_sitelib}/pylorax
 %{python_sitelib}/*.egg-info
 %{_sbindir}/lorax
+%{_sbindir}/mkefiboot
 %dir %{_sysconfdir}/lorax
 %config(noreplace) %{_sysconfdir}/lorax/lorax.conf
 %dir %{_datadir}/lorax
@@ -68,6 +73,12 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Fri Mar  9 2012 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.8-2
+- update to 16.4.8
+- Add new requires for imgutils and mkefiboot
+- add mkefiboot and imgutils.py (bcl)
+- Do not remove /usr/bin/env (mgracik)
+
 * Mon Oct 31 2011 Arkady L. Shane <ashejn@russianfedora.ru> 16.4.7-2.R
 - rebuilt
 
