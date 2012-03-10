@@ -1,6 +1,6 @@
 diff -urN lorax-17.9.orig/share/config_files/live/x86/isolinux.cfg lorax-17.9/share/config_files/live/x86/isolinux.cfg
---- lorax-17.9.orig/share/config_files/live/x86/isolinux.cfg	2012-03-09 22:13:42.575812336 +0400
-+++ lorax-17.9/share/config_files/live/x86/isolinux.cfg	2012-03-09 22:52:39.244952942 +0400
+--- lorax-17.9.orig/share/config_files/live/x86/isolinux.cfg	2012-03-10 21:30:23.263657335 +0400
++++ lorax-17.9/share/config_files/live/x86/isolinux.cfg	2012-03-10 21:30:45.303071789 +0400
 @@ -62,6 +62,21 @@
    kernel vmlinuz
    append initrd=initrd.img @ROOT@ quiet liveimg rd.luks=0 rd.md=0 rd.dm=0
@@ -24,8 +24,8 @@ diff -urN lorax-17.9.orig/share/config_files/live/x86/isolinux.cfg lorax-17.9/sh
  menu begin ^Troubleshooting
    menu title Troubleshooting
 diff -urN lorax-17.9.orig/share/config_files/x86/isolinux.cfg lorax-17.9/share/config_files/x86/isolinux.cfg
---- lorax-17.9.orig/share/config_files/x86/isolinux.cfg	2012-03-09 22:13:42.576812336 +0400
-+++ lorax-17.9/share/config_files/x86/isolinux.cfg	2012-03-09 22:45:21.812926613 +0400
+--- lorax-17.9.orig/share/config_files/x86/isolinux.cfg	2012-03-10 21:30:23.261657297 +0400
++++ lorax-17.9/share/config_files/x86/isolinux.cfg	2012-03-10 21:30:45.304071809 +0400
 @@ -63,6 +63,46 @@
    append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0
  menu separator # insert an empty line
@@ -74,9 +74,9 @@ diff -urN lorax-17.9.orig/share/config_files/x86/isolinux.cfg lorax-17.9/share/c
    menu title Troubleshooting
  label vesa
 diff -urN lorax-17.9.orig/share/runtime-install.tmpl lorax-17.9/share/runtime-install.tmpl
---- lorax-17.9.orig/share/runtime-install.tmpl	2012-03-09 22:14:11.677814088 +0400
-+++ lorax-17.9/share/runtime-install.tmpl	2012-03-09 22:13:28.563811495 +0400
-@@ -98,6 +98,7 @@
+--- lorax-17.9.orig/share/runtime-install.tmpl	2012-03-10 21:30:23.261657297 +0400
++++ lorax-17.9/share/runtime-install.tmpl	2012-03-10 21:30:45.304071809 +0400
+@@ -93,6 +93,7 @@
  installpkg fedora-gnome-theme fedora-icon-theme
  installpkg ${product.name}-logos
  installpkg ${product.name}-release
@@ -84,3 +84,15 @@ diff -urN lorax-17.9.orig/share/runtime-install.tmpl lorax-17.9/share/runtime-in
  
  ## debugging/bug reporting tools
  installpkg gdb-gdbserver
+diff -urN lorax-17.9.orig/share/runtime-postinstall.tmpl lorax-17.9/share/runtime-postinstall.tmpl
+--- lorax-17.9.orig/share/runtime-postinstall.tmpl	2012-03-10 21:30:23.264657354 +0400
++++ lorax-17.9/share/runtime-postinstall.tmpl	2012-03-10 21:32:44.557314376 +0400
+@@ -29,6 +29,8 @@
+ 
+ ## move_repos()
+ move etc/yum.repos.d etc/anaconda.repos.d
++remove etc/anaconda.repos.d/fedora*repo
++remove etc/anaconda.repos.d/rfremix-install-media-dvd.repo 
+ 
+ ## Configure systemd to start anaconda
+ remove etc/systemd/system/default.target
