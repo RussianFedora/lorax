@@ -84,17 +84,3 @@ diff -urN lorax-17.9.orig/share/runtime-install.tmpl lorax-17.9/share/runtime-in
  
  ## debugging/bug reporting tools
  installpkg gdb-gdbserver
-diff -urN lorax-17.9.orig/share/runtime-postinstall.tmpl lorax-17.9/share/runtime-postinstall.tmpl
---- lorax-17.9.orig/share/runtime-postinstall.tmpl	2012-03-09 22:13:42.573812336 +0400
-+++ lorax-17.9/share/runtime-postinstall.tmpl	2012-03-09 22:42:19.984915673 +0400
-@@ -29,6 +29,10 @@
- 
- ## move_repos()
- move etc/yum.repos.d etc/anaconda.repos.d
-+remove etc/anaconda.repos.d/*.repo
-+move etc/quick-install/repos/*.repo etc/anaconda.repos.d
-+move etc/quick-install/ks/*.cfg .
-+removefrom rfremix-quick-install /etc/quick-install
- 
- ## Configure systemd to start anaconda
- remove etc/systemd/system/default.target
