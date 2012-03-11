@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        17.9
-Release:        1.2%{?dist}
+Release:        1.3%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -84,6 +84,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Sun Mar 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.9-1.3.R
+- fix kickstart call
+
 * Sat Mar 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.9-1.2.R
 - drop fedora repos
 
