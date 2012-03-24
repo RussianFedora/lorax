@@ -1,15 +1,14 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        17.9
-Release:        1.3.1%{?dist}
+Version:        17.12
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        %{name}-%{version}.tar.bz2
-
 Patch0:         lorax-17.9-add-networkmanager-vpns.patch
 Patch1:         lorax-17.9-quick-install.patch
 
@@ -84,21 +83,24 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
-* Sun Mar 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.9-1.3.1.R
-- use ks instead of inst.ks as last does not work
-
-* Sun Mar 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.9-1.3.R
-- fix kickstart call
-
-* Sat Mar 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.9-1.2.R
-- drop fedora repos
-
-* Sat Mar 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.9-1.1.R
-- change rfremix-quick-install structure
-
-* Fri Mar 09 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.9-1.R
+* Sat Mar 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.12-1.R
 - added NetworManager vpn to anacoda image
-- new repos and quick-install kickstart files
+- new repos and quick-install kickstart files 
+
+* Wed Mar 21 2012 Brian C. Lane <bcl@redhat.com> 17.12-1
+- mkefiboot: Make Apple boot images appear in the startup preferences (mjg)
+- add symlink from /mnt/install -> /run/install (wwoods)
+
+* Fri Mar 16 2012 Brian C. Lane <bcl@redhat.com> 17.10-1
+- merge noloader patches
+- Don't trash all the initscripts 'fedora*' services (wwoods)
+- remove anaconda-copy-ks.sh (wwoods)
+- add anaconda dracut module (wwoods)
+- runtime-postinstall: remove references to loader (wwoods)
+- runtime-postinstall: remove keymap stuff (wwoods)
+- Add the icfg package (#771733) (mgracik)
+- Log the output of mkfs (#769928) (mgracik)
+- livemedia-creator: update TreeBuilder use for isolabel (bcl)
 
 * Wed Mar 07 2012 Martin Gracik <mgracik@redhat.com> 17.9-1
 - Fix product name replacing in templates
