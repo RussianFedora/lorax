@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        17.12
+Version:        17.13
 Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
@@ -83,6 +83,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Fri Mar 30 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.13-1.R
+- update to 17.13
+
 * Sat Mar 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.12-1.R
 - added NetworManager vpn to anacoda image
 - new repos and quick-install kickstart files 
