@@ -23,56 +23,6 @@ diff -urN lorax-17.9.orig/share/config_files/live/x86/isolinux.cfg lorax-17.9/sh
  # utilities submenu
  menu begin ^Troubleshooting
    menu title Troubleshooting
-diff -urN lorax-17.9.orig/share/config_files/x86/isolinux.cfg lorax-17.9/share/config_files/x86/isolinux.cfg
---- lorax-17.9.orig/share/config_files/x86/isolinux.cfg	2012-03-10 21:30:23.261657297 +0400
-+++ lorax-17.9/share/config_files/x86/isolinux.cfg	2012-03-10 21:30:45.304071809 +0400
-@@ -63,6 +63,46 @@
-   append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0
- menu separator # insert an empty line
- # utilities submenu
-+menu begin ^Quick install
-+  menu title Quick install
-+label gnome
-+  menu indent count 5
-+  menu label Install GNOME Desktop (in Russian)
-+  text help
-+        Quick installation of GNOME Desktop
-+  endtext
-+  kernel vmlinuz
-+  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 ks=file:/gnome.cfg
-+label kde
-+  menu indent count 5
-+  menu label Install KDE (in Russian)
-+  text help
-+        Quick installation of Plasma
-+  endtext
-+  kernel vmlinuz
-+  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 ks=file:/kde.cfg
-+label xfce
-+  menu indent count 5
-+  menu label Install XFCE Desktop (in Russian)
-+  text help
-+        Quick installation of XFCE Desktop
-+  endtext
-+  kernel vmlinuz
-+  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 ks=file:/xfce.cfg
-+label lxde
-+  menu indent count 5
-+  menu label Install LXDE Desktop (in Russian)
-+  text help
-+        Quick installation of LXDE Desktop
-+  endtext
-+  kernel vmlinuz
-+  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 ks=file:/lxde.cfg
-+menu separator # insert an empty line
-+menu separator # insert an empty line
-+label returntomain
-+  menu label Return to ^main menu.
-+  menu exit
-+menu end
- menu begin ^Troubleshooting
-   menu title Troubleshooting
- label vesa
 diff -urN lorax-17.9.orig/share/runtime-install.tmpl lorax-17.9/share/runtime-install.tmpl
 --- lorax-17.9.orig/share/runtime-install.tmpl	2012-03-10 21:30:23.261657297 +0400
 +++ lorax-17.9/share/runtime-install.tmpl	2012-03-10 21:30:45.304071809 +0400

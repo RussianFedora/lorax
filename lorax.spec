@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        17.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -10,7 +10,7 @@ License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        %{name}-%{version}.tar.bz2
 Patch0:         lorax-17.9-add-networkmanager-vpns.patch
-Patch1:         lorax-17.9-quick-install.patch
+Patch1:         lorax-17.13-quick-install.patch
 
 BuildRequires:  python2-devel
 Requires:       python-mako
@@ -83,6 +83,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Fri Mar 30 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.13-2.R
+- drop ks patch for media install
+
 * Fri Mar 30 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.13-1.R
 - update to 17.13
 
