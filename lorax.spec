@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        17.13
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -11,6 +11,7 @@ URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        %{name}-%{version}.tar.bz2
 Patch0:         lorax-17.9-add-networkmanager-vpns.patch
 Patch1:         lorax-17.13-quick-install.patch
+Patch2:		lorax-17.13-install-ks.patch
 
 BuildRequires:  python2-devel
 Requires:       python-mako
@@ -61,6 +62,7 @@ Anaconda's image install feature.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 
@@ -83,6 +85,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Sun Apr  8 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.13-3.R
+- install ks files to dracut initramfs image
+
 * Fri Mar 30 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.13-2.R
 - drop ks patch for media install
 
