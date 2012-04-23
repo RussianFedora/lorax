@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        17.13
-Release:        3%{?dist}
+Version:        17.15
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -83,6 +83,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Mon Apr 23 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.15-1.R
+- update to 17.15
+
 * Sun Apr  8 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.13-3.R
 - install ks files to dracut initramfs image
 
