@@ -10,7 +10,7 @@ License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        %{name}-%{version}.tar.bz2
 Patch0:         lorax-17.9-add-networkmanager-vpns.patch
-Patch1:         lorax-17.13-quick-install.patch
+Patch1:         lorax-17.16-quick-install.patch
 
 BuildRequires:  python2-devel
 Requires:       python-mako
