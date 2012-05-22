@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        17.23
+Version:        17.25
 Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
@@ -83,6 +83,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Tue May 22 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.25-1.R
+- update to 17.25
+
 * Thu May 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.23-1.R
 - update to 17.23
 
