@@ -1,38 +1,40 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        17.25
+Version:        18.20
 Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
-Source0:        %{name}-%{version}.tar.gz
-Patch0:         lorax-17.9-add-networkmanager-vpns.patch
-Patch1:         lorax-17.16-quick-install.patch
+Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
+Patch0:		lorax-18.20-rfremix-repos.patch
 
 BuildRequires:  python2-devel
-Requires:       python-mako
-Requires:       gawk
-Requires:       glibc-common
-Requires:       cpio
-Requires:       module-init-tools
-Requires:       device-mapper
-Requires:       findutils
+
 Requires:       GConf2
-Requires:       isomd5sum
-Requires:       glibc
-Requires:       util-linux
+Requires:       cpio
+Requires:       device-mapper
 Requires:       dosfstools
-Requires:       hfsplus-tools
-Requires:       genisoimage
-Requires:       parted
-Requires:       gzip
-Requires:       xz
-Requires:       squashfs-tools >= 4.2
 Requires:       e2fsprogs
+Requires:       findutils
+Requires:       gawk
+Requires:       genisoimage
+Requires:       glib2
+Requires:       glibc
+Requires:       glibc-common
+Requires:       gzip
+Requires:       isomd5sum
+Requires:       libselinux-python
+Requires:       module-init-tools
+Requires:       parted
+Requires:       python-mako
+Requires:       squashfs-tools >= 4.2
+Requires:       util-linux
+Requires:       xz
 Requires:       yum
+Requires:       pykickstart
 
 %ifarch %{ix86} x86_64
 Requires:       syslinux >= 4.02-5
@@ -59,8 +61,7 @@ Anaconda's image install feature.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
+%patch0 -p1 -b .rfremix-repos
 
 %build
 
@@ -83,40 +84,170 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
-* Tue May 22 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.25-1.R
-- update to 17.25
+* Mon Sep 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.20-1.R
+- added RFRemix repos
 
-* Thu May 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.23-1.R
-- update to 17.23
+* Wed Sep 19 2012 Brian C. Lane <bcl@redhat.com> 18.20-1
+- Remove grub 0.97 splash (bcl@redhat.com)
+- livemedia-creator: use rd.live.image instead of liveimg (bcl@redhat.com)
 
-* Thu May 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.19-1.R
-- update to 17.19
+* Mon Sep 17 2012 Brian C. Lane <bcl@redhat.com> 18.19-1
+- There's no lang-table in anaconda anymore (#857925) (mgracik@redhat.com)
+- add convienience functions for running commands (bcl@redhat.com)
+- restore CalledProcessError handling (bcl@redhat.com)
+- add CalledProcessError to execWith* functions (bcl@redhat.com)
+- live uses root not inst.stage2 (bcl@redhat.com)
+- Revert "X needs the DRI drivers" (#855289) (bcl@redhat.com)
 
-* Tue Apr 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.16-1.R
-- update to 17.16
+* Fri Sep 07 2012 Brian C. Lane <bcl@redhat.com> 18.18-1
+- Keep the dracut-lib.sh around for runtime (#851362) (jkeating@redhat.com)
+- X needs the DRI drivers (#855289) (bcl@redhat.com)
 
-* Mon Apr 23 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.15-1.R
-- update to 17.15
+* Fri Aug 31 2012 Brian C. Lane <bcl@redhat.com> 18.17-1
+- use inst.stage2=hd:LABEL (#848641) (bcl@redhat.com)
+- Disable the maximize/unmaximize key bindings (#853410). (clumens@redhat.com)
 
-* Sun Apr  8 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.13-3.R
-- install ks files to dracut initramfs image
+* Thu Aug 30 2012 Brian C. Lane <bcl@redhat.com> 18.16-1
+- Revert "Mask the tmp.mount service to avoid tmpfs" (jkeating@redhat.com)
 
-* Fri Mar 30 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.13-2.R
-- drop ks patch for media install
+* Thu Aug 23 2012 Brian C. Lane <bcl@redhat.com> 18.15-1
+- change grub-cd.efi to gcdx64.efi (#851326) (bcl@redhat.com)
+- use wildcard for product path to efi binaries (#851196) (bcl@redhat.com)
+- Add yum-plugin-fastestmirror (#849797) (bcl@redhat.com)
+- livemedia-creator: update templates for grub2-efi support (bcl@redhat.com)
+- imgutils: fix umount retry handling (bcl@redhat.com)
+- livemedia-creator: use stage2 instead of root (bcl@redhat.com)
+- livemedia-creator: add location option (bcl@redhat.com)
+- nm-connection-editor was moved to separate package (#849056)
+  (rvykydal@redhat.com)
 
-* Fri Mar 30 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.13-1.R
-- update to 17.13
+* Thu Aug 16 2012 Brian C. Lane <bcl@redhat.com> 18.14-1
+- remove cleanup of some essential libraries (bcl@redhat.com)
+- Mask the tmp.mount service to avoid tmpfs (jkeating@redhat.com)
 
-* Sat Mar 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> 17.12-1.R
-- added NetworManager vpn to anacoda image
-- new repos and quick-install kickstart files 
+* Wed Aug 15 2012 Brian C. Lane <bcl@redhat.com> 18.13-1
+- Add a command line option to override the ARM platform. (dmarlin@redhat.com)
+- Don't remove krb5-libs (#848227) (mgracik@redhat.com)
+- Add grub2-efi support and Secure Boot shim support. (pjones@redhat.com)
+- Fix GPT code to allocate space for /2/ tables. (pjones@redhat.com)
+- Add platforms to the treeinfo for Beaker support. (dmarlin@redhat.com)
+- add logging to lorax (bcl@redhat.com)
+- move live templates into their own subdir of share (bcl@redhat.com)
+- clean up command execution (bcl@redhat.com)
+- livemedia-creator: cleanup logging a bit (bcl@redhat.com)
 
-* Wed Mar 21 2012 Brian C. Lane <bcl@redhat.com> 17.12-1
+* Wed Jul 25 2012 Martin Gracik <mgracik@redhat.com> 18.12-1
+- Add 'mvebu' to list of recognized ARM kernels. (dmarlin@redhat.com)
+- Cleanup boot menus (#809663) (mgracik@redhat.com)
+- Don't remove chvt from the install image (#838554) (mgracik@redhat.com)
+- Add llvm-libs (#826351) (mgracik@redhat.com)
+
+* Fri Jul 20 2012 Brian C. Lane <bcl@redhat.com> 18.11-1
+- livemedia-creator: add some error checking (bcl@redhat.com)
+
+* Tue Jul 10 2012 Martin Gracik <mgracik@redhat.com> 18.10-1
+- Don't set a root= argument (wwoods@redhat.com)
+  Resolves: rhbz#837208
+- Don't remove the id tool (mgracik@redhat.com)
+  Resolves: rhbz#836493
+- Xauth is in bin (mgracik@redhat.com)
+  Resolves: rhbz#837317
+- Actually add plymouth to the initramfs (wwoods@redhat.com)
+- don't use --prefix with dracut anymore (wwoods@redhat.com)
+- newui requires checkisomd5 to run media check. (clumens@redhat.com)
+
+* Thu Jun 21 2012 Martin Gracik <mgracik@redhat.com> 18.9-1
+- Add initial support for ARM based systems (dmarlin) (mgracik@redhat.com)
+- Add plymouth to the installer runtime (wwoods@redhat.com)
+- add 'systemctl' command and use it in postinstall (wwoods@redhat.com)
+- add dracut-shutdown.service (and its dependencies) (wwoods@redhat.com)
+- leave pregenerated locale files (save RAM) (wwoods@redhat.com)
+- runtime-cleanup: log broken symlinks being removed (wwoods@redhat.com)
+- Add some documentation to LoraxTemplateRunner (wwoods@redhat.com)
+- fix '-runcmd' and improve logging (wwoods@redhat.com)
+- mkefiboot: add --debug (wwoods@redhat.com)
+- pylorax.imgutils: add retry loop and "lazy" to umount() (wwoods@redhat.com)
+- pylorax.imgutils: add debug logging (wwoods@redhat.com)
+- pylorax: set up logging as recommended by logging module (wwoods@redhat.com)
+- remove dmidecode (wwoods@redhat.com)
+- clean up net-tools properly (wwoods@redhat.com)
+- runtime-cleanup: correctly clean up kbd (wwoods@redhat.com)
+- runtime-cleanup: correctly clean up iproute (wwoods@redhat.com)
+- runtime-cleanup: drop a bunch of do-nothing removals (wwoods@redhat.com)
+- Create missing /etc/fstab (wwoods@redhat.com)
+- Fix systemd unit cleanup in runtime-postinstall (wwoods@redhat.com)
+- Disable Alt+Tab in metacity (mgracik@redhat.com)
+- Add pollcdrom module to dracut (bcl@redhat.com)
+
+* Wed Jun 06 2012 Martin Gracik <mgracik@redhat.com> 18.8-1
+- Check if selinux is enabled before getting the mode (mgracik@redhat.com)
+- Add grub2 so that rescue is more useful (bcl@redhat.com)
+
+* Mon Jun 04 2012 Martin Gracik <mgracik@redhat.com> 18.7-1
+- Comment on why selinux needs to be in permissive or disabled
+  (mgracik@redhat.com)
+- Verify the yum transaction (mgracik@redhat.com)
+- Do not remove shared-mime-info (#825960) (mgracik@redhat.com)
+- Add a --required switch to installpkg (mgracik@redhat.com)
+- livemedia-creator: Hook up arch option (bcl@redhat.com)
+- livemedia-creator: Add appliance creation (bcl@redhat.com)
+- livemedia-creator: handle failed mount for ami (bcl@redhat.com)
+
+* Fri Jun 01 2012 Martin Gracik <mgracik@redhat.com> 18.6-1
+- Fix the rpm call (mgracik@redhat.com)
+- Use selinux python module to get enforcing mode (mgracik@redhat.com)
+
+* Thu May 31 2012 Martin Gracik <mgracik@redhat.com> 18.5-1
+- Don't remove sha256sum from the install image (mgracik@redhat.com)
+- Check if selinux is not in Enforcing mode (#824835) (mgracik@redhat.com)
+- Install rpcbind (#824835) (mgracik@redhat.com)
+- Remove hfsplus-tools dependency (#818913) (mgracik@redhat.com)
+- Copy mapping and magic to BOOTDIR on ppc (#815550) (mgracik@redhat.com)
+- Automatic commit of package [lorax] release [18.4-1]. (mgracik@redhat.com)
+
+* Fri May 25 2012 Martin Gracik <mgracik@redhat.com> 18.4-1
+- Initialized to use tito.
+- Use gz not bz2 for source
+- remove 'loadkeys' stub (#804306)
+- add name field to .treeinfo its a concatination of family and version
+- Fix typo in help (#819476)
+- include the new cmsfs-fuse interface
+- linuxrc.s390 is dead in anaconda
+- Add the ppc magic file
+- Install proper branding packages from repo (#813969)
+- Use --mac for isohybrid only if doing macboot images
+- Add --nomacboot option
+- Add packages needed for NTP functionality in the installer
+- livemedia-creator: check kickstart for display modes (#819660)
+- livemedia-creator: Removed unused ImageMount class
+- livemedia-creator: cleanup after a crash
+- livemedia-creator: start using /var/tmp instead of /tmp
+- livemedia-creator: make libvirt module optional
+- stop moving /run (#818918)
+
+* Thu May 03 2012 Brian C. Lane <bcl@redhat.com> 18.3-1
+- Added BCM4331 firmware (#817151) (mgracik)
+- mkefiboot: Add support for disk label files (mjg)
+- Add 'tmux' to runtime image (wwoods)
+- Add /etc/sysctl.d/anaconda.conf, set kernel.printk=1 (#816022) (wwoods)
+- reduce image size from 2GB to 1GB (wwoods)
+- keep all filesystem tools (wwoods)
+- Leave some of the grub2 utilities in the install image (#749323) (mgracik)
+- add media check menu option (bcl)
+- remove unneeded dracut bootargs (bcl)
+- mkefiboot: Copy Mac bootloader, rather than linking it (mjg)
+- Remove workdir if it was created by lorax (#807964) (mgracik)
+- add gdisk to install image (#811083) (bcl)
+- Don't use --allbut for xfsprogs cleanup (#804779) (mgracik)
+- Log all removed files (mgracik)
+- Add spice-vdagent to initrd (#804739) (mgracik)
+- Add ntfs-3g to initrd (#804302) (mgracik)
+- ntfs-3g now uses /usr/lib (#810039) (bcl)
+
+* Fri Mar 30 2012 Brian C. Lane <bcl@redhat.com> 18.2-1
+- Merge noloader commits from f17-branch (bcl)
 - mkefiboot: Make Apple boot images appear in the startup preferences (mjg)
 - add symlink from /mnt/install -> /run/install (wwoods)
-
-* Fri Mar 16 2012 Brian C. Lane <bcl@redhat.com> 17.10-1
-- merge noloader patches
 - Don't trash all the initscripts 'fedora*' services (wwoods)
 - remove anaconda-copy-ks.sh (wwoods)
 - add anaconda dracut module (wwoods)
@@ -124,47 +255,41 @@ make DESTDIR=$RPM_BUILD_ROOT install
 - runtime-postinstall: remove keymap stuff (wwoods)
 - Add the icfg package (#771733) (mgracik)
 - Log the output of mkfs (#769928) (mgracik)
+- Fix product name replacing in templates (#799919) (mgracik)
+- Fix requires (mgracik)
+- use cache outside the installtree (bcl)
+- add iscsi-initiator-utils (#804522) (bcl)
 - livemedia-creator: update TreeBuilder use for isolabel (bcl)
 
-* Wed Mar 07 2012 Martin Gracik <mgracik@redhat.com> 17.9-1
-- Fix product name replacing in templates
-  Resolves: rhbz#799919
-
-* Tue Mar 06 2012 Brian C. Lane <bcl@redhat.com> 17.8-1
+* Tue Mar 06 2012 Brian C. Lane <bcl@redhat.com> 18.1-1
 - livemedia-creator: update README (bcl)
 - example livemedia kickstart for ec2 (bcl)
 - livemedia-creator: console=ttyS0 not /dev/ttyS0 (bcl)
 - livemedia-creator: Add support for making ami images (bcl)
+- Don't remove btrfs utils (#796511) (mgracik)
+- Remove root and ip parameters from generic.prm (#796572) (mgracik)
+- Check if the volume id is not longer than 32 chars (#786832) (mgracik)
+- Add option to specify volume id on command line (#786834) (mgracik)
+- Install nhn-nanum-gothic-fonts (#790266) (mgracik)
+- Change the locale to C (#786833) (mgracik)
+- iputils is small and required by dhclient-script (bcl)
+- util-linux-ng is now util-linux (bcl)
 
-* Tue Feb 28 2012 Martin Gracik <mgracik@redhat.com> 17.7-1
-- Don't remove btrfs utils (#796511)
-- Remove root and ip parameters from generic.prm (#796572)
-- Check if the volume id is not longer than 32 chars (#786832)
-- Add option to specify volume id on command line (#786834)
-- Install nhn-nanum-gothic-fonts (#790266)
-- Change the locale to C (#786833)
-- Don't use mk-s390-cdboot (dhorak)
-- use internal implementation of the addrsize utility
-- Make sure var/run is not a symlink on s390x (#787217)
-- Create var/run/dbus directory on s390x (#787217)
-- iputils is small and required by dhclient-script
-- missing version bump in specfile
-
-* Mon Feb 20 2012 Brian C. Lane <bcl@redhat.com> 17.6-1
+* Mon Feb 20 2012 Brian C. Lane <bcl@redhat.com> 18.0-1
 - use --prefix=/run/initramfs when building initramfs (wwoods)
 - dhclient-script needs cut and arping (bcl)
 - Fix missing CalledProcessError import (bcl)
-
-* Wed Feb 15 2012 Brian C. Lane <bcl@redhat.com> 17.5-1
 - metacity now depends on gsettings-desktop-schemas (bcl)
 - Add findiso to grub config (mjg)
-
-* Mon Feb 13 2012 Brian C. Lane <bcl@redhat.com> 17.4-1
+- add memtest to the boot.iso for x86 (#787234) (bcl)
+- Don't use mk-s390-cdboot (dhorak) (mgracik)
+- Add dracut args to grub.conf (bcl)
 - Change the squashfs image section in .treeinfo (mgracik)
 - Add path to squashfs image to the treeinfo (mgracik)
 - Add runtime basename variable to the template (mgracik)
-- add memtest to the boot.iso for x86 (#787234) (bcl)
-- Add dracut args to grub.conf (bcl)
+- use internal implementation of the addrsize utility (dan)
+- Make sure var/run is not a symlink on s390x (#787217) (mgracik)
+- Create var/run/dbus directory on s390x (#787217) (mgracik)
 
 * Wed Feb 08 2012 Brian C. Lane <bcl@redhat.com> 17.3-1
 - keep convertfs.sh script in image (#787893) (bcl)
