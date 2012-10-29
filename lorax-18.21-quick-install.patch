@@ -14,7 +14,7 @@ diff -urN lorax-18.21.orig/share/config_files/x86/isolinux.cfg lorax-18.21/share
 +        Quick installation of GNOME Desktop
 +  endtext
 +  kernel vmlinuz
-+  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 ks=file:/gnome.cfg
++  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 inst.ks=hd:/dev/mapper/live-rw:/gnome.cfg
 +label kde
 +  menu indent count 5
 +  menu label Install KDE (in Russian)
@@ -22,7 +22,7 @@ diff -urN lorax-18.21.orig/share/config_files/x86/isolinux.cfg lorax-18.21/share
 +        Quick installation of Plasma
 +  endtext
 +  kernel vmlinuz
-+  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 ks=file:/kde.cfg
++  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 inst.ks=hd:/dev/mapper/live-rw:/kde.cfg
 +label xfce
 +  menu indent count 5
 +  menu label Install XFCE Desktop (in Russian)
@@ -30,7 +30,7 @@ diff -urN lorax-18.21.orig/share/config_files/x86/isolinux.cfg lorax-18.21/share
 +        Quick installation of XFCE Desktop
 +  endtext
 +  kernel vmlinuz
-+  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 ks=file:/xfce.cfg
++  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 inst.ks=hd:/dev/mapper/live-rw:/xfce.cfg
 +label lxde
 +  menu indent count 5
 +  menu label Install LXDE Desktop (in Russian)
@@ -38,7 +38,7 @@ diff -urN lorax-18.21.orig/share/config_files/x86/isolinux.cfg lorax-18.21/share
 +        Quick installation of LXDE Desktop
 +  endtext
 +  kernel vmlinuz
-+  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 ks=file:/lxde.cfg
++  append initrd=initrd.img @ROOT@ quiet rd.luks=0 rd.md=0 rd.dm=0 inst.ks=hd:/dev/mapper/live-rw:/lxde.cfg
 +menu separator # insert an empty line
 +menu separator # insert an empty line
 +label returntomain
