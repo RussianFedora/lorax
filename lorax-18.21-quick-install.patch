@@ -1,6 +1,6 @@
 diff -urN lorax-18.21.orig/share/config_files/x86/isolinux.cfg lorax-18.21/share/config_files/x86/isolinux.cfg
---- lorax-18.21.orig/share/config_files/x86/isolinux.cfg	2012-10-29 14:39:33.735838258 +0400
-+++ lorax-18.21/share/config_files/x86/isolinux.cfg	2012-10-29 14:43:36.940313945 +0400
+--- lorax-18.21.orig/share/config_files/x86/isolinux.cfg	2012-10-29 19:28:42.628307371 +0400
++++ lorax-18.21/share/config_files/x86/isolinux.cfg	2012-10-29 19:29:20.893369310 +0400
 @@ -67,6 +67,46 @@
    append initrd=initrd.img @ROOT@ quiet rd.live.check
  menu separator # insert an empty line
@@ -49,8 +49,8 @@ diff -urN lorax-18.21.orig/share/config_files/x86/isolinux.cfg lorax-18.21/share
    menu title Troubleshooting
  label vesa
 diff -urN lorax-18.21.orig/share/runtime-cleanup.tmpl lorax-18.21/share/runtime-cleanup.tmpl
---- lorax-18.21.orig/share/runtime-cleanup.tmpl	2012-10-29 14:39:33.734838257 +0400
-+++ lorax-18.21/share/runtime-cleanup.tmpl	2012-10-29 14:49:10.515989088 +0400
+--- lorax-18.21.orig/share/runtime-cleanup.tmpl	2012-10-29 19:28:42.628307371 +0400
++++ lorax-18.21/share/runtime-cleanup.tmpl	2012-10-29 19:29:20.894369312 +0400
 @@ -26,6 +26,12 @@
  removepkg checkpolicy selinux-policy libselinux-utils
  ## anaconda has its own repo files
@@ -65,8 +65,8 @@ diff -urN lorax-18.21.orig/share/runtime-cleanup.tmpl lorax-18.21/share/runtime-
  removepkg usermode usermode-gtk passwd shadow-utils
  ## no services to turn on/off (keep the /etc/init.d link though)
 diff -urN lorax-18.21.orig/share/runtime-install.tmpl lorax-18.21/share/runtime-install.tmpl
---- lorax-18.21.orig/share/runtime-install.tmpl	2012-10-29 14:39:33.737838261 +0400
-+++ lorax-18.21/share/runtime-install.tmpl	2012-10-29 14:47:03.172731265 +0400
+--- lorax-18.21.orig/share/runtime-install.tmpl	2012-10-29 19:28:42.630307376 +0400
++++ lorax-18.21/share/runtime-install.tmpl	2012-10-29 19:29:20.894369312 +0400
 @@ -126,5 +126,13 @@
  ## yum plugins
  installpkg yum-plugin-fastestmirror
@@ -81,9 +81,26 @@ diff -urN lorax-18.21.orig/share/runtime-install.tmpl lorax-18.21/share/runtime-
 +
  ## actually install all the requested packages
  run_pkg_transaction
+diff -urN lorax-18.21.orig/share/runtime-postinstall.tmpl lorax-18.21/share/runtime-postinstall.tmpl
+--- lorax-18.21.orig/share/runtime-postinstall.tmpl	2012-10-29 19:28:42.630307376 +0400
++++ lorax-18.21/share/runtime-postinstall.tmpl	2012-10-29 19:32:01.336599312 +0400
+@@ -15,9 +15,13 @@
+     -move usr/share/anaconda/${stub}-stub usr/bin/${stub}
+ %endfor
+ 
++## hardcode version
++runcmd sed -i 's!$releasever!18!g' /etc/yum.repos.d/*.repo
++
+ ## move_repos()
+ move etc/yum.repos.d etc/anaconda.repos.d
+ 
++
+ ## Configure systemd to start anaconda
+ remove etc/systemd/system/default.target
+ symlink /lib/systemd/system/anaconda.target etc/systemd/system/default.target
 diff -urN lorax-18.21.orig/src/pylorax/__init__.py lorax-18.21/src/pylorax/__init__.py
---- lorax-18.21.orig/src/pylorax/__init__.py	2012-10-29 14:39:33.738838264 +0400
-+++ lorax-18.21/src/pylorax/__init__.py	2012-10-29 14:47:42.944811802 +0400
+--- lorax-18.21.orig/src/pylorax/__init__.py	2012-10-29 19:28:42.631307378 +0400
++++ lorax-18.21/src/pylorax/__init__.py	2012-10-29 19:29:20.895369314 +0400
 @@ -279,7 +279,7 @@
  
          logger.info("rebuilding initramfs images")
