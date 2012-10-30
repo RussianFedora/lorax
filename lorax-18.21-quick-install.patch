@@ -89,7 +89,7 @@ diff -urN lorax-18.21.orig/share/runtime-postinstall.tmpl lorax-18.21/share/runt
  %endfor
  
 +## hardcode version
-+runcmd sed -i 's!$releasever!18!g' /etc/yum.repos.d/*.repo
++runcmd sed -i 's!$releasever!18!g' etc/yum.repos.d/*.repo
 +
  ## move_repos()
  move etc/yum.repos.d etc/anaconda.repos.d
