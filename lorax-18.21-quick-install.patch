@@ -81,23 +81,6 @@ diff -urN lorax-18.21.orig/share/runtime-install.tmpl lorax-18.21/share/runtime-
 +
  ## actually install all the requested packages
  run_pkg_transaction
-diff -urN lorax-18.21.orig/share/runtime-postinstall.tmpl lorax-18.21/share/runtime-postinstall.tmpl
---- lorax-18.21.orig/share/runtime-postinstall.tmpl	2012-10-29 19:28:42.630307376 +0400
-+++ lorax-18.21/share/runtime-postinstall.tmpl	2012-10-29 19:32:01.336599312 +0400
-@@ -15,9 +15,13 @@
-     -move usr/share/anaconda/${stub}-stub usr/bin/${stub}
- %endfor
- 
-+## hardcode version
-+runcmd sed -i 's!$releasever!18!g' etc/yum.repos.d/*.repo
-+
- ## move_repos()
- move etc/yum.repos.d etc/anaconda.repos.d
- 
-+
- ## Configure systemd to start anaconda
- remove etc/systemd/system/default.target
- symlink /lib/systemd/system/anaconda.target etc/systemd/system/default.target
 diff -urN lorax-18.21.orig/src/pylorax/__init__.py lorax-18.21/src/pylorax/__init__.py
 --- lorax-18.21.orig/src/pylorax/__init__.py	2012-10-29 19:28:42.631307378 +0400
 +++ lorax-18.21/src/pylorax/__init__.py	2012-10-29 19:29:20.895369314 +0400
