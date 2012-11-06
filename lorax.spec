@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        18.21
-Release:        1.3%{?dist}
+Release:        1.4%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -84,6 +84,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Tue Nov  5 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.21-1.4.R
+- drop sed
+
 * Tue Oct 30 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.21-1.3.R
 - fix global path
 
