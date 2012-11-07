@@ -69,7 +69,7 @@ diff -urN lorax-18.21.orig/share/runtime-install.tmpl lorax-18.21/share/runtime-
 +++ lorax-18.21/share/runtime-install.tmpl	2012-10-29 19:29:20.894369312 +0400
 @@ -126,5 +126,13 @@
  ## yum plugins
- installpkg yum-plugin-fastestmirror
+ installpkg yum-plugin-fastestmirror yum-langpacks
  
 +## RFRemix release packs
 +installpkg rpmfusion-nonfree-release
