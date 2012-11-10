@@ -2,14 +2,15 @@
 
 Name:           lorax
 Version:        18.22
-Release:        1%{?dist}
+Release:        1.1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
-Patch0:		lorax-18.21-quick-install.patch
+Patch0:		lorax-18.22-install-releases-packages.patch
+Patch1:		lorax-18.22-install-vpn-packages.patch
 
 BuildRequires:  python2-devel
 
@@ -62,6 +63,7 @@ Anaconda's image install feature.
 %prep
 %setup -q
 %patch0 -p1 -b .rfremix-repos
+%patch0 -p1 -b .vpn
 
 %build
 
@@ -84,6 +86,10 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Tue Nov  5 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.22-1.1.R
+- drop quick install. Everything so quickly
+- install vpn for NM
+
 * Tue Nov  5 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.22-1.R
 - update to 18.22
 
