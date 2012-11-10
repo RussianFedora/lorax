@@ -86,7 +86,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
-* Tue Nov  5 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.22-1.1.R
+* Sat Nov 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.22-1.1.R
 - drop quick install. Everything so quickly
 - install vpn for NM
 
