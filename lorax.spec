@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        18.22
-Release:        1.1%{?dist}
+Release:        4%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -11,6 +11,14 @@ URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
 Patch0:		lorax-18.22-install-releases-packages.patch
 Patch1:		lorax-18.22-install-vpn-packages.patch
+
+# Upstream patches
+Patch2:         0001-treebuilder-add-prefix-to-rebuild_initrds.patch
+Patch3:         0002-treebuilder-improve-findkernels-initrd-search.patch
+Patch4:         0003-build-fedup-upgrade.img.patch
+Patch5:         0004-make-templates-install-upgrade.img.patch
+Patch6:         0005-Add-the-fedup-plymouth-theme-if-available.patch
+Patch7:         0006-add-options-in-the-boot-media-to-do-upgrades.patch
 
 BuildRequires:  python2-devel
 
@@ -65,6 +73,13 @@ Anaconda's image install feature.
 %patch0 -p1 -b .rfremix-repos
 %patch1 -p1 -b .vpn
 
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+
 %build
 
 %install
@@ -86,6 +101,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Thu Nov 21 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.22-4.R
+- apply all upstream patches
+
 * Sat Nov 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.22-1.1.R
 - drop quick install. Everything so quickly
 - install vpn for NM

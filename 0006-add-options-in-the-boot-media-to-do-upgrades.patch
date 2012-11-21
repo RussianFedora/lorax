@@ -1,0 +1,100 @@
+From 0fb5f115d0e8a5160c9eefabbd5b242de987f9ee Mon Sep 17 00:00:00 2001
+From: Dennis Gilmore <dennis@ausil.us>
+Date: Thu, 15 Nov 2012 17:47:18 -0600
+Subject: [PATCH 6/6] add options in the boot media to do upgrades
+
+---
+ share/config_files/ppc/yaboot.conf.in | 5 +++++
+ share/config_files/x86/grub.conf      | 6 +++++-
+ share/config_files/x86/grub2-efi.cfg  | 6 +++++-
+ share/config_files/x86/isolinux.cfg   | 6 +++++-
+ share/efi.tmpl                        | 1 +
+ 5 files changed, 21 insertions(+), 3 deletions(-)
+
+diff --git a/share/config_files/ppc/yaboot.conf.in b/share/config_files/ppc/yaboot.conf.in
+index 0a6bafc..c2d851d 100644
+--- a/share/config_files/ppc/yaboot.conf.in
++++ b/share/config_files/ppc/yaboot.conf.in
+@@ -7,3 +7,8 @@ image=/ppc/ppc@BITS@/vmlinuz
+ 	initrd=/ppc/ppc@BITS@/initrd.img
+ 	read-only
+ 	append="@ROOT@"
++image=/ppc/ppc@BITS@/vmlinuz
++	label=upgrade
++	initrd=/ppc/ppc@BITS@/upgrade.img
++	read-only
++	append="@ROOT@"
+diff --git a/share/config_files/x86/grub.conf b/share/config_files/x86/grub.conf
+index d1ce3be..45f0b54 100644
+--- a/share/config_files/x86/grub.conf
++++ b/share/config_files/x86/grub.conf
+@@ -3,10 +3,14 @@ default=0
+ splashimage=@SPLASHPATH@
+ timeout 5
+ hiddenmenu
+-title @PRODUCT@ @VERSION@
++title @PRODUCT@ @VERSION@ Install
+ 	findiso
+ 	kernel @KERNELPATH@ @ROOT@
+ 	initrd @INITRDPATH@
++title @PRODUCT@ @VERSION@ Upgrade
++	findiso
++	kernel @KERNELPATH@ @ROOT@
++	initrd @UPGRADEINITRDPATH@
+ title Test this media & start @PRODUCT@
+ 	findiso
+ 	kernel @KERNELPATH@ @ROOT@ quiet rd.live.check
+diff --git a/share/config_files/x86/grub2-efi.cfg b/share/config_files/x86/grub2-efi.cfg
+index f21d085..8c80bbf 100644
+--- a/share/config_files/x86/grub2-efi.cfg
++++ b/share/config_files/x86/grub2-efi.cfg
+@@ -20,10 +20,14 @@ set timeout=5
+ search --no-floppy --set=root -l '@ISOLABEL@'
+ 
+ ### BEGIN /etc/grub.d/10_linux ###
+-menuentry '@PRODUCT@ @VERSION@' --class fedora --class gnu-linux --class gnu --class os {
++menuentry '@PRODUCT@ @VERSION@ Install' --class fedora --class gnu-linux --class gnu --class os {
+ 	linuxefi @KERNELPATH@ @ROOT@
+ 	initrdefi @INITRDPATH@
+ }
++menuentry '@PRODUCT@ @VERSION@ Upgrade' --class fedora --class gnu-linux --class gnu --class os {
++	linuxefi @KERNELPATH@ @ROOT@
++	initrdefi @UPGRADEINITRDPATH@
++}
+ menuentry 'Test this media & start @PRODUCT@' --class fedora --class gnu-linux --class gnu --class os {
+ 	linuxefi @KERNELPATH@ @ROOT@ quiet rd.live.check
+ 	initrdefi @INITRDPATH@
+diff --git a/share/config_files/x86/isolinux.cfg b/share/config_files/x86/isolinux.cfg
+index f530784..1098d2d 100644
+--- a/share/config_files/x86/isolinux.cfg
++++ b/share/config_files/x86/isolinux.cfg
+@@ -57,9 +57,13 @@ menu tabmsg Press Tab for full configuration options on menu items.
+ menu separator # insert an empty line
+ menu separator # insert an empty line
+ label linux
+-  menu label ^Install/upgrade @PRODUCT@
++  menu label ^Install @PRODUCT@
+   kernel vmlinuz
+   append initrd=initrd.img @ROOT@ quiet
++label upgrade
++  menu label ^Upgrade @PRODUCT@
++  kernel vmlinuz
++  append initrd=upgrade.img @ROOT@ quiet
+ label check
+   menu label Test this ^media & install/upgrade @PRODUCT@
+   menu default
+diff --git a/share/efi.tmpl b/share/efi.tmpl
+index d69fdb7..a60d5cd 100644
+--- a/share/efi.tmpl
++++ b/share/efi.tmpl
+@@ -36,6 +36,7 @@ ${make_efiboot("images/efiboot.img")}
+     replace @KERNELNAME@ vmlinuz ${eficonf}
+     replace @KERNELPATH@ /${kdir}/vmlinuz ${eficonf}
+     replace @INITRDPATH@ /${kdir}/initrd.img ${eficonf}
++    replace @UPGRADEINITRDPATH@ /${kdir}/upgrade.img ${eficonf}
+     replace @ISOLABEL@ '${isolabel}' ${eficonf}
+     %if disk:
+         replace @ROOT@ inst.stage2=hd:LABEL=ANACONDA ${eficonf}
+-- 
+1.8.0
+
