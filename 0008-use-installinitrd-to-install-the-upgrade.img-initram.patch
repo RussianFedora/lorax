@@ -1,0 +1,84 @@
+From fdd04d4e7e081137c82d24c9ab69eef41a2d2117 Mon Sep 17 00:00:00 2001
+From: Dennis Gilmore <dennis@ausil.us>
+Date: Thu, 22 Nov 2012 19:55:32 -0600
+Subject: [PATCH 8/8] use installinitrd to install the upgrade.img initramfs
+ so that we get correct permissions
+
+---
+ share/arm.tmpl  | 4 ++--
+ share/ppc.tmpl  | 2 +-
+ share/s390.tmpl | 2 +-
+ share/x86.tmpl  | 4 ++--
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/share/arm.tmpl b/share/arm.tmpl
+index 1083f63..08d9254 100644
+--- a/share/arm.tmpl
++++ b/share/arm.tmpl
+@@ -33,7 +33,7 @@ mkdir ${KERNELDIR}
+         installinitrd images-${kernel.flavor}-${basearch} ${kernel.initrd.path} ${KERNELDIR}/initrd-${kernel.flavor}.img
+ 
+         ## install upgrade image
+-        install ${kernel.upgrade.img} ${KERNELDIR}/upgrade-${kernel.flavor}.img
++        installinitrd ${kernel.upgrade.img} ${KERNELDIR}/upgrade-${kernel.flavor}.img
+         treeinfo images-${kernel.flavor}-${basearch} upgrade ${KERNELDIR}/upgrade-${kernel.flavor}.img
+ 
+         ## create U-Boot wrapped images
+@@ -60,7 +60,7 @@ mkdir ${KERNELDIR}
+         installinitrd images-${basearch} ${kernel.initrd.path} ${KERNELDIR}/initrd.img
+ 
+         ## install upgrade image
+-        install ${kernel.upgrade.img} ${KERNELDIR}/upgrade.img
++        installinitrd ${kernel.upgrade.img} ${KERNELDIR}/upgrade.img
+         treeinfo images-${basearch} upgrade ${KERNELDIR}/upgrade.img
+ 
+         ## create U-Boot wrapped images
+diff --git a/share/ppc.tmpl b/share/ppc.tmpl
+index 4d0e1fc..3eb4a89 100644
+--- a/share/ppc.tmpl
++++ b/share/ppc.tmpl
+@@ -67,7 +67,7 @@ install ${configdir}/magic ${BOOTDIR}
+     installinitrd images-${kernel.arch} ${kernel.initrd.path} ${KERNELDIR}/initrd.img
+ 
+     ## upgrade image
+-    install ${kernel.upgrade.path} ${KERNELDIR}/upgrade.img
++    installinitrd ${kernel.upgrade.path} ${KERNELDIR}/upgrade.img
+     treeinfo images-${kernel.arch} upgrade ${KERNELDIR}/upgrade.img
+ 
+     ## install arch-specific bootloader config
+diff --git a/share/s390.tmpl b/share/s390.tmpl
+index 3af81d4..dcd78d2 100644
+--- a/share/s390.tmpl
++++ b/share/s390.tmpl
+@@ -25,7 +25,7 @@ installkernel images-${basearch} ${kernel.path} ${KERNELDIR}/kernel.img
+ installinitrd images-${basearch} ${kernel.initrd.path} ${KERNELDIR}/initrd.img
+ 
+ ## upgrader image
+-install ${kernel.upgrade.img} ${KERNELDIR}/upgrade.img
++installinitrd ${kernel.upgrade.img} ${KERNELDIR}/upgrade.img
+ treeinfo images-${basearch} upgrade ${KERNELDIR}/upgrade.img
+ 
+ ## s390 needs some extra boot config
+diff --git a/share/x86.tmpl b/share/x86.tmpl
+index 92e01fc..de2ab89 100644
+--- a/share/x86.tmpl
++++ b/share/x86.tmpl
+@@ -34,13 +34,13 @@ mkdir ${KERNELDIR}
+         ## i386 PAE
+         installkernel images-xen ${kernel.path} ${KERNELDIR}/vmlinuz-${kernel.flavor}
+         installinitrd images-xen ${kernel.initrd.path} ${KERNELDIR}/initrd-${kernel.flavor}.img
+-        install ${kernel.upgrade.path} ${KERNELDIR}/upgrade-${kernel.flavor}.img
++        installinitrd ${kernel.upgrade.path} ${KERNELDIR}/upgrade-${kernel.flavor}.img
+         treeinfo images-xen upgrade ${KERNELDIR}/upgrade-${kernel.flavor}.img
+     %else:
+         ## normal i386, x86_64
+         installkernel images-${basearch} ${kernel.path} ${KERNELDIR}/vmlinuz
+         installinitrd images-${basearch} ${kernel.initrd.path} ${KERNELDIR}/initrd.img
+-        install ${kernel.upgrade.path} ${KERNELDIR}/upgrade.img
++        installinitrd ${kernel.upgrade.path} ${KERNELDIR}/upgrade.img
+         treeinfo images-${basearch} upgrade ${KERNELDIR}/upgrade.img
+     %endif
+ %endfor
+-- 
+1.8.0
+

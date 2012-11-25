@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        18.22
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -18,7 +18,9 @@ Patch3:         0002-treebuilder-improve-findkernels-initrd-search.patch
 Patch4:         0003-build-fedup-upgrade.img.patch
 Patch5:         0004-make-templates-install-upgrade.img.patch
 Patch6:         0005-Add-the-fedup-plymouth-theme-if-available.patch
-Patch7:         0006-add-options-in-the-boot-media-to-do-upgrades.patch
+Patch7:		0006-remove-upgrade-from-the-sparc-and-sysylinux-config-t.patch
+Patch8:		0007-ppc-and-arm-need-to-use-kernel.upgrade-not-kernel.up.patch
+Patch9:		0008-use-installinitrd-to-install-the-upgrade.img-initram.patch
 
 BuildRequires:  python2-devel
 
@@ -79,6 +81,8 @@ Anaconda's image install feature.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
+%patch9 -p1
 
 %build
 
@@ -101,6 +105,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Sun Nov 25 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.22-5.R
+- sync patches with upstream
+
 * Thu Nov 21 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.22-4.R
 - apply all upstream patches
 

@@ -1,0 +1,57 @@
+From 27685cfb2fdab565a607d0a1e6355c607f1fcfc6 Mon Sep 17 00:00:00 2001
+From: Dennis Gilmore <dennis@ausil.us>
+Date: Tue, 20 Nov 2012 17:04:47 -0600
+Subject: [PATCH 6/8] remove upgrade from the sparc and sysylinux config
+ templates
+
+---
+ share/config_files/sparc/boot.msg   | 4 ++--
+ share/config_files/x86/isolinux.cfg | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/share/config_files/sparc/boot.msg b/share/config_files/sparc/boot.msg
+index 0424660..f9cfb8a 100644
+--- a/share/config_files/sparc/boot.msg
++++ b/share/config_files/sparc/boot.msg
+@@ -1,9 +1,9 @@
+ [H[J
+                    Welcome to @PRODUCT@ @VERSION@!
+ 
+- -  To install or upgrade in graphical mode, press the [7m<ENTER>[m key.
++ -  To install in graphical mode, press the [7m<ENTER>[m key.
+ 
+- -  To install or upgrade in text mode, type: [7mlinux text <ENTER>[m.
++ -  To install in text mode, type: [7mlinux text <ENTER>[m.
+ 
+  -  To enter rescue mode type: [7mlinux rescue <ENTER>[m.
+ 
+diff --git a/share/config_files/x86/isolinux.cfg b/share/config_files/x86/isolinux.cfg
+index f530784..bc5a2f6 100644
+--- a/share/config_files/x86/isolinux.cfg
++++ b/share/config_files/x86/isolinux.cfg
+@@ -57,11 +57,11 @@ menu tabmsg Press Tab for full configuration options on menu items.
+ menu separator # insert an empty line
+ menu separator # insert an empty line
+ label linux
+-  menu label ^Install/upgrade @PRODUCT@
++  menu label ^Install @PRODUCT@
+   kernel vmlinuz
+   append initrd=initrd.img @ROOT@ quiet
+ label check
+-  menu label Test this ^media & install/upgrade @PRODUCT@
++  menu label Test this ^media & install @PRODUCT@
+   menu default
+   kernel vmlinuz
+   append initrd=initrd.img @ROOT@ quiet rd.live.check
+@@ -71,7 +71,7 @@ menu begin ^Troubleshooting
+   menu title Troubleshooting
+ label vesa
+   menu indent count 5
+-  menu label Install/upgrade @PRODUCT@ in ^basic graphics mode
++  menu label Install @PRODUCT@ in ^basic graphics mode
+   text help
+ 	Try this option out if you're having trouble installing
+ 	@PRODUCT@.
+-- 
+1.8.0
+
