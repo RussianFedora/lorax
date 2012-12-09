@@ -90,7 +90,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
-* Mon Dec 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.23-2.R
+* Mon Dec 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.23-1.1.R
 - include two shim packages
 
 * Sun Dec  9 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.23-1.R
