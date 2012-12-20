@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        18.23
-Release:        1.1%{?dist}
+Version:        18.28
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -11,7 +11,6 @@ URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
 Patch0:		lorax-18.22-install-releases-packages.patch
 Patch1:		lorax-18.22-install-vpn-packages.patch
-Patch99:	lorax-18.23-shim.patch
 
 BuildRequires:  python2-devel
 
@@ -67,7 +66,6 @@ Anaconda's image install feature.
 %setup -q
 %patch0 -p1 -b .rfremix-repos
 %patch1 -p1 -b .vpn
-%patch99 -p1 -b .shim
 
 %build
 
@@ -90,6 +88,10 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Thu Dec 20 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.28-1.R
+- update to 18.28
+- drop shim patch
+
 * Mon Dec 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.23-1.1.R
 - include two shim packages
 
