@@ -8,7 +8,7 @@ diff -urN lorax-18.22.orig/share/runtime-install.tmpl lorax-18.22/share/runtime-
 +## Connect to VPN
 +installpkg NetworkManager-openconnect NetworkManager-openswan
 +installpkg NetworkManager-openvpn NetworkManager-pptp
-+installpkg NetworkManager-vpnc
++installpkg NetworkManager-vpnc NetworkManager-l2tp
 +
  installpkg at-spi at-spi2-atk pyatspi
  installpkg gnome-python2-gconf

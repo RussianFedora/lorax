@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        18.29
-Release:        1%{?dist}
+Release:        1.1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -88,6 +88,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Thu Jan  3 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.29-1.1.R
+- added NetworkManager-l2tp
+
 * Sun Dec 23 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.29-1.R
 - update to 18.29
 
