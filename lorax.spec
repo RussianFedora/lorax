@@ -88,7 +88,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
-* Thu Jan  3 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.29-1.1.R
+* Thu Jan  3 2013 Arkady L. Shane <ashejn@russianfedora.ru> 18.29-1.1.R
 - added NetworkManager-l2tp
 
 * Sun Dec 23 2012 Arkady L. Shane <ashejn@russianfedora.ru> 18.29-1.R
