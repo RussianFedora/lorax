@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        18.29
-Release:        1.1%{?dist}
+Release:        1.2%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -11,6 +11,7 @@ URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
 Patch0:		lorax-18.22-install-releases-packages.patch
 Patch1:		lorax-18.22-install-vpn-packages.patch
+Patch2:		lorax-18.29-read-from-rfremix-release.patch
 
 BuildRequires:  python2-devel
 
@@ -66,6 +67,7 @@ Anaconda's image install feature.
 %setup -q
 %patch0 -p1 -b .rfremix-repos
 %patch1 -p1 -b .vpn
+%patch2 -p1 -b .read-from-rfremix-release
 
 %build
 
@@ -88,6 +90,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Fri Jan 11 2013 Arkady L. Shane <ashejn@russianfedora.ru> 18.29-1.2.R
+- read branding from rfremix-release
+
 * Thu Jan  3 2013 Arkady L. Shane <ashejn@russianfedora.ru> 18.29-1.1.R
 - added NetworkManager-l2tp
 
