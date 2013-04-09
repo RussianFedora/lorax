@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        18.29
-Release:        1.2%{?dist}
+Version:        19.1
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -37,15 +37,15 @@ Requires:       util-linux
 Requires:       xz
 Requires:       yum
 Requires:       pykickstart
+
+%if 0%{?fedora}
+# Fedora specific deps
 Requires:       fedup-dracut
 Requires:       fedup-dracut-plymouth
+%endif
 
 %ifarch %{ix86} x86_64
 Requires:       syslinux >= 4.02-5
-%endif
-
-%ifarch %{sparc}
-Requires:       silo
 %endif
 
 %ifarch ppc ppc64
@@ -90,6 +90,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Tue Apr  9 2013 Arkady L. Shane <ashejn@russianfedora.ru> 19.1-1.R
+- update to 19.1
+
 * Fri Jan 11 2013 Arkady L. Shane <ashejn@russianfedora.ru> 18.29-1.2.R
 - read branding from rfremix-release
 
