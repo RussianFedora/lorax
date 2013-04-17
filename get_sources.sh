@@ -1,4 +1,4 @@
 #!/bin/sh
 
-curl -sO http://pkgs.fedoraproject.org/repo/pkgs/lorax/lorax-19.1.tar.gz/9cc6cd71aad62031aca1664c89d1386d/lorax-19.1.tar.gz
+curl -sO http://pkgs.fedoraproject.org/repo/pkgs/lorax/lorax-19.2.tar.gz/55e525fef8f3eb4ffa9dbc7eab4e78c6/lorax-19.2.tar.gz
 
