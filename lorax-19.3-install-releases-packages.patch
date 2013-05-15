@@ -1,10 +1,10 @@
-diff -urN lorax-18.22.orig/share/runtime-cleanup.tmpl lorax-18.22/share/runtime-cleanup.tmpl
---- lorax-18.22.orig/share/runtime-cleanup.tmpl	2012-11-10 21:11:29.547258813 +0400
-+++ lorax-18.22/share/runtime-cleanup.tmpl	2012-11-10 21:18:55.087217995 +0400
-@@ -28,6 +28,12 @@
- removepkg checkpolicy selinux-policy libselinux-utils
+diff -urN lorax-19.3.orig/share/runtime-cleanup.tmpl lorax-19.3/share/runtime-cleanup.tmpl
+--- lorax-19.3.orig/share/runtime-cleanup.tmpl	2013-05-15 16:28:06.387703241 +0400
++++ lorax-19.3/share/runtime-cleanup.tmpl	2013-05-15 16:29:29.261708690 +0400
+@@ -29,6 +29,12 @@
  ## anaconda has its own repo files
- removepkg fedora-release fedora-release-rawhide
+ removefrom fedora-release --allbut /etc/os-release
+ removepkg fedora-release-rawhide
 +## remove rfremix packs
 +removepkg rpmfusion-nonfree-release rpmfusion-free-release
 +removepkg russianfedora-nonfree-release russianfedora-free-release
@@ -14,10 +14,10 @@ diff -urN lorax-18.22.orig/share/runtime-cleanup.tmpl lorax-18.22/share/runtime-
  ## no user accounts = no account management
  removepkg usermode usermode-gtk passwd shadow-utils
  ## no services to turn on/off (keep the /etc/init.d link though)
-diff -urN lorax-18.22.orig/share/runtime-install.tmpl lorax-18.22/share/runtime-install.tmpl
---- lorax-18.22.orig/share/runtime-install.tmpl	2012-11-10 21:11:29.543258819 +0400
-+++ lorax-18.22/share/runtime-install.tmpl	2012-11-10 21:19:05.302170804 +0400
-@@ -126,5 +126,12 @@
+diff -urN lorax-19.3.orig/share/runtime-install.tmpl lorax-19.3/share/runtime-install.tmpl
+--- lorax-19.3.orig/share/runtime-install.tmpl	2013-05-15 16:28:06.395703241 +0400
++++ lorax-19.3/share/runtime-install.tmpl	2013-05-15 16:29:58.189710593 +0400
+@@ -140,5 +140,12 @@
  ## yum plugins
  installpkg yum-plugin-fastestmirror yum-langpacks
  
