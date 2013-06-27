@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        19.4
+Version:        19.5
 Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
@@ -90,6 +90,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Thu Jun 27 2013 Arkady L. Shane <ashejn@russianfedora.ru> 19.5-1.R
+- update to 19.5
+
 * Fri May 24 2013 Arkady L. Shane <ashejn@russianfedora.ru> 19.4-1.R
 - update to 19.4
 
