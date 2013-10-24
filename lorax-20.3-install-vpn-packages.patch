@@ -1,0 +1,166 @@
+diff -urN lorax-20.3.orig/share/runtime-install.tmpl lorax-20.3/share/runtime-install.tmpl
+--- lorax-20.3.orig/share/runtime-install.tmpl	2013-10-24 23:41:08.671521349 +0400
++++ lorax-20.3/share/runtime-install.tmpl	2013-10-24 23:46:02.031910392 +0400
+@@ -72,6 +72,11 @@
+ installpkg xorg-x11-server-utils xorg-x11-xauth
+ installpkg dbus-x11 metacity gsettings-desktop-schemas
+ installpkg nm-connection-editor
++## Connect to VPN
++installpkg NetworkManager-openconnect NetworkManager-openswan
++installpkg NetworkManager-openvpn-gnome NetworkManager-pptp-gnome
++installpkg NetworkManager-vpnc-gnome NetworkManager-l2tp
++
+ installpkg at-spi at-spi2-atk pyatspi
+ installpkg gnome-python2-gconf
+ installpkg gobject-introspection
+diff -urN lorax-20.3.orig/share/runtime-install.tmpl.orig lorax-20.3/share/runtime-install.tmpl.orig
+--- lorax-20.3.orig/share/runtime-install.tmpl.orig	1970-01-01 03:00:00.000000000 +0300
++++ lorax-20.3/share/runtime-install.tmpl.orig	2013-10-17 04:05:05.000000000 +0400
+@@ -0,0 +1,147 @@
++## lorax template file: populate the ramdisk (runtime image)
++<%page args="basearch, product"/>
++
++## anaconda package
++installpkg anaconda anaconda-widgets
++## anaconda deps that aren't in the RPM
++installpkg tmux
++installpkg iscsi-initiator-utils
++## speed up compression on multicore systems
++installpkg pigz
++
++## firstaidkit (rescue mode) packages
++installpkg firstaidkit-plugin-{passwd,key-recovery,mdadm-conf}
++
++## kernel and firmware
++installpkg kernel
++installpkg grubby
++%if basearch != "s390x":
++    installpkg *-firmware
++    installpkg b43-openfwwf
++%endif
++
++## arch-specific packages (bootloaders etc.)
++%if basearch in ("arm", "armhfp"):
++    installpkg kernel-lpae
++    installpkg uboot-tools
++%endif
++%if basearch == "i386":
++    installpkg kernel-PAE gpart
++%endif
++%if basearch == "x86_64":
++    installpkg efibootmgr grub2-efi shim shim-unsigned
++%endif
++%if basearch in ("i386", "x86_64"):
++    installpkg grub2 grub2-tools biosdevname memtest86+ syslinux
++%endif
++%if basearch in ("ppc", "ppc64"):
++    installpkg grub2 grub2-tools fbset hfsutils kernel-bootwrapper ppc64-utils
++%endif
++%if basearch == "s390x":
++    installpkg lsscsi s390utils-base s390utils-cmsfs-fuse
++%endif
++
++## yay, plymouth
++installpkg plymouth
++
++## extra dracut modules
++installpkg anaconda-dracut dracut-network dracut-config-generic
++
++## fedup-dracut handles upgrades
++installpkg fedup-dracut fedup-dracut-plymouth
++## install other fedup scripts, if there are any. It's OK if there aren't.
++log "Looking for extra fedup-dracut packages..."
++-installpkg *-fedup-dracut
++
++## rpcbind or portmap needed by dracut nfs module
++installpkg rpcbind
++
++## required for dracut
++installpkg kbd kbd-misc
++## required for anaconda-dracut (img-lib etc.)
++installpkg tar xz curl
++
++## basic system stuff
++installpkg systemd-sysv systemd-units
++installpkg rsyslog
++
++## xorg/GUI packages
++%if basearch != "s390x":
++installpkg xorg-x11-drivers xorg-x11-server-Xorg
++%endif
++installpkg xorg-x11-server-utils xorg-x11-xauth
++installpkg dbus-x11 metacity gsettings-desktop-schemas
++installpkg nm-connection-editor
++installpkg at-spi at-spi2-atk pyatspi
++installpkg gnome-python2-gconf
++installpkg gobject-introspection
++installpkg librsvg2
++installpkg polkit-desktop-policy
++installpkg gnome-keyring
++installpkg python-imaging
++
++## filesystem tools
++installpkg btrfs-progs jfsutils xfsprogs reiserfs-utils gfs2-utils ntfs-3g ntfsprogs
++installpkg python-volume_key volume_key
++installpkg system-storage-manager
++installpkg device-mapper-persistent-data
++
++## SELinux support
++installpkg selinux-policy-targeted audit libsemanage-python
++
++## network tools/servers
++installpkg python-ethtool ethtool openssh-server nfs-utils
++installpkg tigervnc-server-minimal
++%if basearch != "s390x":
++installpkg tigervnc-server-module
++%endif
++installpkg net-tools
++
++## hardware utilities/libraries
++installpkg pciutils usbutils
++installpkg mt-st smartmontools
++%if basearch != "s390x":
++installpkg hdparm pcmciautils
++%endif
++installpkg libmlx4
++
++## translations & language packs
++installpkg yum-langpacks
++
++## fonts & themes
++installpkg bitmap-fangsongti-fonts
++installpkg dejavu-sans-fonts dejavu-sans-mono-fonts
++installpkg kacst-farsi-fonts
++installpkg kacst-qurn-fonts
++installpkg lklug-fonts
++installpkg lohit-*-fonts
++installpkg madan-fonts
++installpkg nhn-nanum-gothic-fonts
++installpkg smc-meera-fonts
++installpkg thai-scalable-waree-fonts
++installpkg vlgothic-fonts
++installpkg wqy-microhei-fonts
++installpkg sil-abyssinica-fonts
++installpkg xorg-x11-fonts-misc
++installpkg gnome-themes-standard gnome-icon-theme-legacy
++
++## branding & logos
++installpkg fedora-gnome-theme fedora-icon-theme
++
++## debugging/bug reporting tools
++installpkg gdb-gdbserver
++installpkg python-epdb
++installpkg libreport-plugin-bugzilla libreport-plugin-reportuploader
++installpkg fpaste
++
++## extra tools not required by anaconda
++installpkg vim-minimal strace lsof dump xz less eject
++installpkg wget rsync rsh bind-utils ftp mtr vconfig
++installpkg icfg spice-vdagent
++installpkg gdisk
++
++## yum plugins
++installpkg yum-plugin-fastestmirror yum-langpacks
++
++## actually install all the requested packages
++run_pkg_transaction
