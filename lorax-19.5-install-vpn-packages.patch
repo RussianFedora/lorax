@@ -1,0 +1,15 @@
+diff -urN lorax-19.5.orig/share/runtime-install.tmpl lorax-19.5/share/runtime-install.tmpl
+--- lorax-19.5.orig/share/runtime-install.tmpl	2013-11-05 13:04:45.121669383 +0400
++++ lorax-19.5/share/runtime-install.tmpl	2013-11-05 13:05:49.490885174 +0400
+@@ -70,6 +70,11 @@
+ installpkg xorg-x11-server-utils xorg-x11-xauth
+ installpkg dbus-x11 metacity gsettings-desktop-schemas
+ installpkg nm-connection-editor
++## Connect to VPN
++installpkg NetworkManager-openconnect NetworkManager-openswan
++installpkg NetworkManager-openvpn-gnome NetworkManager-pptp-gnome
++installpkg NetworkManager-vpnc-gnome NetworkManager-l2tp
++
+ installpkg at-spi at-spi2-atk pyatspi
+ installpkg gnome-python2-gconf
+ installpkg gobject-introspection
