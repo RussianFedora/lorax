@@ -2,14 +2,14 @@
 
 Name:           lorax
 Version:        20.3
-Release:        1%{?dist}
+Release:        1.1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
-Patch0:         lorax-19.3-install-releases-packages.patch
+Patch0:         lorax-20.3-install-releases-packages.patch
 Patch1:         lorax-20.3-install-vpn-packages.patch
 Patch2:         lorax-18.29-read-from-rfremix-release.patch
 
@@ -98,6 +98,9 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
+* Tue Nov  5 2013 Arkady L. Shane <ashejn@russianfedora.ru> 20.3-1.1.R
+- do not remove RPM Fusion rawhide repo files
+
 * Fri Oct 25 2013 Arkady L. Shane <ashejn@russianfedora.ru> 20.3-1.R
 - read from rfremix-release
 - install rpmfusion and russianfedora release packages
