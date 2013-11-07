@@ -65,7 +65,6 @@ Anaconda's image install feature.
 %prep
 %setup -q
 %patch0 -p1 -b .rfremix-repos
-%patch1 -p1 -b .vpn
 %patch2 -p1 -b .read-from-rfremix-release
 
 %build
