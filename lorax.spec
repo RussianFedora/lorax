@@ -2,15 +2,14 @@
 
 Name:           lorax
 Version:        19.5
-Release:        1.1%{?dist}
+Release:        1.2%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
-Patch0:		lorax-19.3-install-releases-packages.patch
-Patch1:		lorax-19.5-install-vpn-packages.patch
+Patch0:		lorax-19.5-install-releases-packages.patch
 Patch2:		lorax-18.29-read-from-rfremix-release.patch
 
 BuildRequires:  python2-devel
@@ -90,6 +89,11 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Thu Nov  7 2013 Arkady L. Shane <ashejn@russianfedora.ru> 19.5-1.2.R
+- drop vpn patch as it this functionality does not work in F19
+  In F20 this looks like good
+- hardcode 19 as release for repo-files
+
 * Tue Nov  5 2013 Arkady L. Shane <ashejn@russianfedora.ru> 19.5-1.1.R
 - install proper vpn packages
 
