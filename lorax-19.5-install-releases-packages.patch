@@ -1,0 +1,43 @@
+diff -urN lorax-19.5.orig/share/runtime-cleanup.tmpl lorax-19.5/share/runtime-cleanup.tmpl
+--- lorax-19.5.orig/share/runtime-cleanup.tmpl	2013-11-07 12:49:04.489720732 +0400
++++ lorax-19.5/share/runtime-cleanup.tmpl	2013-11-07 12:49:47.845737143 +0400
+@@ -29,6 +29,12 @@
+ ## anaconda has its own repo files
+ removefrom fedora-release --allbut /etc/os-release
+ removepkg fedora-release-rawhide
++## remove rfremix packs
++removepkg rpmfusion-nonfree-release rpmfusion-free-release
++removepkg russianfedora-nonfree-release russianfedora-free-release
++removepkg russianfedora-fixes-release
++remove /etc/anaconda.repos.d/*rawhide*.repo
++remove /etc/anaconda.repos.d/rfremix-install-media-dvd.repo
+ ## no user accounts = no account management
+ removepkg usermode usermode-gtk passwd shadow-utils
+ ## no services to turn on/off (keep the /etc/init.d link though)
+diff -urN lorax-19.5.orig/share/runtime-install.tmpl lorax-19.5/share/runtime-install.tmpl
+--- lorax-19.5.orig/share/runtime-install.tmpl	2013-11-07 12:49:04.486720661 +0400
++++ lorax-19.5/share/runtime-install.tmpl	2013-11-07 12:49:47.846737167 +0400
+@@ -140,5 +140,12 @@
+ ## yum plugins
+ installpkg yum-plugin-fastestmirror yum-langpacks
+ 
++## RFRemix release packs
++installpkg rpmfusion-nonfree-release
++installpkg rpmfusion-free-release
++installpkg russianfedora-nonfree-release
++installpkg russianfedora-free-release
++installpkg russianfedora-fixes-release
++
+ ## actually install all the requested packages
+ run_pkg_transaction
+diff -urN lorax-19.5.orig/share/runtime-postinstall.tmpl lorax-19.5/share/runtime-postinstall.tmpl
+--- lorax-19.5.orig/share/runtime-postinstall.tmpl	2013-11-07 12:49:04.489720732 +0400
++++ lorax-19.5/share/runtime-postinstall.tmpl	2013-11-07 12:52:21.128325386 +0400
+@@ -17,6 +17,7 @@
+ 
+ ## move_repos()
+ move etc/yum.repos.d etc/anaconda.repos.d
++runcmd sed -i 's/$releasever/19/g' etc/anaconda.repos.d/*.repo
+ 
+ ## Configure systemd to start anaconda
+ remove etc/systemd/system/default.target
