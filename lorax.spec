@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        19.5
-Release:        1.2%{?dist}
+Release:        2%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
