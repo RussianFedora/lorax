@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        20.3
-Release:        1.1%{?dist}
+Version:        20.4
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -98,6 +98,9 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
+* Sat Dec  7 2013 Arkady L. Shane <ashejn@russianfedora.ru> 20.4-1.R
+- update to 20.4
+
 * Tue Nov  5 2013 Arkady L. Shane <ashejn@russianfedora.ru> 20.3-1.1.R
 - do not remove RPM Fusion rawhide repo files
 
