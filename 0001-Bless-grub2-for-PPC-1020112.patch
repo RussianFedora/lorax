@@ -1,0 +1,37 @@
+From 0b825ab3abf7312d8b737acef858a7dbdf0601e9 Mon Sep 17 00:00:00 2001
+From: Erik Larsson <catacombae@gmail.com>
+Date: Mon, 9 Dec 2013 08:59:26 -0800
+Subject: [PATCH] Bless grub2 for PPC (#1020112)
+
+---
+ share/config_files/ppc/mapping | 1 +
+ share/ppc.tmpl                 | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/share/config_files/ppc/mapping b/share/config_files/ppc/mapping
+index cf83076..c3eec9e 100644
+--- a/share/config_files/ppc/mapping
++++ b/share/config_files/ppc/mapping
+@@ -23,5 +23,6 @@ RELEASE_NOTES   Ascii   'ttxt'  'ttro'  "Text File"
+ .tbxi           Raw     'chrp'  'tbxi'  "Macintosh Toolbox ROM file"
+ .sea            Raw     'aust'  'APPL'  "Self Expanding Archive"
+ .sit            Raw     'SIT!'  'SITD'  "Stuffit Expander file"
++core.elf        Raw     'chrp'  'tbxi'  "Bootable GRUB2 executable."
+ *               Raw     '????'  '????'  "Unknown"
+ 
+diff --git a/share/ppc.tmpl b/share/ppc.tmpl
+index 025f1df..8d4f810 100644
+--- a/share/ppc.tmpl
++++ b/share/ppc.tmpl
+@@ -4,7 +4,7 @@ configdir="tmp/config_files/ppc"
+ BOOTDIR="ppc"
+ GRUBDIR="boot/grub"
+ LIVEDIR="LiveOS"
+-MACDIR=BOOTDIR+"/mac"
++MACDIR=GRUBDIR+"/powerpc-ieee1275"
+ NETBOOTDIR="images/netboot"
+ 
+ WRAPPER="usr/sbin/wrapper"
+-- 
+1.8.3.1
+
