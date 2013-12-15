@@ -9,7 +9,7 @@ diff -urN lorax-20.3.orig/share/runtime-cleanup.tmpl lorax-20.3/share/runtime-cl
 +removepkg rpmfusion-nonfree-release rpmfusion-free-release
 +removepkg russianfedora-nonfree-release russianfedora-free-release
 +removepkg russianfedora-fixes-release
-+remove /etc/anaconda.repos.d/russianfedora*rawhide*.repo
++remove /etc/anaconda.repos.d/*rawhide*.repo
 +remove /etc/anaconda.repos.d/rfremix-install-media-dvd.repo
  ## no user accounts = no account management
  removepkg usermode usermode-gtk passwd shadow-utils
