@@ -1,18 +1,17 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        20.4
-Release:        2.1%{?dist}
+Version:        21.5
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
-Patch0:         lorax-20.3-install-releases-packages.patch
+Patch0:         lorax-21.5-install-releases-packages.patch
 Patch1:         lorax-20.3-install-vpn-packages.patch
 Patch2:         lorax-18.29-read-from-rfremix-release.patch
-Patch3:		0001-Bless-grub2-for-PPC-1020112.patch
 
 BuildRequires:  python2-devel
 
@@ -36,6 +35,7 @@ Requires:       python-mako
 Requires:       squashfs-tools >= 4.2
 Requires:       util-linux
 Requires:       xz
+Requires:       pigz
 Requires:       yum
 Requires:       pykickstart
 Requires:       dracut >= 030
@@ -72,10 +72,9 @@ Anaconda's image install feature.
 
 %prep
 %setup -q
-%patch0 -p1 -b .rfremix-repos
-%patch1 -p1 -b .vpn
-%patch2 -p1 -b .read-from-rfremix-release
-%patch3 -p1
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 
@@ -86,8 +85,7 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %files
 %defattr(-,root,root,-)
 %doc COPYING AUTHORS README.livemedia-creator
-%doc docs/fedora-livemedia.ks
-%doc docs/fedora-livemedia-ec2.ks
+%doc docs/*ks
 %{python_sitelib}/pylorax
 %{python_sitelib}/*.egg-info
 %{_sbindir}/lorax
@@ -100,22 +98,59 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
-* Sun Dec 15 2013 Arkady L. Shane <ashejn@russianfedora.ru> 20.4-2.1.R
-- drop all rawhide files
+* Wed Mar  5 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.5-1.R
+- apply RFRemix patches such as
+  read branding from rfremix-release
+  install rpmfusion and russianfedora repos packages
+  install vpn packages (test for removing)
 
-* Wed Dec 11 2013 Brian C. Lane <bcl@redhat.com> 20.4-2.R
-- Bless grub2 for PPC (#1020112) (catacombe)
+* Fri Feb 28 2014 Brian C. Lane <bcl@redhat.com> 21.5-1
+- Use string for releasever not int (#1067746) (bcl@redhat.com)
+- createrepo is needed by driver disks (#1016004) (bcl@redhat.com)
+- Improve aarch64 UEFI support (#1067671) (dmarlin@redhat.com)
+- livemedia-creator: Set the product and release version env variables
+  (#1067746) (bcl@redhat.com)
+- Check initrd size on ppc64 and warn (#1060691) (bcl@redhat.com)
+- Remove drivers and modules on ppc64 (#1060691) (bcl@redhat.com)
 
-* Sat Dec  7 2013 Arkady L. Shane <ashejn@russianfedora.ru> 20.4-1.R
-- update to 20.4
+* Mon Feb 10 2014 Brian C. Lane <bcl@redhat.com> 21.4-1
+- livemedia-creator: virt-image needs ram in MiB not KiB (#1061773)
+  (bcl@redhat.com)
+- Don't remove libraries from bind-libs-lite (dshea@redhat.com)
+- Include all the example kickstarts (#1019728) (bcl@redhat.com)
+- Remove floppy and scsi_debug from initrd (#1060691) (bcl@redhat.com)
 
-* Tue Nov  5 2013 Arkady L. Shane <ashejn@russianfedora.ru> 20.3-1.1.R
-- do not remove RPM Fusion rawhide repo files
+* Tue Feb 04 2014 Brian C. Lane <bcl@redhat.com> 21.3-1
+- Install aajohan-comfortaa-fonts (#1047430) (bcl@redhat.com)
+- Include mesa-dri-drivers (#1053940) (bcl@redhat.com)
 
-* Fri Oct 25 2013 Arkady L. Shane <ashejn@russianfedora.ru> 20.3-1.R
-- read from rfremix-release
-- install rpmfusion and russianfedora release packages
-- install vpn packages
+* Fri Jan 24 2014 Brian C. Lane <bcl@redhat.com> 21.2-1
+- Activate anaconda-shell@.service on switch to empty VT (#980062)
+  (wwoods@redhat.com)
+- flush data to disk after mkfsimage (#1052175) (bcl@redhat.com)
+- livemedia-creator: Use findkernels instead of KernelInfo (bcl@redhat.com)
+- Print error when kickstart is missing (#1052872) (bcl@redhat.com)
+
+* Tue Dec 17 2013 Brian C. Lane <bcl@redhat.com> 21.1-1
+- Add initial 64-bit ARM (aarch64) support (#1034432) (dmarlin@redhat.com)
+
+* Mon Dec 16 2013 Brian C. Lane <bcl@redhat.com> 21.0-1
+- s390 switch to generic condev (#1042766) (bcl@redhat.com)
+- sort glob output before using it (bcl@redhat.com)
+- Bless grub2 for PPC (#1020112) (catacombae@gmail.com)
+- livemedia-creator: Cleanup temp yum files (#1025837) (bcl@redhat.com)
+- lorax: pass size from Lorax.run to create_runtime (#903385) (bcl@redhat.com)
+
+* Mon Nov 18 2013 Brian C. Lane <bcl@redhat.com> 20.4-1
+- drop 'xdriver=vesa' from basic graphics mode parameters (per ajax)
+  (awilliam@redhat.com)
+- Include partx (#1022899) (bcl@redhat.com)
+- Run compressions in multiple threads (vpodzime@redhat.com)
+- Do not remove libdaemon from the runtime environment (#1028938)
+  (vpodzime@redhat.com)
+- Set UEFI defaults to match BIOS (#1021451,#1021446) (bcl@redhat.com)
+- livemedia-creator: Add minimal disk example kickstart (#1019728)
+  (bcl@redhat.com)
 
 * Wed Oct 16 2013 Brian C. Lane <bcl@redhat.com> 20.3-1
 - ARM: install the dtb files into the install tree. (dennis@ausil.us)

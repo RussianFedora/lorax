@@ -1,0 +1,53 @@
+diff -urN lorax-21.5.orig/share/runtime-cleanup.tmpl lorax-21.5/share/runtime-cleanup.tmpl
+--- lorax-21.5.orig/share/runtime-cleanup.tmpl	2014-03-05 14:40:37.886376940 +0400
++++ lorax-21.5/share/runtime-cleanup.tmpl	2014-03-05 14:48:02.936228722 +0400
+@@ -29,6 +29,20 @@
+ ## anaconda has its own repo files
+ removefrom fedora-release --allbut /etc/os-release
+ removepkg fedora-release-rawhide
++## remove rfremix packs
++removepkg rpmfusion-nonfree-release rpmfusion-free-release
++removepkg russianfedora-nonfree-release russianfedora-free-release
++removepkg russianfedora-fixes-release russianfedora-fixes-release
++## this is only for rawhide
++remove /etc/anaconda.repos.d/*updates*.repo
++remove /etc/anaconda.repos.d/*free.repo
++remove /etc/anaconda.repos.d/*nonfree.repo
++remove /etc/anaconda.repos.d/*fixes.repo
++remove /etc/anaconda.repos.d/*branding.repo
++## uncomment for release
++##remove /etc/anaconda.repos.d/*rawhide*.repo
++
++remove /etc/anaconda.repos.d/rfremix-install-media-dvd.repo
+ ## no user accounts = no account management
+ removepkg usermode usermode-gtk passwd shadow-utils
+ ## no services to turn on/off (keep the /etc/init.d link though)
+diff -urN lorax-21.5.orig/share/runtime-install.tmpl lorax-21.5/share/runtime-install.tmpl
+--- lorax-21.5.orig/share/runtime-install.tmpl	2014-03-05 14:40:37.879376800 +0400
++++ lorax-21.5/share/runtime-install.tmpl	2014-03-05 14:41:50.325823911 +0400
+@@ -147,5 +147,13 @@
+ ## yum plugins
+ installpkg yum-plugin-fastestmirror yum-langpacks
+ 
++## RFRemix release packs
++installpkg rpmfusion-nonfree-release
++installpkg rpmfusion-free-release
++installpkg russianfedora-nonfree-release
++installpkg russianfedora-free-release
++installpkg russianfedora-fixes-release
++installpkg russianfedora-branding-release
++
+ ## actually install all the requested packages
+ run_pkg_transaction
+diff -urN lorax-21.5.orig/share/runtime-postinstall.tmpl lorax-21.5/share/runtime-postinstall.tmpl
+--- lorax-21.5.orig/share/runtime-postinstall.tmpl	2014-03-05 14:40:37.886376940 +0400
++++ lorax-21.5/share/runtime-postinstall.tmpl	2014-03-05 14:47:32.271619721 +0400
+@@ -17,6 +17,8 @@
+ 
+ ## move_repos()
+ move etc/yum.repos.d etc/anaconda.repos.d
++##uncomment for release
++##runcmd find ${root}/etc/anaconda.repos.d/ -name "*.repo" -exec sed -i "s@\$releasever@21@g" {} ";"
+ 
+ ## Configure systemd to start anaconda
+ remove etc/systemd/system/default.target
