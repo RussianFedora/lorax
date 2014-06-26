@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        21.5
-Release:        1.1%{?dist}
+Version:        21.12
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -91,6 +91,7 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_sbindir}/lorax
 %{_sbindir}/mkefiboot
 %{_sbindir}/livemedia-creator
+%{_bindir}/image-minimizer
 %dir %{_sysconfdir}/lorax
 %config(noreplace) %{_sysconfdir}/lorax/lorax.conf
 %dir %{_datadir}/lorax
@@ -98,6 +99,9 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
+* Thu Jun 26 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.12-1.R
+- update to 21.12
+
 * Thu Mar  6 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.5-1.1.R
 - fix repo package name
 
