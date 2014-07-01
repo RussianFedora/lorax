@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        21.12
+Version:        21.14
 Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
@@ -99,6 +99,9 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
+* Tue Jul  1 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.14-1.R
+- update to 21.14
+
 * Thu Jun 26 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.12-1.R
 - update to 21.12
 
