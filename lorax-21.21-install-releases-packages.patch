@@ -1,0 +1,44 @@
+diff -urN lorax-21.21.orig/share/runtime-cleanup.tmpl lorax-21.21/share/runtime-cleanup.tmpl
+--- lorax-21.21.orig/share/runtime-cleanup.tmpl	2014-09-02 19:30:30.337830833 +0400
++++ lorax-21.21/share/runtime-cleanup.tmpl	2014-09-02 19:32:55.253920283 +0400
+@@ -29,6 +29,12 @@
+ ## anaconda has its own repo files
+ removefrom fedora-release --allbut /etc/os-release
+ removepkg fedora-release-rawhide
++## remove rfremix packs
++removepkg rpmfusion-nonfree-release rpmfusion-free-release
++removepkg russianfedora-nonfree-release russianfedora-free-release
++removepkg russianfedora-fixes-release russianfedora-branding-release
++remove /etc/anaconda.repos.d/*rawhide*.repo
++remove /etc/anaconda.repos.d/rfremix-install-media-dvd.repo
+ ## no user accounts = no account management
+ removepkg usermode usermode-gtk passwd shadow-utils
+ ## no services to turn on/off (keep the /etc/init.d link though)
+diff -urN lorax-21.21.orig/share/runtime-install.tmpl lorax-21.21/share/runtime-install.tmpl
+--- lorax-21.21.orig/share/runtime-install.tmpl	2014-09-02 19:30:30.332830726 +0400
++++ lorax-21.21/share/runtime-install.tmpl	2014-09-02 19:30:46.245169537 +0400
+@@ -156,5 +156,13 @@
+ ## yum plugins
+ installpkg yum-plugin-fastestmirror yum-langpacks
+ 
++## RFRemix release packs
++installpkg rpmfusion-nonfree-release
++installpkg rpmfusion-free-release
++installpkg russianfedora-nonfree-release
++installpkg russianfedora-free-release
++installpkg russianfedora-fixes-release
++installpkg russianfedora-branding-release
++
+ ## actually install all the requested packages
+ run_pkg_transaction
+diff -urN lorax-21.21.orig/share/runtime-postinstall.tmpl lorax-21.21/share/runtime-postinstall.tmpl
+--- lorax-21.21.orig/share/runtime-postinstall.tmpl	2014-09-02 19:30:30.337830833 +0400
++++ lorax-21.21/share/runtime-postinstall.tmpl	2014-09-02 19:31:57.785692799 +0400
+@@ -17,6 +17,7 @@
+ 
+ ## move_repos()
+ move etc/yum.repos.d etc/anaconda.repos.d
++runcmd find ${root}/etc/anaconda.repos.d/ -name "*.repo" -exec sed -i "s@\$releasever@21@g" {} ";"
+ 
+ ## Configure systemd to start anaconda
+ remove etc/systemd/system/default.target
