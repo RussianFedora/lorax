@@ -2,14 +2,15 @@
 
 Name:           lorax
 Version:        21.21
-Release:        1.1%{?dist}
+Release:        1.2%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
-Patch0:         lorax-21.21-install-releases-packages.patch
+#Patch0:         lorax-21.21-install-releases-packages.patch
+Patch0:         lorax-21.21-install-releases-packages-fusion.patch
 Patch1:         lorax-20.3-install-vpn-packages.patch
 Patch2:         lorax-18.29-read-from-rfremix-release.patch
 
@@ -99,6 +100,9 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
+* Mon Sep  8 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.21-1.2.R
+- RPM Fusion stiil use rawhide repos for Alpha, Beta and RC.
+
 * Sat Aug 30 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.21-1.R
 - update to 21.21
 
