@@ -2,7 +2,7 @@
 
 Name:           lorax
 Version:        21.21
-Release:        1.2%{?dist}
+Release:        2%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -13,6 +13,8 @@ Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}
 Patch0:         lorax-21.21-install-releases-packages-fusion.patch
 Patch1:         lorax-20.3-install-vpn-packages.patch
 Patch2:         lorax-18.29-read-from-rfremix-release.patch
+
+Patch9:		0001-add-fedora-repos-anaconda-to-runtime-environment.patch
 
 BuildRequires:  python2-devel
 
@@ -76,6 +78,7 @@ Anaconda's image install feature.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch9 -p1
 
 %build
 
@@ -100,6 +103,9 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
+* Mon Sep 15 2014 Brian C. Lane <bcl@redhat.com> 21.21-2.R
+- add fedora repos anaconda to runtime environment
+
 * Mon Sep  8 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.21-1.2.R
 - RPM Fusion stiil use rawhide repos for Alpha, Beta and RC.
 

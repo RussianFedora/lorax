@@ -1,0 +1,34 @@
+From bc9b40f18f85f85aedea0a9a53a126815000c669 Mon Sep 17 00:00:00 2001
+From: Adam Williamson <awilliam@redhat.com>
+Date: Mon, 15 Sep 2014 11:59:09 -0700
+Subject: [PATCH] add fedora-repos-anaconda to runtime environment
+
+This is a virtual provides that should install the product specific yum
+repo files in /etc/yum.repos.d/ with the one matching the product name
+enabled. Eg. fedora-server.repo with an id of fedora-server and
+enabled=1
+
+Anaconda will then use this repository when 'Closest Mirror' is selected
+as the installation source.
+
+Signed-off-by: Brian C. Lane <bcl@redhat.com>
+---
+ share/runtime-install.tmpl | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/share/runtime-install.tmpl b/share/runtime-install.tmpl
+index f0a1e32..61b1d80 100644
+--- a/share/runtime-install.tmpl
++++ b/share/runtime-install.tmpl
+@@ -7,6 +7,8 @@ installpkg kexec-tools-anaconda-addon
+ ## anaconda deps that aren't in the RPM
+ installpkg tmux
+ installpkg iscsi-initiator-utils
++## needed for product-ized installs to find correct frozen repos
++installpkg fedora-repos-anaconda
+ ## Other available payloads
+ installpkg dnf
+ installpkg rpm-ostree
+-- 
+1.9.3
+
