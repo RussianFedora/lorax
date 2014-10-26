@@ -1,0 +1,14 @@
+diff -urN lorax-21.26.orig/share/runtime-install.tmpl lorax-21.26/share/runtime-install.tmpl
+--- lorax-21.26.orig/share/runtime-install.tmpl	2014-10-26 16:30:27.618779018 +0300
++++ lorax-21.26/share/runtime-install.tmpl	2014-10-26 16:31:20.238183910 +0300
+@@ -78,6 +78,10 @@
+ installpkg xorg-x11-server-utils xorg-x11-xauth
+ installpkg dbus-x11 metacity gsettings-desktop-schemas
+ installpkg nm-connection-editor
++## Connect to VPN
++installpkg NetworkManager-openconnect NetworkManager-openswan
++installpkg NetworkManager-openvpn-gnome NetworkManager-pptp-gnome
++installpkg NetworkManager-vpnc-gnome NetworkManager-l2tp
+ installpkg gnome-python2-gconf
+ installpkg gobject-introspection
+ installpkg librsvg2
