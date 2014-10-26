@@ -51,10 +51,10 @@ Requires: hfsplus-tools
 %endif
 
 %ifarch %{ix86} x86_64
-Requires:       syslinux >= 4.02-5
+Requires:       syslinux >= 6.02-4
 %endif
 
-%ifarch ppc ppc64
+%ifarch ppc ppc64 ppc64le
 Requires:       kernel-bootwrapper
 Requires:       grub2
 Requires:       grub2-tools
@@ -63,6 +63,14 @@ Requires:       grub2-tools
 %ifarch s390 s390x
 Requires:       openssh
 %endif
+
+%ifarch %{arm}
+Requires:       uboot-tools
+%endif
+
+# Moved image-minimizer tool to lorax
+Provides:       appliance-tools-minimizer
+Obsoletes:      appliance-tools-minimizer < 007.7-3
 
 %description
 Lorax is a tool for creating the anaconda install images.
