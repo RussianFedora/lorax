@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        21.21
-Release:        2%{?dist}
+Version:        21.26
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -11,10 +11,8 @@ URL:            http://git.fedorahosted.org/git/?p=lorax.git
 Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
 #Patch0:         lorax-21.21-install-releases-packages.patch
 Patch0:         lorax-21.21-install-releases-packages-fusion.patch
-Patch1:         lorax-20.3-install-vpn-packages.patch
+Patch1:         lorax-21.26-install-vpn-packages.patch
 Patch2:         lorax-18.29-read-from-rfremix-release.patch
-
-Patch9:		0001-add-fedora-repos-anaconda-to-runtime-environment.patch
 
 BuildRequires:  python2-devel
 
@@ -78,7 +76,6 @@ Anaconda's image install feature.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch9 -p1
 
 %build
 
@@ -103,6 +100,43 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
+* Mon Oct 20 2014 Brian C. Lane <bcl@redhat.com> 21.26-1.R
+- Use all upper case for shim in live/efi.tmpl (bcl@redhat.com)
+- livemedia-creator: Add nfs support for no-virt mode (#1121255)
+  (bcl@redhat.com)
+- Include /usr/bin/bugzilla in the installation environment.
+  (clumens@redhat.com)
+
+* Tue Oct 07 2014 Brian C. Lane <bcl@redhat.com> 21.25-1.R
+- Libgailutil is required yelp, don't remove it (#1072033) (mkolman@redhat.com)
+- Revert "Don't remove /usr/share/doc/anaconda." (#1072033)
+  (mkolman@redhat.com)
+- Look for "BOOT${efiarch}.EFI" in mkefiboot as well. (pjones@redhat.com)
+- Make sure shim is actually in the package list on aarch64 as well.
+  (pjones@redhat.com)
+- Fix 'docs' typo in livemedia-creator manpage (#1149026) (bcl@redhat.com)
+- Keep the /etc/lvm/profiles directory in the image (vpodzime@redhat.com)
+- Use shim on aarch64. (pjones@redhat.com)
+
+* Tue Sep 30 2014 Brian C. Lane <bcl@redhat.com> 21.24-1.R
+- Rework how including /usr/share/doc/anaconda works. (clumens@redhat.com)
+- Don't remove /usr/share/doc/anaconda. (clumens@redhat.com)
+- Stop removing libXt from the installation media. (clumens@redhat.com)
+
+* Tue Sep 23 2014 Brian C. Lane <bcl@redhat.com> 21.23-1.R
+- livemedia-creator: Make sure ROOT_PATH exists (#1144140) (bcl@redhat.com)
+- livemedia-creator: Add --no-recursion to mktar (#1144140) (bcl@redhat.com)
+- Remove at-spi (dshea@redhat.com)
+
+* Mon Sep 15 2014 Brian C. Lane <bcl@redhat.com> 21.22-1.R
+- add fedora-repos-anaconda to runtime environment (awilliam@redhat.com)
+- Let the plymouth dracut module back into the ppc64 upgrade.img
+  (dshea@redhat.com)
+- Add more tools for rescue mode (#1109785) (bcl@redhat.com)
+- Add ppc64le arch (#1136490) (bcl@redhat.com)
+- allow setting additional dracut parameters for DVD s390x installs
+  (dan@danny.cz)
+
 * Mon Sep 15 2014 Brian C. Lane <bcl@redhat.com> 21.21-2.R
 - add fedora repos anaconda to runtime environment
 
