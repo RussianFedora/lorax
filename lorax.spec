@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        20.4
-Release:        2.1%{?dist}
+Version:        20.5
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -12,7 +12,6 @@ Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}
 Patch0:         lorax-20.3-install-releases-packages.patch
 Patch1:         lorax-20.3-install-vpn-packages.patch
 Patch2:         lorax-18.29-read-from-rfremix-release.patch
-Patch3:		0001-Bless-grub2-for-PPC-1020112.patch
 
 BuildRequires:  python2-devel
 
@@ -75,7 +74,6 @@ Anaconda's image install feature.
 %patch0 -p1 -b .rfremix-repos
 %patch1 -p1 -b .vpn
 %patch2 -p1 -b .read-from-rfremix-release
-%patch3 -p1
 
 %build
 
@@ -100,6 +98,12 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
+* Mon Jun 02 2014 Brian C. Lane <bcl@redhat.com> 20.5-1.R
+- livemedia-creator: Make --make-fsimage work with virt-install
+  (bcl@redhat.com)
+- livemedia-creator: Handle virt-install failure cleanup (bcl@redhat.com)
+- Bless grub2 for PPC (#1020112) (catacombae@gmail.com)
+
 * Sun Dec 15 2013 Arkady L. Shane <ashejn@russianfedora.ru> 20.4-2.1.R
 - drop all rawhide files
 
