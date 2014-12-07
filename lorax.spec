@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        21.28
+Version:        21.32
 Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
@@ -108,6 +108,19 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
+* Fri Dec 05 2014 Brian C. Lane <bcl@redhat.com> 21.32-1.R
+- aarch64 no longer needs explicit console setting (#1170412) (bcl@redhat.com)
+
+* Wed Dec 03 2014 Brian C. Lane <bcl@redhat.com> 21.31-1.R
+- Drop 32 bit for loop from ppc64 grub2 config (#1169878) (bcl@redhat.com)
+- gschemas: Fix typo button_laytout -> button_layout (walters@verbum.org)
+
+* Thu Nov 20 2014 Brian C. Lane <bcl@redhat.com> 21.30-1.R
+- Install optional product and updates packages (#1155228) (bcl@redhat.com)
+
+* Wed Nov 19 2014 Brian C. Lane <bcl@redhat.com> 21.29-1.R
+- Remove diagnostic product.img test (#1165425) (bcl@redhat.com)
+
 * Thu Nov 06 2014 Brian C. Lane <bcl@redhat.com> 21.28-1.R
 - Add product.img support for arm templates (bcl@redhat.com)
 - Revert "add fedora-repos-anaconda to runtime environment" (bcl@redhat.com)
