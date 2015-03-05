@@ -1,17 +1,22 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        21.32
-Release:        1%{?dist}
+Version:        22.5
+Release:        2%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
-URL:            http://git.fedorahosted.org/git/?p=lorax.git
-Source0:        https://fedorahosted.org/releases/l/o/%{name}/%{name}-%{version}.tar.gz
+URL:            https://github.com/rhinstaller/lorax
+# To generate Source0 do:
+# git clone https://github.com/rhinstaller/lorax
+# git checkout -b archive-branch lorax-%%{version}-%%{release}
+# tito build --tgz
+Source0:        %{name}-%{version}.tar.gz
+
 #Patch0:         lorax-21.21-install-releases-packages.patch
-Patch0:         lorax-21.28-install-releases-packages-fusion.patch
-Patch1:         lorax-21.26-install-vpn-packages.patch
+Patch0:         lorax-22.5-install-releases-packages-fusion.patch
+Patch1:         lorax-22.5-install-vpn-packages.patch
 Patch2:         lorax-18.29-read-from-rfremix-release.patch
 
 BuildRequires:  python2-devel
@@ -80,7 +85,7 @@ including live isos and disk images. It can use libvirtd for the install, or
 Anaconda's image install feature.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -93,7 +98,8 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING AUTHORS README.livemedia-creator README.product
+%license COPYING
+%doc AUTHORS README.livemedia-creator README.product
 %doc docs/*ks
 %{python_sitelib}/pylorax
 %{python_sitelib}/*.egg-info
@@ -108,24 +114,74 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
-* Fri Dec 05 2014 Brian C. Lane <bcl@redhat.com> 21.32-1.R
-- aarch64 no longer needs explicit console setting (#1170412) (bcl@redhat.com)
+* Thu Mar  5 2015 Arkady L. Shane <ashejn@russianfedora.pro> 22.5-2.R
+- apply RFRemix patches
 
-* Wed Dec 03 2014 Brian C. Lane <bcl@redhat.com> 21.31-1.R
+* Thu Feb 12 2015 Brian C. Lane <bcl@redhat.com> 22.5-1
+- os-release moved to /usr/lib (#1191713) (bcl@redhat.com)
+- Use /usr/bin/python2 in scripts (bcl@redhat.com)
+- Add bridge-utils (#1188812) (bcl@redhat.com)
+
+* Fri Feb 06 2015 Brian C. Lane <bcl@redhat.com> 22.4-1
+- livemedia-creator: Add --timeout option to cancel install after X minutes
+  (bcl@redhat.com)
+- network: add support for bridge (#1075195) (rvykydal@redhat.com)
+- Move url and source to github in specfile (bcl@redhat.com)
+- Use %%license in lorax.spec (bcl@redhat.com)
+
+* Fri Jan 23 2015 Brian C. Lane <bcl@redhat.com> 22.3-1
+- livemedia-creator: Add documentation on using mock and livemedia-creator (bcl@redhat.com)
+- livemedia-creator: Bump default releasever to 22 (bcl@redhat.com)
+- Change console font to eurlatgr (myllynen@redhat.com)
+
+* Fri Jan 16 2015 Brian C. Lane <bcl@redhat.com> 22.2-1
+- Add --live-rootfs-keep-size option (rvykydal@redhat.com)
+- Add --live-rootfs-size option. (rvykydal@redhat.com)
+- livemedia-creator: Update example kickstarts (bcl@redhat.com)
+- livemedia-creator: Turn on debug output for dracut (bcl@redhat.com)
+- livemedia-creator: Copy all the logs from /tmp/ (bcl@redhat.com)
+- livemedia-creator: Create parent dirs for logfile path (bcl@redhat.com)
+- Remove fedora-icon-theme (dshea@redhat.com)
+- Remove fedora-gnome-theme (dshea@redhat.com)
+- Remove the GSettings overrides for metacity (dshea@redhat.com)
+- Remove gnome-python2-gconf (dshea@redhat.com)
+- --make-pxe-target: change permissions of regenerated initramrfs to 0644
+  (rvykydal@redhat.com)
+- Override services kickstart setting from interactive-defaults.ks
+  (rvykydal@redhat.com)
+- Use gcdaa64.efi on aarch64 (#1174475) (bcl@redhat.com)
+- livemedia-creator: add a timeout to the log monitor startup (bcl@redhat.com)
+- Add --make-pxe-live and --make-ostree-live (for Atomic) targets.
+  (rvykydal@redhat.com)
+- Revert "Install optional product and updates packages (#1155228)"
+  (bcl@redhat.com)
+- Add log monitoring to lmc --no-virt installation (bcl@redhat.com)
+- runtime-cleanup.tmpl: keep virtio-rng (#1179000) (lersek@redhat.com)
+- Install python-nss (vpodzime@redhat.com)
+
+* Fri Dec 12 2014 Brian C. Lane <bcl@redhat.com> 22.1-1
+- Actually make boot.iso on aarch64. (pjones@redhat.com)
+- Add --includepkg argument (walters@verbum.org)
+
+* Fri Dec 05 2014 Brian C. Lane <bcl@redhat.com> 22.0-1
+- aarch64 no longer needs explicit console setting (#1170412) (bcl@redhat.com)
+- Bump version to 22.0 (bcl@redhat.com)
+
+* Wed Dec 03 2014 Brian C. Lane <bcl@redhat.com> 21.31-1
 - Drop 32 bit for loop from ppc64 grub2 config (#1169878) (bcl@redhat.com)
 - gschemas: Fix typo button_laytout -> button_layout (walters@verbum.org)
 
-* Thu Nov 20 2014 Brian C. Lane <bcl@redhat.com> 21.30-1.R
+* Thu Nov 20 2014 Brian C. Lane <bcl@redhat.com> 21.30-1
 - Install optional product and updates packages (#1155228) (bcl@redhat.com)
 
-* Wed Nov 19 2014 Brian C. Lane <bcl@redhat.com> 21.29-1.R
+* Wed Nov 19 2014 Brian C. Lane <bcl@redhat.com> 21.29-1
 - Remove diagnostic product.img test (#1165425) (bcl@redhat.com)
 
-* Thu Nov 06 2014 Brian C. Lane <bcl@redhat.com> 21.28-1.R
+* Thu Nov 06 2014 Brian C. Lane <bcl@redhat.com> 21.28-1
 - Add product.img support for arm templates (bcl@redhat.com)
 - Revert "add fedora-repos-anaconda to runtime environment" (bcl@redhat.com)
 
-* Wed Nov 05 2014 Brian C. Lane <bcl@redhat.com> 21.27-1.R
+* Wed Nov 05 2014 Brian C. Lane <bcl@redhat.com> 21.27-1
 - Remove the ppc magic file (bcl@redhat.com)
 - Update templates to use installimg for product and updates (bcl@redhat.com)
 - Add installimg command for use in the templates (bcl@redhat.com)
@@ -133,15 +189,14 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 - Don't include the stock lvm.conf. (#1157864) (dlehman@redhat.com)
 - Write list of packages to /root/lorax-packages.log (bcl@redhat.com)
 
-
-* Mon Oct 20 2014 Brian C. Lane <bcl@redhat.com> 21.26-1.R
+* Mon Oct 20 2014 Brian C. Lane <bcl@redhat.com> 21.26-1
 - Use all upper case for shim in live/efi.tmpl (bcl@redhat.com)
 - livemedia-creator: Add nfs support for no-virt mode (#1121255)
   (bcl@redhat.com)
 - Include /usr/bin/bugzilla in the installation environment.
   (clumens@redhat.com)
 
-* Tue Oct 07 2014 Brian C. Lane <bcl@redhat.com> 21.25-1.R
+* Tue Oct 07 2014 Brian C. Lane <bcl@redhat.com> 21.25-1
 - Libgailutil is required yelp, don't remove it (#1072033) (mkolman@redhat.com)
 - Revert "Don't remove /usr/share/doc/anaconda." (#1072033)
   (mkolman@redhat.com)
@@ -152,17 +207,17 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 - Keep the /etc/lvm/profiles directory in the image (vpodzime@redhat.com)
 - Use shim on aarch64. (pjones@redhat.com)
 
-* Tue Sep 30 2014 Brian C. Lane <bcl@redhat.com> 21.24-1.R
+* Tue Sep 30 2014 Brian C. Lane <bcl@redhat.com> 21.24-1
 - Rework how including /usr/share/doc/anaconda works. (clumens@redhat.com)
 - Don't remove /usr/share/doc/anaconda. (clumens@redhat.com)
 - Stop removing libXt from the installation media. (clumens@redhat.com)
 
-* Tue Sep 23 2014 Brian C. Lane <bcl@redhat.com> 21.23-1.R
+* Tue Sep 23 2014 Brian C. Lane <bcl@redhat.com> 21.23-1
 - livemedia-creator: Make sure ROOT_PATH exists (#1144140) (bcl@redhat.com)
 - livemedia-creator: Add --no-recursion to mktar (#1144140) (bcl@redhat.com)
 - Remove at-spi (dshea@redhat.com)
 
-* Mon Sep 15 2014 Brian C. Lane <bcl@redhat.com> 21.22-1.R
+* Mon Sep 15 2014 Brian C. Lane <bcl@redhat.com> 21.22-1
 - add fedora-repos-anaconda to runtime environment (awilliam@redhat.com)
 - Let the plymouth dracut module back into the ppc64 upgrade.img
   (dshea@redhat.com)
@@ -171,29 +226,117 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 - allow setting additional dracut parameters for DVD s390x installs
   (dan@danny.cz)
 
-* Mon Sep 15 2014 Brian C. Lane <bcl@redhat.com> 21.21-2.R
-- add fedora repos anaconda to runtime environment
+* Thu Aug 28 2014 Brian C. Lane <bcl@redhat.com> 21.21-1
+- Revert "Require 32bit glibc on ppc64" (bcl@redhat.com)
+- livemedia-creator: Update ppc64 live to use grub2 (bcl@redhat.com)
+- livemedia-creator: Add ppc64 live creation support (#1102318)
+  (bcl@redhat.com)
+- Include /sbin/ldconfig from glibc. (dlehman@redhat.com)
 
-* Mon Sep  8 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.21-1.2.R
-- RPM Fusion stiil use rawhide repos for Alpha, Beta and RC.
+* Fri Aug 15 2014 Brian C. Lane <bcl@redhat.com> 21.20-1
+- Require 32bit glibc on ppc64 (bcl@redhat.com)
+- Add ipmitool and drivers (#1126009) (bcl@redhat.com)
+- livemedia-creator: Padd disk size by 2MiB (bcl@redhat.com)
+- livemedia-creator: Run setfiles after no-virt installation (bcl@redhat.com)
+- https is a sane package source URL scheme (walters@verbum.org)
 
-* Sat Aug 30 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.21-1.R
-- update to 21.21
+* Wed Jul 30 2014 Brian C. Lane <bcl@redhat.com> 21.19-1
+- Add kexec anaconda addon (#1115914) (bcl@redhat.com)
 
-* Tue Jul  1 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.14-1.R
-- update to 21.14
+* Wed Jul 23 2014 Brian C. Lane <bcl@redhat.com> 21.18-1
+- Revert "Add kexec anaconda addon (#1115914)" (bcl@redhat.com)
+- Disable dnf-makecache.timer (#1120368) (bcl@redhat.com)
 
-* Thu Jun 26 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.12-1.R
-- update to 21.12
+* Wed Jul 16 2014 Brian C. Lane <bcl@redhat.com> 21.17-1
+- livemedia-creator: close the socket when done (bcl@redhat.com)
+- Keep seq and getconf utilities in the image (vpodzime@redhat.com)
+- Allow _ in isolabel (#1118955) (bcl@redhat.com)
 
-* Thu Mar  6 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.5-1.1.R
-- fix repo package name
+* Fri Jul 11 2014 Brian C. Lane <bcl@redhat.com> 21.16-1
+- Don't remove usr/lib/rpm/platform/ (#1116450) (bcl@redhat.com)
+- Add xfsdump and remove extra files from xfsprogs (#1118654) (bcl@redhat.com)
+- Add kexec anaconda addon (#1115914) (bcl@redhat.com)
+- Fix typo in lohit-telugu-fonts (bcl@redhat.com)
+- Drop writing to resolv.conf in postinstall (bcl@redhat.com)
+- livemedia-creator: Allow the boot.iso to be shared (bcl@redhat.com)
+- livemedia-creator: log more failure information (bcl@redhat.com)
+- livemedia-creator: drop console=ttyS0 (bcl@redhat.com)
+- livemedia-creator: Log the line that caused the failure (bcl@redhat.com)
+- livemedia-creator: add more errors (bcl@redhat.com)
+- Allow doing non-URL installs if using virt. (clumens@redhat.com)
 
-* Wed Mar  5 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 21.5-1.R
-- apply RFRemix patches such as
-  read branding from rfremix-release
-  install rpmfusion and russianfedora repos packages
-  install vpn packages (test for removing)
+* Wed Jul 02 2014 Brian C. Lane <bcl@redhat.com> 21.15-1
+- Convert metacity gconf settings into gsettings schema overrides
+  (dshea@redhat.com)
+- Add more keybindings to the gschema override (dshea@redhat.com)
+- Don't emit media labels with spaces in them. (pjones@redhat.com)
+- Remove biosdevname (#989209) (bcl@redhat.com)
+
+* Fri Jun 27 2014 Brian C. Lane <bcl@redhat.com> 21.14-1
+- The theme has been absorbed into gtk3 (bcl@redhat.com)
+
+* Thu Jun 26 2014 Brian C. Lane <bcl@redhat.com> 21.13-1
+- livemedia-creator: Ignore IGNORED errors in anaconda logs (bcl@redhat.com)
+
+* Tue Jun 24 2014 Brian C. Lane <bcl@redhat.com> 21.12-1
+- tito.props section name is buildconfig (bcl@redhat.com)
+- Stop removing libcanberra-gtk3 libraries (#1111724) (bcl@redhat.com)
+- Update tito config (bcl@redhat.com)
+
+* Thu Jun 19 2014 Brian C. Lane <bcl@redhat.com> 21.11-1
+- livemedia-creator: Handle virt-install failure cleanup (bcl@redhat.com)
+- livemedia-creator: Fail when there are missing packages (bcl@redhat.com)
+- Keep virtio_console harder. (dshea@redhat.com)
+
+* Mon May 12 2014 Brian C. Lane <bcl@redhat.com> 21.10-1
+- Add --add-template{,-var} (walters@verbum.org)
+- runtime-install: Add rpm-ostree, move dnf here (walters@verbum.org)
+- Update copyright statements (bcl@redhat.com)
+- livemedia-creator: Cleanup docstrings (bcl@redhat.com)
+- livemedia-creator: Cleanup some style issues (bcl@redhat.com)
+- Cleanup other misc pylint warnings (bcl@redhat.com)
+- Cleanup pylorax pylint warnings (bcl@redhat.com)
+- Add pylint testing (bcl@redhat.com)
+- Require uboot-tools when running on arm (dennis@ausil.us)
+- Obsolete appliance-tools-minimizer (#1084110) (bcl@redhat.com)
+- livemedia-creator: Copy fsimage if hardlink fails (bcl@redhat.com)
+- Turn on debug output for mkefiboot (bcl@redhat.com)
+- Clean up download and install output (bcl@redhat.com)
+- Install specific lohit fonts instead of all of them (#1090390)
+  (bcl@redhat.com)
+- Update grub2-efi.cfg for aarch64 to more closely match x86 (#1089418).
+  (dmarlin@redhat.com)
+- Install rdma so that dracut will use it along with libmlx4 (#1089564)
+  (bcl@redhat.com)
+
+* Tue Apr 15 2014 Brian C. Lane <bcl@redhat.com> 21.9-1
+- Update syslinux 6.02 support for noarch change (bcl@redhat.com)
+- runtime-cleanup: Do install GPG (walters@verbum.org)
+
+* Thu Apr 10 2014 Brian C. Lane <bcl@redhat.com> 21.8-1
+- Update to support syslinux 6.02 (bcl@redhat.com)
+- livemedia-creator: Add support for making tarfiles (bcl@redhat.com)
+- livemedia-creator: Allow disk sizes to be < 1GiB (bcl@redhat.com)
+- livemedia-creator: Check fsimage kickstart for single partition
+  (bcl@redhat.com)
+- livemedia-creator: Output all the errors at once (bcl@redhat.com)
+- livemedia-creator: Update documentation to reflect new options
+  (bcl@redhat.com)
+- livemedia-creator: Make --make-fsimage work with virt-install
+  (bcl@redhat.com)
+
+* Wed Apr 02 2014 Brian C. Lane <bcl@redhat.com> 21.7-1
+- Use BOOTAA64.efi for AARCH64 bootloader filename (#1080113) (bcl@redhat.com)
+- Stop removing curl after adding it (bcl@redhat.com)
+- move image-minimizer to lorax (#1082642) (bcl@redhat.com)
+- support ppc64le in lorax (hamzy@us.ibm.com)
+
+* Wed Mar 26 2014 Brian C. Lane <bcl@redhat.com> 21.6-1
+- Install bzip2 for liveimg tar.bz2 support (bcl@redhat.com)
+- Remove obsolete firstaidkit packages (#1076237) (bcl@redhat.com)
+- livemedia-creator: Add option to create qcow2 disk images (bcl@redhat.com)
+- Add support for creating qcow2 images (bcl@redhat.com)
+- utf-8 encode yum actions before displaying them (#1072362) (bcl@redhat.com)
 
 * Fri Feb 28 2014 Brian C. Lane <bcl@redhat.com> 21.5-1
 - Use string for releasever not int (#1067746) (bcl@redhat.com)

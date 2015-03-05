@@ -1,23 +1,22 @@
-diff -urN lorax-21.28.orig/share/runtime-cleanup.tmpl lorax-21.28/share/runtime-cleanup.tmpl
---- lorax-21.28.orig/share/runtime-cleanup.tmpl	2014-11-10 14:02:28.505269337 +0300
-+++ lorax-21.28/share/runtime-cleanup.tmpl	2014-11-10 14:06:02.465253500 +0300
-@@ -29,6 +29,12 @@
+diff -urN lorax-22.5.orig/share/runtime-cleanup.tmpl lorax-22.5/share/runtime-cleanup.tmpl
+--- lorax-22.5.orig/share/runtime-cleanup.tmpl	2015-03-05 22:53:16.469610942 +0300
++++ lorax-22.5/share/runtime-cleanup.tmpl	2015-03-05 22:54:39.370169934 +0300
+@@ -29,6 +29,11 @@
  ## anaconda has its own repo files
- removefrom fedora-release --allbut /etc/os-release
+ removefrom fedora-release --allbut /etc/os-release /usr/lib/os-release
  removepkg fedora-release-rawhide
 +## remove rfremix packs
 +removepkg rpmfusion-nonfree-release rpmfusion-free-release
 +removepkg russianfedora-nonfree-release russianfedora-free-release
 +removepkg russianfedora-fixes-release russianfedora-branding-release
 +remove /etc/anaconda.repos.d/russianfedora*rawhide*.repo
-+remove /etc/anaconda.repos.d/rfremix-install-media-dvd.repo
  ## no user accounts = no account management
  removepkg usermode usermode-gtk passwd shadow-utils
  ## no services to turn on/off (keep the /etc/init.d link though)
-diff -urN lorax-21.28.orig/share/runtime-install.tmpl lorax-21.28/share/runtime-install.tmpl
---- lorax-21.28.orig/share/runtime-install.tmpl	2014-11-10 14:02:28.501269244 +0300
-+++ lorax-21.28/share/runtime-install.tmpl	2014-11-10 14:06:21.297695817 +0300
-@@ -155,5 +155,13 @@
+diff -urN lorax-22.5.orig/share/runtime-install.tmpl lorax-22.5/share/runtime-install.tmpl
+--- lorax-22.5.orig/share/runtime-install.tmpl	2015-03-05 22:53:16.469610942 +0300
++++ lorax-22.5/share/runtime-install.tmpl	2015-03-05 22:55:16.609522626 +0300
+@@ -156,5 +156,13 @@
  ## yum plugins
  installpkg yum-plugin-fastestmirror yum-langpacks
  
