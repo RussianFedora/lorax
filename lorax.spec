@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        22.5
-Release:        2%{?dist}
+Version:        22.8
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -114,6 +114,19 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_mandir}/man1/*.1*
 
 %changelog
+* Fri Mar 27 2015 Brian C. Lane <bcl@redhat.com> 22.8-1.R
+- livemedia-creator: Clean up resultdir handling (bcl@redhat.com)
+- Add ability for external templates to graft content into boot.iso
+  (walters@verbum.org)
+
+* Fri Mar 20 2015 Brian C. Lane <bcl@redhat.com> 22.7-1.R
+- Include ld.so.conf (#1204031) (bcl@redhat.com)
+- Keep logitech hid drivers (#1199770) (bcl@redhat.com)
+
+* Mon Mar 16 2015 Brian C. Lane <bcl@redhat.com> 22.6-1.R
+- Don't erase /usr/lib/os.release.d (sgallagh@redhat.com)
+- Fix Source0 for use with github (bcl@redhat.com)
+
 * Thu Mar  5 2015 Arkady L. Shane <ashejn@russianfedora.pro> 22.5-2.R
 - apply RFRemix patches
 
