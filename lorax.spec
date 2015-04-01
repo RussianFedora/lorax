@@ -15,7 +15,7 @@ URL:            https://github.com/rhinstaller/lorax
 Source0:        %{name}-%{version}.tar.gz
 
 #Patch0:         lorax-21.21-install-releases-packages.patch
-Patch0:         lorax-22.5-install-releases-packages-fusion.patch
+Patch0:         lorax-22.8-install-releases-packages-fusion.patch
 Patch1:         lorax-22.5-install-vpn-packages.patch
 Patch2:         lorax-18.29-read-from-rfremix-release.patch
 
