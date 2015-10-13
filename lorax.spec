@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        22.8
+Version:        23.18
 Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
@@ -13,13 +13,11 @@ URL:            https://github.com/rhinstaller/lorax
 # git checkout -b archive-branch lorax-%%{version}-%%{release}
 # tito build --tgz
 Source0:        %{name}-%{version}.tar.gz
+Patch0:         lorax-23.18-install-releases-packages-fusion.patch
+Patch2:         lorax-23.18-read-from-rfremix-release.patch
 
-#Patch0:         lorax-21.21-install-releases-packages.patch
-Patch0:         lorax-22.8-install-releases-packages-fusion.patch
-Patch1:         lorax-22.5-install-vpn-packages.patch
-Patch2:         lorax-18.29-read-from-rfremix-release.patch
-
-BuildRequires:  python2-devel
+BuildRequires:  python3-devel
+BuildRequires:  python3-pocketlint >= 0.5
 
 Requires:       GConf2
 Requires:       cpio
@@ -34,24 +32,25 @@ Requires:       glibc
 Requires:       glibc-common
 Requires:       gzip
 Requires:       isomd5sum
-Requires:       libselinux-python
 Requires:       module-init-tools
 Requires:       parted
-Requires:       python-mako
 Requires:       squashfs-tools >= 4.2
 Requires:       util-linux
 Requires:       xz
 Requires:       pigz
-Requires:       yum
-Requires:       pykickstart
 Requires:       dracut >= 030
+
+# Python modules
+Requires:       libselinux-python3
+Requires:       python3-mako
+Requires:       python3-kickstart
+Requires:       python3-dnf
+
 
 %if 0%{?fedora}
 # Fedora specific deps
-Requires:       fedup-dracut
-Requires:       fedup-dracut-plymouth
 %ifarch x86_64
-Requires: hfsplus-tools
+Requires:       hfsplus-tools
 %endif
 %endif
 
@@ -84,10 +83,29 @@ It also includes livemedia-creator which is used to create bootable livemedia,
 including live isos and disk images. It can use libvirtd for the install, or
 Anaconda's image install feature.
 
+%package lmc-virt
+Summary:  livemedia-creator libvirt dependencies
+Requires: lorax = %{version}-%{release}
+Requires: libvirt-python3
+Requires: virt-install
+
+%description lmc-virt
+Additional dependencies required by livemedia-creator when using it with virt-install.
+
+%package lmc-novirt
+Summary:  livemedia-creator no-virt dependencies
+Requires: lorax = %{version}-%{release}
+Requires: anaconda-core
+Requires: anaconda-tui
+
+%description lmc-novirt
+Additional dependencies required by livemedia-creator when using it with --no-virt
+to run Anaconda.
+
+
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 
 %build
@@ -99,10 +117,10 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %files
 %defattr(-,root,root,-)
 %license COPYING
-%doc AUTHORS README.livemedia-creator README.product
+%doc AUTHORS docs/livemedia-creator.rst docs/product-images.rst
 %doc docs/*ks
-%{python_sitelib}/pylorax
-%{python_sitelib}/*.egg-info
+%{python3_sitelib}/pylorax
+%{python3_sitelib}/*.egg-info
 %{_sbindir}/lorax
 %{_sbindir}/mkefiboot
 %{_sbindir}/livemedia-creator
@@ -113,24 +131,137 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %{_datadir}/lorax/*
 %{_mandir}/man1/*.1*
 
+%files lmc-virt
+
+%files lmc-novirt
+
 %changelog
-* Fri Mar 27 2015 Brian C. Lane <bcl@redhat.com> 22.8-1.R
+* Tue Oct 13 2015 Arkady L. Shane <ashejn@russianfedora.pro> 23.18-1.R
+- RFRemixify
+
+* Fri Sep 11 2015 Brian C. Lane <bcl@redhat.com> 23.18-1
+- Add a font that supports Urdu characters (#1004717) (bcl@redhat.com)
+- livemedia-creator: Remove random-seed from images (#1258986) (bcl@redhat.com)
+- drop fedup-dracut and friends (wwoods@redhat.com)
+- don't build upgrade.img anymore (wwoods@redhat.com)
+
+* Thu Aug 27 2015 Brian C. Lane <bcl@redhat.com> 23.17-1
+- Add enough of shadow-utils to create new user accounts. (dshea@redhat.com)
+
+* Fri Aug 07 2015 Brian C. Lane <bcl@redhat.com> 23.16-1
+- some of the PowerPC utilities (powerpc-utils and fbset) need perl too
+  (pbrobinson@gmail.com)
+- Add a default vconsole.conf to the boot.iso (#1250260) (bcl@redhat.com)
+- Return the output from failed commands in CalledProcessError (bcl@redhat.com)
+- Add dracut-live for livemedia kickstart example (bcl@redhat.com)
+
+* Thu Jul 30 2015 Brian C. Lane <bcl@redhat.com> 23.15-1
+- livemedia-creator: Bump default releasevere to 23 (bcl@redhat.com)
+- Use execReadlines in livemedia-creator (bcl@redhat.com)
+- Add execReadlines to executils. (bcl@redhat.com)
+- Add reset_lang argument to everything in executils. (bcl@redhat.com)
+
+* Tue Jul 21 2015 Brian C. Lane <bcl@redhat.com> 23.14-1
+- Add a new makefile target that does everything needed for jenkins.
+  (clumens@redhat.com)
+- Revert "Revert "Turn off ldconfig"" (dshea@redhat.com)
+- Add back libraries needed by spice-vdagent (dshea@redhat.com)
+- Remove some junk that didn't work anyway (dshea@redhat.com)
+- Add a verification step to Lorax.run. (dshea@redhat.com)
+- Create an empty selinux config file (#1243168) (bcl@redhat.com)
+- Update Lorax documentation - 23.13 (bcl@redhat.com)
+
+* Fri Jul 10 2015 Brian C. Lane <bcl@redhat.com> 23.13-1
+- Add a bit more overhead to the root filesystem size (bcl@redhat.com)
+- network: turn slaves autoconnection on (rvykydal@redhat.com)
+- Keep hyperv_fb driver in the image (#834791) (bcl@redhat.com)
+
+* Fri Jun 26 2015 Brian C. Lane <bcl@redhat.com> 23.12-1
+- Explicitly add kernel-modules and kernel-modules-extra (bcl@redhat.com)
+
+* Fri Jun 19 2015 Brian C. Lane <bcl@redhat.com> 23.11-1
+- Disable systemd-tmpfiles-clean (#1202545) (bcl@redhat.com)
+
+* Wed Jun 10 2015 Brian C. Lane <bcl@redhat.com> 23.10-1
+- Remove some stale entires from runtime-install (dshea@redhat.com)
+- Stop moving sitecustomize into site-packages (bcl@redhat.com)
+- Pass setup_logging the log file, not the whole opts structure.
+  (clumens@redhat.com)
+- Move IsoMountpoint into its own module. (clumens@redhat.com)
+- Move setup_logging into pylorax/__init__.py. (clumens@redhat.com)
+- Break all the log monitoring stuff from LMC out into its own module.
+  (clumens@redhat.com)
+- Fix bug with product DataHolder overwriting product string. (bcl@redhat.com)
+
+* Fri May 15 2015 Brian C. Lane <bcl@redhat.com> 23.9-1
+- Update execWith* docstrings (bcl@redhat.com)
+- livemedia-creator: Update example kickstarts (bcl@redhat.com)
+- Update fedora-livemedia.ks example (bcl@redhat.com)
+- Include html documentation under docs/html (bcl@redhat.com)
+- Switch documentation to python3 (bcl@redhat.com)
+- Create html documentation under docs/html/ (bcl@redhat.com)
+- livemedia-creator: Catch missing package errors (bcl@redhat.com)
+- Update spec for python3 and add subpackages for lmc (bcl@redhat.com)
+- Convert to using pocketlint for pylint rules (bcl@redhat.com)
+- Convert livemedia-creator to py3 (bcl@redhat.com)
+- Convert test-parse-template to py3 (bcl@redhat.com)
+- Update image-minimizer for py3 (bcl@redhat.com)
+- Change mkefiboot to py3 (bcl@redhat.com)
+- Additional python3 changes (bcl@redhat.com)
+- Update lorax for python3 and argparse (bcl@redhat.com)
+- Use the execWith* methods from Anaconda (bcl@redhat.com)
+- Convert pylorax to python3 (bcl@redhat.com)
+- Clean up some pylint warnings (bcl@redhat.com)
+- Make sure openssh-clients is installed (#1219398) (bcl@redhat.com)
+- Add product.img support for s390 templates (dan@danny.cz)
+- Add some more details about template rendering errors (bcl@redhat.com)
+- Mock more modules for RTD (bcl@redhat.com)
+- Mock the selinux package for RTD (bcl@redhat.com)
+- Added Sphinx Documentation (bcl@redhat.com)
+
+* Thu Apr 02 2015 Brian C. Lane <bcl@redhat.com> 23.8-1
+- Include cryptsetup in the image (#1208214) (bcl@redhat.com)
+
+* Fri Mar 27 2015 Brian C. Lane <bcl@redhat.com> 23.7-1
+- Check that the transaction process is still alive (vpodzime@redhat.com)
 - livemedia-creator: Clean up resultdir handling (bcl@redhat.com)
+
+* Fri Mar 20 2015 Brian C. Lane <bcl@redhat.com> 23.6-1
+- Include ld.so.conf (#1204031) (bcl@redhat.com)
+- Revert "Turn off ldconfig" (bcl@redhat.com)
 - Add ability for external templates to graft content into boot.iso
   (walters@verbum.org)
-
-* Fri Mar 20 2015 Brian C. Lane <bcl@redhat.com> 22.7-1.R
-- Include ld.so.conf (#1204031) (bcl@redhat.com)
 - Keep logitech hid drivers (#1199770) (bcl@redhat.com)
 
-* Mon Mar 16 2015 Brian C. Lane <bcl@redhat.com> 22.6-1.R
+* Mon Mar 16 2015 Brian C. Lane <bcl@redhat.com> 23.5-1
 - Don't erase /usr/lib/os.release.d (sgallagh@redhat.com)
+
+* Fri Mar 13 2015 Brian C. Lane <bcl@redhat.com> 23.4-1
+- Require python-dnf so that we get the python2 version (bcl@redhat.com)
+- livemedia-creator: Fix up fake yum object for DNF change (bcl@redhat.com)
+- Update logic for stage2 detection on boot.iso (bcl@redhat.com)
+
+* Fri Mar 06 2015 Brian C. Lane <bcl@redhat.com> 23.3-1
+- Turn off ldconfig (bcl@redhat.com)
+- Add removekmod template command (bcl@redhat.com)
+- Move stage2 to images/install.img (#815275) (bcl@redhat.com)
+
+* Fri Feb 27 2015 Brian C. Lane <bcl@redhat.com> 23.2-1
+- Update pykickstart requirement (bcl@redhat.com)
+- Explicitly install notification-daemon (dshea@redhat.com)
+
+* Tue Feb 17 2015 Brian C. Lane <bcl@redhat.com> 23.1-1
+- Skip using srpm repos (bcl@redhat.com)
+- Drop the dnf Base object deletion code and use reset (bcl@redhat.com)
+- Get the log directory from the configfile (bcl@redhat.com)
+- lorax: Add --cachedir, --force and --workdir cmdline options (bcl@redhat.com)
+- Cleanup help alignment (bcl@redhat.com)
+- dnf: remove files from installed packages (bcl@redhat.com)
+- Switch lorax to use dnf instead of yum (bcl@redhat.com)
 - Fix Source0 for use with github (bcl@redhat.com)
 
-* Thu Mar  5 2015 Arkady L. Shane <ashejn@russianfedora.pro> 22.5-2.R
-- apply RFRemix patches
-
-* Thu Feb 12 2015 Brian C. Lane <bcl@redhat.com> 22.5-1
+* Thu Feb 12 2015 Brian C. Lane <bcl@redhat.com> 23.0-1
+- Bump version to 23.0 (bcl@redhat.com)
 - os-release moved to /usr/lib (#1191713) (bcl@redhat.com)
 - Use /usr/bin/python2 in scripts (bcl@redhat.com)
 - Add bridge-utils (#1188812) (bcl@redhat.com)
