@@ -1,6 +1,6 @@
-diff -urN lorax-23.18.orig/share/runtime-cleanup.tmpl lorax-23.18/share/runtime-cleanup.tmpl
---- lorax-23.18.orig/share/runtime-cleanup.tmpl	2015-10-13 15:54:29.737172111 +0300
-+++ lorax-23.18/share/runtime-cleanup.tmpl	2015-10-13 15:55:32.009050674 +0300
+diff -urN lorax-23.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl lorax-23.18/share/runtime-cleanup.tmpl
+--- lorax-23.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl	2015-10-13 15:54:29.737172111 +0300
++++ lorax-23.18/share/templates.d/99-generic/runtime-cleanup.tmpl	2015-10-13 15:55:32.009050674 +0300
 @@ -36,6 +36,11 @@
  ## anaconda has its own repo files
  removefrom fedora-release --allbut /etc/os-release /usr/lib/os-release \
@@ -13,9 +13,9 @@ diff -urN lorax-23.18.orig/share/runtime-cleanup.tmpl lorax-23.18/share/runtime-
  removepkg fedora-release-rawhide
  
  ## keep enough of shadow-utils to create accounts
-diff -urN lorax-23.18.orig/share/runtime-install.tmpl lorax-23.18/share/runtime-install.tmpl
---- lorax-23.18.orig/share/runtime-install.tmpl	2015-10-13 15:54:29.737172111 +0300
-+++ lorax-23.18/share/runtime-install.tmpl	2015-10-13 15:56:01.883951913 +0300
+diff -urN lorax-23.18.orig/share/templates.d/99-generic/runtime-install.tmpl lorax-23.18/share/runtime-install.tmpl
+--- lorax-23.18.orig/share/templates.d/99-generic/runtime-install.tmpl	2015-10-13 15:54:29.737172111 +0300
++++ lorax-23.18/share/templates.d/99-generic/runtime-install.tmpl	2015-10-13 15:56:01.883951913 +0300
 @@ -150,5 +150,13 @@
  ## satisfy libnotify's desktop-notification-daemon with the least crazy option
  installpkg notification-daemon
