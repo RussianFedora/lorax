@@ -1,8 +1,10 @@
+# NOTE: This specfile is generated from upstream at https://github.com/rhinstaller/lorax
+# NOTE: Please submit changes as a pull request
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        23.18
-Release:        1%{?dist}
+Version:        24.15
+Release:        3%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -13,11 +15,17 @@ URL:            https://github.com/rhinstaller/lorax
 # git checkout -b archive-branch lorax-%%{version}-%%{release}
 # tito build --tgz
 Source0:        %{name}-%{version}.tar.gz
-Patch0:         lorax-23.18-install-releases-packages-fusion.patch
-Patch2:         lorax-23.18-read-from-rfremix-release.patch
+
+Patch0001:      0001-Revert-pylorax-proc.returncode-can-be-None.patch
+Patch0002:      0002-Revert-Change-location-of-basearch-to-dnf.rpm.basear.patch
+Patch0003:      0003-Revert-Install-the-libblockdev-lvm-dbus-plugin-12648.patch
+
+Patch1000:      lorax-23.18-install-releases-packages-fusion.patch
+Patch1001:      lorax-23.18-read-from-rfremix-release.patch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-pocketlint >= 0.5
+
+Requires:       lorax-templates
 
 Requires:       GConf2
 Requires:       cpio
@@ -39,12 +47,13 @@ Requires:       util-linux
 Requires:       xz
 Requires:       pigz
 Requires:       dracut >= 030
+Requires:       kpartx
 
 # Python modules
 Requires:       libselinux-python3
 Requires:       python3-mako
 Requires:       python3-kickstart
-Requires:       python3-dnf
+Requires:       python3-dnf >= 1.1.0
 
 
 %if 0%{?fedora}
@@ -102,11 +111,22 @@ Requires: anaconda-tui
 Additional dependencies required by livemedia-creator when using it with --no-virt
 to run Anaconda.
 
+%package templates-generic
+Summary:  Generic build templates for lorax and livemedia-creator
+Requires: lorax = %{version}-%{release}
+Provides: lorax-templates
+
+%description templates-generic
+Lorax templates for creating the boot.iso and live isos are placed in
+/usr/share/lorax/templates.d/99-generic
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p1
-%patch2 -p1
+%patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
+%patch1000 -p1
+%patch1001 -p1
 
 %build
 
@@ -128,35 +148,164 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %dir %{_sysconfdir}/lorax
 %config(noreplace) %{_sysconfdir}/lorax/lorax.conf
 %dir %{_datadir}/lorax
-%{_datadir}/lorax/*
 %{_mandir}/man1/*.1*
 
 %files lmc-virt
 
 %files lmc-novirt
 
-%changelog
-* Tue Oct 13 2015 Arkady L. Shane <ashejn@russianfedora.pro> 23.18-1.R
-- RFRemixify
+%files templates-generic
+%{_datadir}/lorax/templates.d/*
 
-* Fri Sep 11 2015 Brian C. Lane <bcl@redhat.com> 23.18-1
+
+%changelog
+* Wed Mar 16 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.15-3.R
+- apply RFRemix patches
+
+* Tue Mar 15 2016 Brian C. Lane <bcl@redhat.com> 24.15-3
+- Need to also drop the dnf version back to 1.1.0 instead of 1.1.7
+
+* Mon Mar 14 2016 Brian C. Lane <bcl@redhat.com> 24.15-2
+- Revert 3 of the previous commits, leaving only the change to fsck.ext4 errors
+  This is so the build can be taken for Alpha.
+
+* Fri Mar 11 2016 Brian C. Lane <bcl@redhat.com> 24.15-1
+- pylorax: proc.returncode can be None (bcl@redhat.com)
+- Change location of basearch to dnf.rpm.basearch (#1312087) (bcl@redhat.com)
+- livemedia-creator: Change fsck.ext4 discard failures to errors (#1315541)
+  (bcl@redhat.com)
+- Install the libblockdev-lvm-dbus plugin (#1264816) (vpodzime@redhat.com)
+
+* Tue Mar 01 2016 Brian C. Lane <bcl@redhat.com> 24.14-1
+- Add glibc-all-langpacks (#1312607) (dshea@redhat.com)
+
+* Thu Feb 25 2016 Brian C. Lane <bcl@redhat.com> 24.13-1
+- templates: Reinstate gpgme-pthread.so for ostree (walters@verbum.org)
+- Include grub2-efi-modules on the boot.iso (#1277227) (bcl@redhat.com)
+- Keep modules needed for ast video driver support (#1272658) (bcl@redhat.com)
+
+* Fri Feb 19 2016 Brian C. Lane <bcl@redhat.com> 24.12-1
+- Put the NM loglevel config in the right place. (bcl@redhat.com)
+
+* Fri Feb 19 2016 Brian C. Lane <bcl@redhat.com> 24.11-1
+- configure NetworkManager to loglevel=DEBUG (#1274647) (rvykydal@redhat.com)
+- New lorax documentation - 24.10 (bcl@redhat.com)
+
+* Fri Feb 12 2016 Brian C. Lane <bcl@redhat.com> 24.10-1
+- Add rng-tools and start rngd.service by default (#1258516) (bcl@redhat.com)
+- livemedia-creator: Stop passing --repo to anaconda (#1304802)
+  (bcl@redhat.com)
+- livemedia-creator: Add /usr/share/lorax/templates.d/ support (bcl@redhat.com)
+- Move templates to /usr/share/lorax/templates.d/99-generic (bcl@redhat.com)
+- Add check for templates.d in the sharedir (bcl@redhat.com)
+- Add documentation for the lorax command and templates (bcl@redhat.com)
+- Remove the removal of the eintr checker, which has been removed
+  (dshea@redhat.com)
+
+* Wed Jan 13 2016 Brian C. Lane <bcl@redhat.com> 24.9-1
+- livemedia-creator: Add kernel-modules and kernel-modules-extra to examples
+  (bcl@redhat.com)
+- livemedia-creator: Make sure the rootfs.img can be compressed
+  (bcl@redhat.com)
+
+* Tue Jan 12 2016 Brian C. Lane <bcl@redhat.com> 24.8-1
+- Make arm .treeinfo match reality (dennis@ausil.us)
+- Add --iso-name to use with --iso-only (bcl@redhat.com)
+
+* Fri Jan 08 2016 Brian C. Lane <bcl@redhat.com> 24.7-1
+- Add kpartx to Requires (bcl@redhat.com)
+- Prefix temporary files and directories with lmc- (bcl@redhat.com)
+- Add --iso-only option to --make-iso (bcl@redhat.com)
+- livemedia-creator: Fix calculation of disk_size in some cases
+  (logans@cottsay.net)
+- docs: Update documentation for livemedia-creator (bcl@redhat.com)
+- livemedia-creator: Add --image-type and --qemu-args options (bcl@redhat.com)
+- pylorax: Add mkqemu_img function, alias mkqcow2 to it. (bcl@redhat.com)
+- Update things to make pylint 1.5.1 happy (bcl@redhat.com)
+- Write a list of debuginfo packages to /root/debug-pkgs.log (#1068675)
+  (bcl@redhat.com)
+- Also remove uboot from live arm.tmpl (bcl@redhat.com)
+- no longer make u-boot wrapped kernels (dennis@ausil.us)
+- Fix chronyd not working in the installation (#1288905) (jkonecny@redhat.com)
+- Update Lorax documentation - 24.6 (bcl@redhat.com)
+- Update docs for product.img (bcl@redhat.com)
+
+* Wed Dec 02 2015 Brian C. Lane <bcl@redhat.com> 24.6-1
+- livemedia-creator: Raise an error if url is used without networking
+  (fabiand@fedoraproject.org)
+- livemedia-creator: Fix a small typo (fabiand@fedoraproject.org)
+- livemedia-creator: Use discard during installation
+  (fabiand@fedoraproject.org)
+- livemedia-creator: Use cache=unsafe for the installation disk
+  (fabiand@fedoraproject.org)
+- Remove requires for pocketlint as it is not used in build process
+  (bcl@redhat.com)
+- Include qemu modules in the initrd (bcl@redhat.com)
+- livemedia-creator: Check kickstart for shutdown (#1207959) (bcl@redhat.com)
+- livemedia-creator: Correctly handle not mounting image (bcl@redhat.com)
+- livemedia-creator: Use hd:LABEL for stage2 iso (bcl@redhat.com)
+- Add support for .repo files (#1264058) (bcl@redhat.com)
+- livemedia-creator: Actually pass vcpus to virt-install (bcl@redhat.com)
+- paste is needed by os-prober (#1275105) (bcl@redhat.com)
+
+* Fri Nov 06 2015 Brian C. Lane <bcl@redhat.com> 24.5-1
+- Add --virt-uefi to boot the VM using OVMF (bcl@redhat.com)
+- Enable gtk inspector. (dshea@redhat.com)
+- lorax: Improve argument parsing and help (bcl@redhat.com)
+- lorax: Add --sharedir to override configuration path (bcl@redhat.com)
+
+* Wed Oct 28 2015 Brian C. Lane <bcl@redhat.com> 24.4-1
+- livemedia-creator: Allow novirt ostree partitioned images (#1273199)
+  (bcl@redhat.com)
+- Add documentation and kickstart for --make-vagrant (bcl@redhat.com)
+- livemedia-creator: Make --make-vagrant work with --no-virt (bcl@redhat.com)
+- livemedia-creator: Add --make-vagrant command (bcl@redhat.com)
+- Add selinux switch to mktar (bcl@redhat.com)
+- livemedia-creator: Make --make-oci work with --no-virt (bcl@redhat.com)
+- Add documentation for --make-oci (bcl@redhat.com)
+- livemedia-creator: Add --make-oci for Open Container Initiative images
+  (bcl@redhat.com)
+- Add submount directory to PartitionMount class (bcl@redhat.com)
+- Keep libthread so that gdb will work correctly (#1269055) (bcl@redhat.com)
+- Update Lorax documentation - 24.3 (bcl@redhat.com)
+
+* Tue Oct 06 2015 Brian C. Lane <bcl@redhat.com> 24.3-1
+- Do not let systemd-tmpfiles set up /etc on boot (dshea@redhat.com)
+- Fix the concatenation of error output. (dshea@redhat.com)
+- Add findmnt command (jkonecny@redhat.com)
+- Reduce the size of macboot.img (#952747) (bcl@redhat.com)
+- rsa1 keys are not supported any more by our openssh (dan@danny.cz)
+- Look for crashes from the anaconda signal handler. (dshea@redhat.com)
+- Include gdb in the boot.iso (dshea@redhat.com)
+- Do not install weak deps in boot.iso (bcl@redhat.com)
+- Require correct dnf version for API changes (bcl@redhat.com)
+- Drop multiprocessing for do_transaction (#1208296) (bcl@redhat.com)
 - Add a font that supports Urdu characters (#1004717) (bcl@redhat.com)
 - livemedia-creator: Remove random-seed from images (#1258986) (bcl@redhat.com)
+- Don't include early microcode in initramfs (#1258498) (bcl@redhat.com)
+
+* Mon Aug 31 2015 Brian C. Lane <bcl@redhat.com> 24.2-1
 - drop fedup-dracut and friends (wwoods@redhat.com)
 - don't build upgrade.img anymore (wwoods@redhat.com)
-
-* Thu Aug 27 2015 Brian C. Lane <bcl@redhat.com> 23.17-1
+- livemedia-creator: no-virt fsimage should only use / size from ks
+  (bcl@redhat.com)
+- Update lmc docs for new mock (bcl@redhat.com)
+- No longer offer a rescue boot menu option on liveinst (#1256061).
+  (clumens@redhat.com)
+- document --timeout in livemedia-creator man page (atodorov@redhat.com)
 - Add enough of shadow-utils to create new user accounts. (dshea@redhat.com)
+- Update Lorax documentation - 24.1 (bcl@redhat.com)
+- Add lldptool (#1085325) (rvykydal@redhat.com)
 
-* Fri Aug 07 2015 Brian C. Lane <bcl@redhat.com> 23.16-1
+* Fri Aug 07 2015 Brian C. Lane <bcl@redhat.com> 24.1-1
 - some of the PowerPC utilities (powerpc-utils and fbset) need perl too
   (pbrobinson@gmail.com)
 - Add a default vconsole.conf to the boot.iso (#1250260) (bcl@redhat.com)
 - Return the output from failed commands in CalledProcessError (bcl@redhat.com)
 - Add dracut-live for livemedia kickstart example (bcl@redhat.com)
 
-* Thu Jul 30 2015 Brian C. Lane <bcl@redhat.com> 23.15-1
-- livemedia-creator: Bump default releasevere to 23 (bcl@redhat.com)
+* Thu Jul 30 2015 Brian C. Lane <bcl@redhat.com> 24.0-1
+- Bump version to 24.0 (bcl@redhat.com)
 - Use execReadlines in livemedia-creator (bcl@redhat.com)
 - Add execReadlines to executils. (bcl@redhat.com)
 - Add reset_lang argument to everything in executils. (bcl@redhat.com)

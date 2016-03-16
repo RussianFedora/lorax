@@ -1,0 +1,28 @@
+From b3611feabc2666500be8da87edd50549fbd03062 Mon Sep 17 00:00:00 2001
+From: "Brian C. Lane" <bcl@redhat.com>
+Date: Mon, 14 Mar 2016 14:28:01 -0700
+Subject: [PATCH 3/3] Revert "Install the libblockdev-lvm-dbus plugin
+ (#1264816)"
+
+This reverts commit 625cb20b3d03b74274d4b07c3317ca91bef8f6d5.
+---
+ share/templates.d/99-generic/runtime-install.tmpl | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/share/templates.d/99-generic/runtime-install.tmpl b/share/templates.d/99-generic/runtime-install.tmpl
+index 8ef304f..8ba0e71 100644
+--- a/share/templates.d/99-generic/runtime-install.tmpl
++++ b/share/templates.d/99-generic/runtime-install.tmpl
+@@ -87,9 +87,6 @@ installpkg system-storage-manager
+ installpkg device-mapper-persistent-data
+ installpkg xfsdump
+ 
+-## extra libblockdev plugins
+-installpkg libblockdev-lvm-dbus
+-
+ ## needed for LUKS escrow
+ installpkg volume_key
+ installpkg nss-tools
+-- 
+2.5.0
+
