@@ -3,8 +3,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        24.15
-Release:        3%{?dist}
+Version:        24.17
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -15,10 +15,6 @@ URL:            https://github.com/rhinstaller/lorax
 # git checkout -b archive-branch lorax-%%{version}-%%{release}
 # tito build --tgz
 Source0:        %{name}-%{version}.tar.gz
-
-Patch0001:      0001-Revert-pylorax-proc.returncode-can-be-None.patch
-Patch0002:      0002-Revert-Change-location-of-basearch-to-dnf.rpm.basear.patch
-Patch0003:      0003-Revert-Install-the-libblockdev-lvm-dbus-plugin-12648.patch
 
 Patch1000:      lorax-23.18-install-releases-packages-fusion.patch
 Patch1001:      lorax-23.18-read-from-rfremix-release.patch
@@ -122,9 +118,6 @@ Lorax templates for creating the boot.iso and live isos are placed in
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
 %patch1000 -p1
 %patch1001 -p1
 
@@ -159,6 +152,21 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
+* Tue Mar 29 2016 Brian C. Lane <bcl@redhat.com> 24.17-1.R
+- livemedia-creator: Pass -Xbcj to mksquashfs (bcl@redhat.com)
+- templates: On 32 bit systems limit the amount of memory xz uses
+  (bcl@redhat.com)
+- ltmpl: Add compressor selection and argument passing to installimg
+  (bcl@redhat.com)
+
+* Mon Mar 28 2016 Brian C. Lane <bcl@redhat.com> 24.16-1.R
+- livemedia-creator: Update example kickstarts (bcl@redhat.com)
+- image-minimizer: Fix argument parsing (bcl@redhat.com)
+- livemedia-creator: Check selinux state and exit (bcl@redhat.com)
+- livemedia-creator: Catch dnf download error (bcl@redhat.com)
+- templates: Fix runtime_img check (bcl@redhat.com)
+- Create UDF iso when stage2 is >= 4GiB (#1312158) (bcl@redhat.com)
+
 * Wed Mar 16 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.15-3.R
 - apply RFRemix patches
 
