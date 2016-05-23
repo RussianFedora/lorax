@@ -4,7 +4,7 @@
 
 Name:           lorax
 Version:        24.18
-Release:        1.2%{?dist}
+Release:        1.1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -154,9 +154,6 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
-* Fri May 20 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.18-1.2.R
-- chroot before changing dnf.conf
-
 * Fri May 20 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.18-1.1.R
 - exclude fedora-release packages in dnf.conf as dnf incorrectly handles
   Provides

@@ -1,14 +1,12 @@
 diff -urN lorax-24.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl lorax-24.18/share/templates.d/99-generic/runtime-cleanup.tmpl
 --- lorax-24.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-05-20 15:24:03.194444021 +0300
-+++ lorax-24.18/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-05-20 20:47:00.362416604 +0300
-@@ -43,6 +43,11 @@
++++ lorax-24.18/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-05-20 15:25:03.357169718 +0300
+@@ -43,6 +43,9 @@
  remove /etc/anaconda.repos.d/russianfedora*rawhide*.repo
  removepkg fedora-release-rawhide
  
 +# exclude fedora-releases packages as dnf loses provides
-+runcmd chroot ${root} \
-+        sed -i "1a exclude=fedora-release,fedora-release-notes,fedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" \
-+        /etc/dnf/dnf.conf
++runcmd sed -i "1a exclude=fedora-release,fedora-release-notes,fedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" /etc/dnf/dnf.conf
 +
  ## keep enough of shadow-utils to create accounts
  removefrom shadow-utils --allbut /usr/bin/chage /usr/sbin/chpasswd \
