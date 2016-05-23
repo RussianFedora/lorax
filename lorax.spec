@@ -4,7 +4,7 @@
 
 Name:           lorax
 Version:        24.18
-Release:        1.1%{?dist}
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -18,7 +18,6 @@ Source0:        %{name}-%{version}.tar.gz
 
 Patch1000:      lorax-23.18-install-releases-packages-fusion.patch
 Patch1001:      lorax-23.18-read-from-rfremix-release.patch
-Patch1002:	lorax-24.18-exclude-fedora-releases.patch
 
 BuildRequires:  python3-devel
 
@@ -121,7 +120,6 @@ Lorax templates for creating the boot.iso and live isos are placed in
 %setup -q -n %{name}-%{version}
 %patch1000 -p1
 %patch1001 -p1
-%patch1002 -p1
 
 %build
 
@@ -154,10 +152,6 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
-* Fri May 20 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.18-1.1.R
-- exclude fedora-release packages in dnf.conf as dnf incorrectly handles
-  Provides
-
 * Mon Apr 18 2016 Brian C. Lane <bcl@redhat.com> 24.18-1.R
 - livemedia-creator: Make sure make-iso kickstart includes dracut-live
   (bcl@redhat.com)
