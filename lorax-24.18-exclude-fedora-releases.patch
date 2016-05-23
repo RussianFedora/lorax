@@ -1,8 +1,8 @@
 diff -urN lorax-24.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl lorax-24.18/share/templates.d/99-generic/runtime-cleanup.tmpl
---- lorax-24.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-05-20 15:24:03.194444021 +0300
-+++ lorax-24.18/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-05-20 15:25:03.357169718 +0300
-@@ -43,6 +43,9 @@
- remove /etc/anaconda.repos.d/russianfedora*rawhide*.repo
+--- lorax-24.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-05-20 14:54:16.968455474 +0300
++++ lorax-24.18/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-05-20 14:57:31.568114718 +0300
+@@ -38,6 +38,9 @@
+                                    /usr/lib/os.release.d/*
  removepkg fedora-release-rawhide
  
 +# exclude fedora-releases packages as dnf loses provides
