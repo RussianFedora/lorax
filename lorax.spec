@@ -120,7 +120,6 @@ Lorax templates for creating the boot.iso and live isos are placed in
 %setup -q -n %{name}-%{version}
 %patch1000 -p1
 %patch1001 -p1
-%patch1002 -p1
 
 %build
 
