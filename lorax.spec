@@ -18,7 +18,6 @@ Source0:        %{name}-%{version}.tar.gz
 
 Patch1000:      lorax-23.18-install-releases-packages-fusion.patch
 Patch1001:      lorax-23.18-read-from-rfremix-release.patch
-Patch1002:	lorax-24.18-install-rfremix-branding.patch
 
 BuildRequires:  python3-devel
 
