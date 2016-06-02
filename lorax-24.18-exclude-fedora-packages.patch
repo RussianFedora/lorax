@@ -1,0 +1,14 @@
+diff -urN lorax-24.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl lorax-24.18/share/templates.d/99-generic/runtime-cleanup.tmpl
+--- lorax-24.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-06-02 23:11:01.680823578 +0300
++++ lorax-24.18/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-06-02 23:17:05.373778731 +0300
+@@ -43,6 +43,10 @@
+ remove /etc/anaconda.repos.d/russianfedora*rawhide*.repo
+ removepkg fedora-release-rawhide
+ 
++runcmd chroot ${root} sed -i "5a exclude=fedora-release,gfedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" /etc/anaconda.repos.d/fedora.repo
++runcmd chroot ${root} sed -i "5a exclude=fedora-release,gfedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" /etc/anaconda.repos.d/fedora-updates.repo
++runcmd chroot ${root} sed -i "5a exclude=fedora-release,gfedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" /etc/anaconda.repos.d/fedora-updates-testing.repo
++
+ ## keep enough of shadow-utils to create accounts
+ removefrom shadow-utils --allbut /usr/bin/chage /usr/sbin/chpasswd \
+                         /usr/sbin/groupadd /usr/sbin/useradd
