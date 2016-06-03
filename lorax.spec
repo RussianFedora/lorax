@@ -3,8 +3,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        24.18
-Release:        1.4%{?dist}
+Version:        24.19
+Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -94,6 +94,7 @@ Summary:  livemedia-creator libvirt dependencies
 Requires: lorax = %{version}-%{release}
 Requires: libvirt-python3
 Requires: virt-install
+Requires: edk2-ovmf
 
 %description lmc-virt
 Additional dependencies required by livemedia-creator when using it with virt-install.
@@ -154,6 +155,10 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
+* Thu Jun 02 2016 Brian C. Lane <bcl@redhat.com> 24.19-1.R
+- livemedia-creator: Always copy novirt logs before cleanup (bcl@redhat.com)
+- Update lmc UEFI support to use the edk2-ovmf package (bcl@redhat.com)
+
 * Thu Jun  2 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.18-1.4.R
 - exclude fedora release packages from anaconda repos
 
