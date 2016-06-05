@@ -5,9 +5,9 @@ diff -urN lorax-24.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl lor
  remove /etc/anaconda.repos.d/russianfedora*rawhide*.repo
  removepkg fedora-release-rawhide
  
-+runcmd chroot ${root} sed -i "5a exclude=fedora-release,gfedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" /etc/anaconda.repos.d/fedora.repo
-+runcmd chroot ${root} sed -i "5a exclude=fedora-release,gfedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" /etc/anaconda.repos.d/fedora-updates.repo
-+runcmd chroot ${root} sed -i "5a exclude=fedora-release,gfedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" /etc/anaconda.repos.d/fedora-updates-testing.repo
++runcmd chroot ${root} sed -i "5a exclude=generic-release,generic-logos*,fedora-release,fedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" /etc/anaconda.repos.d/fedora.repo
++runcmd chroot ${root} sed -i "5a exclude=generic-release,generic-logos*,fedora-release,fedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" /etc/anaconda.repos.d/fedora-updates.repo
++runcmd chroot ${root} sed -i "5a exclude=generic-release,generic-logos*,fedora-release,fedora-release-cloud,fedora-release-server,fedora-release-atomichost,fedora-release-workstation" /etc/anaconda.repos.d/fedora-updates-testing.repo
 +
  ## keep enough of shadow-utils to create accounts
  removefrom shadow-utils --allbut /usr/bin/chage /usr/sbin/chpasswd \
