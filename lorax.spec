@@ -3,8 +3,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        24.19
-Release:        1.1%{?dist}
+Version:        25.16
+Release:        1%{?dist}.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -15,8 +15,7 @@ URL:            https://github.com/rhinstaller/lorax
 # git checkout -b archive-branch lorax-%%{version}-%%{release}
 # tito build --tgz
 Source0:        %{name}-%{version}.tar.gz
-
-Patch1000:      lorax-23.18-install-releases-packages-fusion.patch
+Patch1000:      lorax-25.16-install-releases-packages-fusion.patch
 Patch1001:      lorax-23.18-read-from-rfremix-release.patch
 Patch1002:      lorax-24.18-exclude-fedora-packages.patch
 
@@ -50,7 +49,7 @@ Requires:       kpartx
 Requires:       libselinux-python3
 Requires:       python3-mako
 Requires:       python3-kickstart
-Requires:       python3-dnf >= 1.1.0
+Requires:       python3-dnf >= 1.1.7
 
 
 %if 0%{?fedora}
@@ -92,12 +91,12 @@ Anaconda's image install feature.
 %package lmc-virt
 Summary:  livemedia-creator libvirt dependencies
 Requires: lorax = %{version}-%{release}
-Requires: libvirt-python3
-Requires: virt-install
+Requires: qemu
 Requires: edk2-ovmf
+Recommends: qemu-kvm
 
 %description lmc-virt
-Additional dependencies required by livemedia-creator when using it with virt-install.
+Additional dependencies required by livemedia-creator when using it with qemu.
 
 %package lmc-novirt
 Summary:  livemedia-creator no-virt dependencies
@@ -155,65 +154,127 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
-* Thu Jun 07 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.19-1.1.R
-- fix exclude package name
+* Wed Sep 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 25.16-1.R
+- RFRemixify
 
-* Thu Jun 02 2016 Brian C. Lane <bcl@redhat.com> 24.19-1.R
+* Mon Sep 26 2016 Brian C. Lane <bcl@redhat.com> 25.16-1
+- Fix broken sshd.inst boot option (#1378378) (jjelen@redhat.com)
+- Don't log dracut initrd regeneration messages into /tmp/syslog (#1369439) (rvykydal@redhat.com)
+- Use imjournal for rsyslogd instead of sharing /dev/log with journal (#1369439) (rvykydal@redhat.com)
+- livemedia-creator: Check for packaging failures in the logs (#1374809) (bcl@redhat.com)
+- templates: Enusre basic.target.wants dir exists for rngd (walters@verbum.org)
+
+* Thu Sep 08 2016 Brian C. Lane <bcl@redhat.com> 25.15-1
+- Keep fsfreeze in install environment (#1315468) (rmarshall@redhat.com)
+- Add ppc64le kernel path (mkumatag@in.ibm.com)
+- Install storaged-iscsi to the runtime (#1347415) (vpodzime@redhat.com)
+
+* Tue Aug 23 2016 Brian C. Lane <bcl@redhat.com> 25.14-1
+- lorax: Add --rootfs-size (#1368743) (bcl@redhat.com)
+- Revert "Use size=10 by default" (bcl@redhat.com)
+
+* Fri Aug 12 2016 Brian C. Lane <bcl@redhat.com> 25.13-1
+- as of Fedora 25 s390x now has docker (pbrobinson@fedoraproject.org)
+- ppc64le doesn't have pcmciatools (pbrobinson@fedoraproject.org)
+- add grub2-tools to aarch64, drop duplicate grubby (pbrobinson@fedoraproject.org)
+- Allow supplying a disk image for PXE live systems (code@schoeller.se)
+- Use size=10 by default (walters@verbum.org)
+
+* Thu Jul 28 2016 Brian C. Lane <bcl@redhat.com> 25.12-1
+- New lorax documentation - 25.12 (bcl@redhat.com)
+- Don't install python3-dnf-langpacks (vpodzime@redhat.com)
+
+* Wed Jul 20 2016 Brian C. Lane <bcl@redhat.com> 25.11-1
+- Fix aarch64 installs due to missing/unsupported packages
+  (pbrobinson@gmail.com)
+- Keep fb_sys_fops module needed for ast support (#1272658) (bcl@redhat.com)
+
+* Wed Jul 13 2016 Brian C. Lane <bcl@redhat.com> 25.10-1
+- Installing *-firmware should be optional (bcl@redhat.com)
+
+* Fri Jul 08 2016 Brian C. Lane <bcl@redhat.com> 25.9-1
+- Fix installpkg error handling (bcl@redhat.com)
+- Switch installpkg default to --required (bcl@redhat.com)
+- Keep all of the kernel drivers/target/ modules (#1348381) (bcl@redhat.com)
+- Keep the pci utilities for use in kickstarts (#1344926) (bcl@redhat.com)
+- Make sure cmdline config file exists (#1348304) (bcl@redhat.com)
+- Stop using undocumented DNF logging API (bcl@redhat.com)
+
+* Thu Jun 02 2016 Brian C. Lane <bcl@redhat.com> 25.8-1
 - livemedia-creator: Always copy novirt logs before cleanup (bcl@redhat.com)
+
+* Fri May 27 2016 Brian C. Lane <bcl@redhat.com> 25.7-1
+- do not remove libutempter as tmux gained a dep on it (dennis@ausil.us)
+- New lorax documentation - 25.6 (bcl@redhat.com)
 - Update lmc UEFI support to use the edk2-ovmf package (bcl@redhat.com)
 
-* Thu Jun  2 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.18-1.4.R
-- exclude fedora release packages from anaconda repos
+* Fri May 13 2016 Brian C. Lane <bcl@redhat.com> 25.6-1
+- Add efi, product, and updates image paths to treeinfo (bcl@redhat.com)
+- livemedia-creator: Update make-pxe-live to support missing initramfs
+  (bcl@redhat.com)
+- Rebuild initramfs if it is missing (bcl@redhat.com)
+- Add a new error to the log monitor. (bcl@redhat.com)
+- Fix DataHolder to handle hasattr (bcl@redhat.com)
 
-* Mon May 30 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.18-1.3.R
-- revert to original stage
+* Fri Apr 29 2016 Brian C. Lane <bcl@redhat.com> 25.5-1
+- Add example kickstart for Atomic PXE live no-virt (bcl@redhat.com)
+- Update ostree boot handling (bcl@redhat.com)
+- pylorax: Add delete option to umount (bcl@redhat.com)
+- Refactor PXE live creation code (bcl@redhat.com)
+- Change --make-pxe-live --no-virt use a fsimage (bcl@redhat.com)
+- Allow ostreesetup kickstart (bcl@redhat.com)
 
-* Fri May 20 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.18-1.2.R
-- chroot before changing dnf.conf
-
-* Fri May 20 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.18-1.1.R
-- exclude fedora-release packages in dnf.conf as dnf incorrectly handles
-  Provides
-
-* Mon Apr 18 2016 Brian C. Lane <bcl@redhat.com> 24.18-1.R
+* Mon Apr 18 2016 Brian C. Lane <bcl@redhat.com> 25.4-1
 - livemedia-creator: Make sure make-iso kickstart includes dracut-live
   (bcl@redhat.com)
 - livemedia-creator: Simplify cleanup for no-virt (bcl@redhat.com)
 - Copying same file shouldn't crash (#1269213) (bcl@redhat.com)
+
+* Wed Mar 30 2016 Brian C. Lane <bcl@redhat.com> 25.3-1
 - livemedia-creator: Use correct suffix on default image names (#1318958)
   (bcl@redhat.com)
-
-* Tue Mar 29 2016 Brian C. Lane <bcl@redhat.com> 24.17-1.R
 - livemedia-creator: Pass -Xbcj to mksquashfs (bcl@redhat.com)
 - templates: On 32 bit systems limit the amount of memory xz uses
   (bcl@redhat.com)
 - ltmpl: Add compressor selection and argument passing to installimg
   (bcl@redhat.com)
-
-* Mon Mar 28 2016 Brian C. Lane <bcl@redhat.com> 24.16-1.R
 - livemedia-creator: Update example kickstarts (bcl@redhat.com)
 - image-minimizer: Fix argument parsing (bcl@redhat.com)
 - livemedia-creator: Check selinux state and exit (bcl@redhat.com)
 - livemedia-creator: Catch dnf download error (bcl@redhat.com)
 - templates: Fix runtime_img check (bcl@redhat.com)
+- Remove gnome-icon-theme (dshea@redhat.com)
+- Exclude unused firmware from package selection. (dshea@redhat.com)
+- Add a means of excluding packages from a glob (dshea@redhat.com)
+- Clean up /dev. (dshea@redhat.com)
+- Remove /var/lib/dnf (dshea@redhat.com)
+- Remove a bunch of stuff pulled in by webkitgtk (dshea@redhat.com)
+- lorax-lmc-virt now uses qemu not libvirt and virt-install (bcl@redhat.com)
+- New lorax documentation - 25.2 (bcl@redhat.com)
+- Use Sphinx to generate manpages (bcl@redhat.com)
+- livemedia-creator: Use sphinx-argparse to document args (bcl@redhat.com)
+- Move argument parsers into pylorax.cmdline (bcl@redhat.com)
+- livemedia-creator: Fix off by 1024 error (bcl@redhat.com)
 - Create UDF iso when stage2 is >= 4GiB (#1312158) (bcl@redhat.com)
 
-* Wed Mar 16 2016 Arkady L. Shane <ashejn@russianfedora.pro> 24.15-3.R
-- apply RFRemix patches
+* Tue Mar 15 2016 Brian C. Lane <bcl@redhat.com> 25.2-1
+- Not all arches currently have docker (#1317632) (pbrobinson@gmail.com)
 
-* Tue Mar 15 2016 Brian C. Lane <bcl@redhat.com> 24.15-3
-- Need to also drop the dnf version back to 1.1.0 instead of 1.1.7
-
-* Mon Mar 14 2016 Brian C. Lane <bcl@redhat.com> 24.15-2
-- Revert 3 of the previous commits, leaving only the change to fsck.ext4 errors
-  This is so the build can be taken for Alpha.
-
-* Fri Mar 11 2016 Brian C. Lane <bcl@redhat.com> 24.15-1
-- pylorax: proc.returncode can be None (bcl@redhat.com)
+* Wed Mar 09 2016 Brian C. Lane <bcl@redhat.com> 25.1-1
 - Change location of basearch to dnf.rpm.basearch (#1312087) (bcl@redhat.com)
-- livemedia-creator: Change fsck.ext4 discard failures to errors (#1315541)
+- livemedia-creator: Change fsck.ext4 discard failures to errors
   (bcl@redhat.com)
+- pylorax: proc.returncode can be None (bcl@redhat.com)
+- livemedia-creator: Create runtime using kickstart partition size
+  (bcl@redhat.com)
+- livemedia-creator: Update kickstarts for rawhide (bcl@redhat.com)
+- pylorax: Fix undefind strings on subprocess crash (bcl@redhat.com)
+- Keep /usr/bin/xrdb (#1241724) (dshea@redhat.com)
 - Install the libblockdev-lvm-dbus plugin (#1264816) (vpodzime@redhat.com)
+- livemedia-creator: Bump default releasever to 25 (bcl@redhat.com)
+- Add docker-anaconda-addon (bcl@redhat.com)
+- livemedia-creator: Use qemu instead of virt-install (bcl@redhat.com)
+- Bump version to 25.0 (bcl@redhat.com)
 
 * Tue Mar 01 2016 Brian C. Lane <bcl@redhat.com> 24.14-1
 - Add glibc-all-langpacks (#1312607) (dshea@redhat.com)

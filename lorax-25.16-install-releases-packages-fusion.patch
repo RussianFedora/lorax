@@ -1,7 +1,7 @@
-diff -urN lorax-23.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl lorax-23.18/share/runtime-cleanup.tmpl
---- lorax-23.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl	2015-10-13 15:54:29.737172111 +0300
-+++ lorax-23.18/share/templates.d/99-generic/runtime-cleanup.tmpl	2015-10-13 15:55:32.009050674 +0300
-@@ -36,6 +36,11 @@
+diff -urN lorax-25.16.orig/share/templates.d/99-generic/runtime-cleanup.tmpl lorax-25.16/share/templates.d/99-generic/runtime-cleanup.tmpl
+--- lorax-25.16.orig/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-09-28 12:39:18.742981199 +0300
++++ lorax-25.16/share/templates.d/99-generic/runtime-cleanup.tmpl	2016-09-28 12:40:10.486427557 +0300
+@@ -32,6 +32,11 @@
  ## anaconda has its own repo files
  removefrom fedora-release --allbut /etc/os-release /usr/lib/os-release \
                                     /usr/lib/os.release.d/*
@@ -13,10 +13,10 @@ diff -urN lorax-23.18.orig/share/templates.d/99-generic/runtime-cleanup.tmpl lor
  removepkg fedora-release-rawhide
  
  ## keep enough of shadow-utils to create accounts
-diff -urN lorax-23.18.orig/share/templates.d/99-generic/runtime-install.tmpl lorax-23.18/share/runtime-install.tmpl
---- lorax-23.18.orig/share/templates.d/99-generic/runtime-install.tmpl	2015-10-13 15:54:29.737172111 +0300
-+++ lorax-23.18/share/templates.d/99-generic/runtime-install.tmpl	2015-10-13 15:56:01.883951913 +0300
-@@ -150,5 +150,13 @@
+diff -urN lorax-25.16.orig/share/templates.d/99-generic/runtime-install.tmpl lorax-25.16/share/templates.d/99-generic/runtime-install.tmpl
+--- lorax-25.16.orig/share/templates.d/99-generic/runtime-install.tmpl	2016-09-28 12:39:18.742981199 +0300
++++ lorax-25.16/share/templates.d/99-generic/runtime-install.tmpl	2016-09-28 12:40:54.409806455 +0300
+@@ -167,6 +167,14 @@
  ## satisfy libnotify's desktop-notification-daemon with the least crazy option
  installpkg notification-daemon
  
@@ -28,5 +28,6 @@ diff -urN lorax-23.18.orig/share/templates.d/99-generic/runtime-install.tmpl lor
 +installpkg russianfedora-fixes-release
 +installpkg russianfedora-branding-release
 +
- ## actually install all the requested packages
- run_pkg_transaction
+ ## Docker enabled boot.iso
+ # Not all arches currently have docker
+ %if basearch not in ("ppc", "ppc64", "s390"):
