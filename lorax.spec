@@ -3,7 +3,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        25.16
+Version:        25.17
 Release:        1%{?dist}.R
 Summary:        Tool for creating the anaconda install images
 
@@ -154,6 +154,10 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
+* Mon Oct 17 2016 Brian C. Lane <bcl@redhat.com> 25.17-1.R
+- Add missing fonts (#1370118) (vponcova@redhat.com)
+- drop ssh server key generation for s390(x) (#1383641) (dan@danny.cz)
+
 * Wed Sep 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 25.16-1.R
 - RFRemixify
 
