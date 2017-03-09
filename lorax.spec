@@ -3,7 +3,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        25.19
+Version:        26.7
 Release:        1%{?dist}.R
 Summary:        Tool for creating the anaconda install images
 
@@ -49,7 +49,7 @@ Requires:       kpartx
 Requires:       libselinux-python3
 Requires:       python3-mako
 Requires:       python3-kickstart
-Requires:       python3-dnf >= 1.1.7
+Requires:       python3-dnf >= 2.0.0
 
 
 %if 0%{?fedora}
@@ -92,7 +92,10 @@ Anaconda's image install feature.
 Summary:  livemedia-creator libvirt dependencies
 Requires: lorax = %{version}-%{release}
 Requires: qemu
+# Fedora edk2 builds currently only support these arches
+%ifarch %{ix86} x86_64 %{arm} aarch64
 Requires: edk2-ovmf
+%endif
 Recommends: qemu-kvm
 
 %description lmc-virt
@@ -154,6 +157,9 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
+* Thu Mar  9 2017 Arkady L. Shane <ashejn@yandex-team.ru> - 26.7-1.R
+- sync with upstream
+
 * Wed Feb 22 2017 Brian C. Lane <bcl@redhat.com> 25.19-1.R
 - Create /dev/random and /dev/urandom before running rpm -qa (#1420523)
   (bcl@redhat.com)
