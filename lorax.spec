@@ -4,7 +4,7 @@
 
 Name:           lorax
 Version:        26.7
-Release:        1%{?dist}.R
+Release:        1.1%{?dist}.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -18,6 +18,7 @@ Source0:        %{name}-%{version}.tar.gz
 Patch1000:      lorax-25.16-install-releases-packages-fusion.patch
 Patch1001:      lorax-23.18-read-from-rfremix-release.patch
 Patch1002:      lorax-24.18-exclude-fedora-packages.patch
+Patch1003:      lorax-26.7-boot-to-ram.patch
 
 BuildRequires:  python3-devel
 
@@ -125,6 +126,7 @@ Lorax templates for creating the boot.iso and live isos are placed in
 %patch1000 -p1
 %patch1001 -p1
 %patch1002 -p1
+%patch1003 -p1
 
 %build
 
@@ -157,6 +159,9 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
+* Wed May 10 2017 Arkady L. Shane <ashejn@yandex-team.ru> - 26.7-1.1.R
+- added boot to ram option
+
 * Thu Mar  9 2017 Arkady L. Shane <ashejn@yandex-team.ru> - 26.7-1.R
 - sync with upstream
 

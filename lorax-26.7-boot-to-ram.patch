@@ -1,0 +1,34 @@
+diff -urN lorax-26.7.orig/share/templates.d/99-generic/live/config_files/x86/grub2-efi.cfg lorax-26.7/share/templates.d/99-generic/live/config_files/x86/grub2-efi.cfg
+--- lorax-26.7.orig/share/templates.d/99-generic/live/config_files/x86/grub2-efi.cfg	2017-05-10 12:58:19.665238107 +0300
++++ lorax-26.7/share/templates.d/99-generic/live/config_files/x86/grub2-efi.cfg	2017-05-10 13:20:29.869907865 +0300
+@@ -33,4 +33,10 @@
+ 		linuxefi @KERNELPATH@ @ROOT@ rd.live.image nomodeset quiet
+ 		initrdefi @INITRDPATH@
+ 	}
++
++	menuentry 'Start @PRODUCT@ @VERSION@ to RAM' --class fedora --class gnu-linux --class gnu --class os {
++		linuxefi @KERNELPATH@ @ROOT@ rd.live.image rd.live.ram quiet
++		initrdefi @INITRDPATH@
++	}
++
+ }
+diff -urN lorax-26.7.orig/share/templates.d/99-generic/live/config_files/x86/isolinux.cfg lorax-26.7/share/templates.d/99-generic/live/config_files/x86/isolinux.cfg
+--- lorax-26.7.orig/share/templates.d/99-generic/live/config_files/x86/isolinux.cfg	2017-05-10 12:58:19.665238107 +0300
++++ lorax-26.7/share/templates.d/99-generic/live/config_files/x86/isolinux.cfg	2017-05-10 13:27:47.415094233 +0300
+@@ -85,6 +85,16 @@
+   kernel vmlinuz
+   append initrd=initrd.img @ROOT@ rd.live.image nomodeset quiet
+ 
++label ram
++  menu indent count 5
++  menu label Start @PRODUCT@ @VERSION@ to ^RAM
++  text help
++	Try this option if you want to copy uncompressed
++	filesystem to RAM
++  endtext
++  kernel vmlinuz
++  append initrd=initrd.img @ROOT@ rd.live.image rd.live.ram quiet
++
+ label memtest
+   menu label Run a ^memory test
+   text help
