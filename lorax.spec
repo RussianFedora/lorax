@@ -3,8 +3,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        26.7
-Release:        1.1%{?dist}.R
+Version:        26.8
+Release:        1%{?dist}.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -159,6 +159,9 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
+* Tue May 30 2017 Brian C. Lane <bcl@redhat.com> 26.8-1.R
+- Try all packages when installpkg --optional is used. (#1440417)
+
 * Wed May 10 2017 Arkady L. Shane <ashejn@yandex-team.ru> - 26.7-1.1.R
 - added boot to ram option
 
