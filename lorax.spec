@@ -3,7 +3,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        26.8
+Version:        27.9
 Release:        1%{?dist}.R
 Summary:        Tool for creating the anaconda install images
 
@@ -93,6 +93,7 @@ Anaconda's image install feature.
 Summary:  livemedia-creator libvirt dependencies
 Requires: lorax = %{version}-%{release}
 Requires: qemu
+
 # Fedora edk2 builds currently only support these arches
 %ifarch %{ix86} x86_64 %{arm} aarch64
 Requires: edk2-ovmf
@@ -159,6 +160,54 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
+* Fri Aug 25 2017 Brian C. Lane <bcl@redhat.com> 27.9-1.R
+- x86.tmpl: initially define compressargs as empty string (awilliam@redhat.com)
+- x86.tmpl: ensure efiarch64 is defined (awilliam@redhat.com)
+
+* Thu Aug 24 2017 Brian C. Lane <bcl@redhat.com> 27.8-1.R
+- Fix grub2-efi-ia32-cdboot and shim-ia32 bits. (pjones@redhat.com)
+
+* Thu Aug 24 2017 Brian C. Lane <bcl@redhat.com> 27.7-1.R
+- Make 64-bit kernel on 32-bit firmware work for x86 efi machines (pjones@redhat.com)
+- Don't install rdma bits on 32-bit ARM (#1483278) (awilliam@redhat.com)
+
+* Mon Aug 14 2017 Brian C. Lane <bcl@redhat.com> 27.6-1.R
+- Add creation of a bootable s390 iso (#1478448) (bcl@redhat.com)
+- Add mk-s360-cdboot utility (#1478448) (bcl@redhat.com)
+- Fix systemctl command (#1478247) (bcl@redhat.com)
+- Add version output (#1335456) (bcl@redhat.com)
+- Include the dracut fips module in the initrd (#1341280) (bcl@redhat.com)
+- Make sure loop device is setup (#1462150) (bcl@redhat.com)
+
+* Wed Aug 02 2017 Brian C. Lane <bcl@redhat.com> 27.5-1.R
+- runtime-cleanup: preserve a couple more gstreamer libs (awilliam@redhat.com)
+- perl is needed on all arches now (dennis@ausil.us)
+
+* Mon Jul 10 2017 Brian C. Lane <bcl@redhat.com> 27.4-1.R
+- runtime-cleanup.tmpl: don't delete localedef (jlebon@redhat.com)
+
+* Tue Jun 20 2017 Brian C. Lane <bcl@redhat.com> 27.3-1.R
+- Don't remove libmenu.so library during cleanup on PowerPC (sinny@redhat.com)
+
+* Thu Jun 01 2017 Brian C. Lane <bcl@redhat.com> 27.2-1.R
+- Remove filegraft from arm.tmpl (#1457906) (bcl@redhat.com)
+- Use anaconda-core to detect buildarch (sgallagh@redhat.com)
+
+* Wed May 31 2017 Brian C. Lane <bcl@redhat.com> 27.1-1.R
+- arm.tmpl import basename (#1457055) (bcl@redhat.com)
+
+* Tue May 30 2017 Brian C. Lane <bcl@redhat.com> 27.0-1.R
+- Bump version to 27.0 (bcl@redhat.com)
+- Try all packages when installpkg --optional is used. (bcl@redhat.com)
+- Add support for aarch64 live images (bcl@redhat.com)
+- pylint: Ignore different argument lengths for dnf callback. (bcl@redhat.com)
+- Adds additional callbacks keyword for start() (jmracek@redhat.com)
+- Add ppc64-diag for Power64 platforms (pbrobinson@gmail.com)
+- livemedia-creator: Add release license files to / of the iso (bcl@redhat.com)
+- lorax: Add release license files to / of the iso (bcl@redhat.com)
+- INSTALL_ROOT and LIVE_ROOT are not available during %%post (bcl@redhat.com)
+- Add --noverifyssl to lorax (#1430483) (bcl@redhat.com)
+
 * Tue May 30 2017 Brian C. Lane <bcl@redhat.com> 26.8-1.R
 - Try all packages when installpkg --optional is used. (#1440417)
 
