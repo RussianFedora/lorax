@@ -1,0 +1,12 @@
+diff -urN lorax-28.8.orig/src/pylorax/treebuilder.py lorax-28.8/src/pylorax/treebuilder.py
+--- lorax-28.8.orig/src/pylorax/treebuilder.py	2018-03-26 11:20:15.398772385 +0300
++++ lorax-28.8/src/pylorax/treebuilder.py	2018-03-26 11:21:22.433616778 +0300
+@@ -93,7 +93,7 @@
+         release = None
+         q = self.dbo.sack.query()
+         a = q.available()
+-        for pkg in a.filter(provides='system-release'):
++        for pkg in a.filter(provides='rfremix-release'):
+             logger.debug("Found release package %s", pkg)
+             if pkg.name.startswith('generic'):
+                 continue

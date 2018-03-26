@@ -3,7 +3,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        27.11
+Version:        28.8
 Release:        1%{?dist}.R
 Summary:        Tool for creating the anaconda install images
 
@@ -16,7 +16,7 @@ URL:            https://github.com/rhinstaller/lorax
 # tito build --tgz
 Source0:        %{name}-%{version}.tar.gz
 Patch1000:      lorax-25.16-install-releases-packages-fusion.patch
-Patch1001:      lorax-23.18-read-from-rfremix-release.patch
+Patch1001:      lorax-28.8-read-from-rfremix-release.patch
 Patch1002:      lorax-24.18-exclude-fedora-packages.patch
 Patch1003:      lorax-26.7-boot-to-ram.patch
 
@@ -108,6 +108,7 @@ Summary:  livemedia-creator no-virt dependencies
 Requires: lorax = %{version}-%{release}
 Requires: anaconda-core
 Requires: anaconda-tui
+Requires: system-logos
 
 %description lmc-novirt
 Additional dependencies required by livemedia-creator when using it with --no-virt
@@ -157,10 +158,14 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %files lmc-novirt
 
 %files templates-generic
+%dir %{_datadir}/lorax/templates.d
 %{_datadir}/lorax/templates.d/*
 
 
 %changelog
+* Mon Mar 26 2018 Arkady L. Shane <ashejn@russianfedora.pro> - 28.8-1.R
+- update for RFRemix 28
+
 * Wed Sep 27 2017 Brian C. Lane <bcl@redhat.com> 27.11-1.R
 - s390 doesn't need to graft product.img and updates.img into /images (#1496461) (bcl@redhat.com)
 - distribute the mk-s390-cdboot utility (dan@danny.cz)
