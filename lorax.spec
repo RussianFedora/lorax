@@ -3,15 +3,15 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        28.8
+Version:        28.10
 Release:        1%{?dist}.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
 License:        GPLv2+
-URL:            https://github.com/rhinstaller/lorax
+URL:            https://github.com/weldr/lorax
 # To generate Source0 do:
-# git clone https://github.com/rhinstaller/lorax
+# git clone https://github.com/weldr/lorax
 # git checkout -b archive-branch lorax-%%{version}-%%{release}
 # tito build --tgz
 Source0:        %{name}-%{version}.tar.gz
@@ -163,6 +163,16 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 
 %changelog
+* Wed Apr 11 2018 Arkady L. Shane <ashejn@russianfedora.pro> - 28.10-1.R
+- update to 28.10
+- Fix anaconda metapackage name (mkolman@redhat.com)
+- Include the anaconda-install-env-deps metapackage (mkolman@redhat.com)
+- Update the URL in lorax.spec to point to new Lorax location (bcl@redhat.com)
+- New lorax documentation - 28.9 (bcl@redhat.com)
+- Update default releasever to Fedora 28 (bcl@redhat.com)
+- Update Copyright year to 2018 in Sphinx docs (bcl@redhat.com)
+- make docs now also builds html (bcl@redhat.com)
+
 * Mon Mar 26 2018 Arkady L. Shane <ashejn@russianfedora.pro> - 28.8-1.R
 - update for RFRemix 28
 

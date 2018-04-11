@@ -1,4 +1,4 @@
 #!/bin/sh
 
-curl -sO https://src.fedoraproject.org/repo/pkgs/lorax/lorax-28.8.tar.gz/sha512/0d2ee0306968f78ee183c0bb1fdc407d7b1500ff726085d1b02a79880cc25c139d9ac85664c86d0c1cdaa02fc2bcfe709520023763693cb839520360edf17d9f/lorax-28.8.tar.gz
+curl -sO https://src.fedoraproject.org/repo/pkgs/lorax/lorax-28.10.tar.gz/sha512/a51734f21f3bde0953bdc1cb7d0c20603df5d7a733368c2dd478d2ccd146aaf6862e815273553441e972b541f40ef801f45f6c5fb955b4b2de3da832bf8cca22/lorax-28.10.tar.gz
 
