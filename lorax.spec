@@ -22,7 +22,7 @@ Patch1003:      lorax-26.7-boot-to-ram.patch
 
 BuildRequires:  python3-devel
 
-Requires:       lorax-templates
+Requires:       lorax-templates = %{version}-%{release}
 
 Requires:       GConf2
 Requires:       cpio
@@ -123,6 +123,42 @@ Provides: lorax-templates
 Lorax templates for creating the boot.iso and live isos are placed in
 /usr/share/lorax/templates.d/99-generic
 
+%package composer
+Summary: Lorax Image Composer API Server
+# For Sphinx documentation build
+BuildRequires: python3-flask python3-gobject libgit2-glib python3-pytoml python3-semantic_version
+
+Requires: lorax = %{version}-%{release}
+Requires(pre): /usr/bin/getent
+Requires(pre): /usr/sbin/groupadd
+Requires(pre): /usr/sbin/useradd
+
+Requires: python3-pytoml
+Requires: python3-semantic_version
+Requires: libgit2
+Requires: libgit2-glib
+Requires: python3-flask
+Requires: python3-gevent
+Requires: anaconda-tui
+Requires: qemu-img
+Requires: tar
+
+%{?systemd_requires}
+BuildRequires: systemd
+
+%description composer
+lorax-composer provides a REST API for building images using lorax.
+
+%package -n composer-cli
+Summary: A command line tool for use with the lorax-composer API server
+
+# From Distribution
+Requires: python3-urllib3
+
+%description -n composer-cli
+A command line tool for use with the lorax-composer API server. Examine recipes,
+build images, etc. from the command line.
+
 %prep
 %setup -q -n %{name}-%{version}
 %patch1000 -p1
@@ -135,6 +171,22 @@ Lorax templates for creating the boot.iso and live isos are placed in
 %install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
+
+%pre composer
+getent group weldr >/dev/null 2>&1 || groupadd -r weldr >/dev/null 2>&1 || :
+getent passwd weldr >/dev/null 2>&1 || useradd -r -g weldr -d / -s /sbin/nologin -c "User for lorax-composer" weldr >/dev/null 2>&1 || :
+
+%post composer
+%systemd_post lorax-composer.service
+%systemd_post lorax-composer.socket
+
+%preun composer
+%systemd_preun lorax-composer.service
+%systemd_preun lorax-composer.socket
+
+%postun composer
+%systemd_postun_with_restart lorax-composer.service
+%systemd_postun_with_restart lorax-composer.socket
 
 %files
 %defattr(-,root,root,-)
@@ -161,6 +213,19 @@ make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %dir %{_datadir}/lorax/templates.d
 %{_datadir}/lorax/templates.d/*
 
+%files composer
+%config(noreplace) %{_sysconfdir}/lorax/composer.conf
+%{python3_sitelib}/pylorax/api/*
+%{_sbindir}/lorax-composer
+%{_unitdir}/lorax-composer.service
+%{_unitdir}/lorax-composer.socket
+%dir %{_datadir}/lorax/composer
+%{_datadir}/lorax/composer/*
+%{_tmpfilesdir}/lorax-composer.conf
+
+%files -n composer-cli
+%{_bindir}/composer-cli
+%{python3_sitelib}/composer/*
 
 %changelog
 * Mon Jun 11 2018 Brian C. Lane <bcl@redhat.com> 28.15-1.R
