@@ -1,4 +1,4 @@
 #!/bin/sh
 
-curl -sO https://src.fedoraproject.org/repo/pkgs/lorax/lorax-29.12.tar.gz/sha512/f81e9556400cb1348b969d7407c51694649efddf9376f59906fd3310d24def8be7a41eb72b7b9198b7739547e8bd2556f5bd53a8dd9c70d7e2da3ba3904213f4/lorax-29.12.tar.gz
+curl -sO https://src.fedoraproject.org/repo/pkgs/lorax/lorax-29.18.tar.gz/sha512/8b9f0c878ed5210876eea3688540d65398f6a6c3df940e855a936f4d5309b4f18018aece9819e01611dad6fd91266a9bb92bb3d2c36cea5e332a8e9fb78f882e/lorax-29.18.tar.gz
 

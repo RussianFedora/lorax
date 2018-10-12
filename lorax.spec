@@ -3,8 +3,8 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        29.12
-Release:        2%{?dist}.R
+Version:        29.18
+Release:        1%{?dist}.R
 Summary:        Tool for creating the anaconda install images
 
 Group:          Applications/System
@@ -235,6 +235,9 @@ getent passwd weldr >/dev/null 2>&1 || useradd -r -g weldr -d / -s /sbin/nologin
 %{_sysconfdir}/bash_completion.d/composer-cli
 
 %changelog
+* Fri Oct 12 2018 Arkady L. Shane <ashejn@russianfedora.pro> - 29.18-1.R
+- update to 29.18
+
 * Wed Sep 12 2018 Arkady L. Shane <ashejn@russianfedora.pro> - 29.12-2.R
 - apply RFRemix patches
 
